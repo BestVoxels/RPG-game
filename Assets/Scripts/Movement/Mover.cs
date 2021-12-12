@@ -12,7 +12,6 @@ namespace RPGgame
 
 
         #region --Fields-- (In Class)
-        private Camera _camera;
         private NavMeshAgent _agent;
         private Animator _animator;
         #endregion
@@ -22,36 +21,28 @@ namespace RPGgame
         #region --Methods-- (Built In)
         private void Start()
         {
-            _camera = Camera.main;
             _agent = GetComponent<NavMeshAgent>();
             _animator = GetComponent<Animator>();
         }
 
         private void Update()
         {
-            if (Input.GetMouseButton(0))
-            {
-                MoveToCursorClickPosition();
-            }
-
             AnimateCharacter();
         }
         #endregion
 
 
 
-        #region --Methods-- (Custome PRIVATE)
-        private void MoveToCursorClickPosition()
+        #region --Methods-- (Custome PUBLIC)
+        public void MoveTo(Vector3 destination)
         {
-            Ray ray = _camera.ScreenPointToRay(Input.mousePosition); // get ray direction from camera to a screen point
-
-            // Draw the ray
-            if (Physics.Raycast(ray, out RaycastHit hitInfo))
-            {
-                _agent.SetDestination(hitInfo.point);
-            }
+            _agent.SetDestination(destination);
         }
+        #endregion
 
+
+
+        #region --Methods-- (Custome PRIVATE)
         private void AnimateCharacter()
         {
             Vector3 globalVelocity = _agent.velocity;
