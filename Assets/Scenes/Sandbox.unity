@@ -1686,11 +1686,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 496924, guid: 653c97bd88b4b084d87714542c43ee5a, type: 3}
   m_PrefabInstance: {fileID: 944724751}
   m_PrefabAsset: {fileID: 0}
---- !u!20 &963194227 stripped
-Camera:
-  m_CorrespondingSourceObject: {fileID: 3493545118509711770, guid: c3b52970252ab457f8cb2f7df79f3ea1, type: 3}
-  m_PrefabInstance: {fileID: 3493545118902480105}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1009071095
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3445,10 +3440,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 6947039788277725684, guid: 58df80d8498834bdc838433c906b5b40, type: 3}
-      propertyPath: _camera
-      value: 
-      objectReference: {fileID: 963194227}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 58df80d8498834bdc838433c906b5b40, type: 3}
 --- !u!1001 &7539837040299377736

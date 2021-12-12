@@ -33,7 +33,7 @@ namespace RPG.Movement
 
 
 
-        #region --Methods-- (Custome PUBLIC)
+        #region --Methods-- (Custom PUBLIC)
         public void MoveTo(Vector3 destination)
         {
             _agent.SetDestination(destination);
@@ -42,7 +42,7 @@ namespace RPG.Movement
 
 
 
-        #region --Methods-- (Custome PRIVATE)
+        #region --Methods-- (Custom PRIVATE)
         private void AnimateCharacter()
         {
             Vector3 globalVelocity = _agent.velocity;
