@@ -49,7 +49,7 @@ namespace RPG.Control
 
                 if (Input.GetMouseButtonDown(0))
                 {
-                    _fighter.Attack();
+                    _fighter.Attack(combatTarget);
                 }
                 return true;
             }

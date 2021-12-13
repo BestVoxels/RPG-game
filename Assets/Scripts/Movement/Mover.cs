@@ -36,7 +36,13 @@ namespace RPG.Movement
         #region --Methods-- (Custom PUBLIC)
         public void MoveTo(Vector3 destination)
         {
+            _agent.isStopped = false;
             _agent.SetDestination(destination);
+        }
+
+        public void Stop()
+        {
+            _agent.isStopped = true;
         }
         #endregion
 

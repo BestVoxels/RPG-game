@@ -1,13 +1,50 @@
 ﻿using UnityEngine;
+using RPG.Movement;
 
 namespace RPG.Combat
 {
     public class Fighter : MonoBehaviour
     {
-        #region --Methods-- (Custom PUBLIC)
-        public void Attack()
+        #region --Fields-- (Inspector)
+        [SerializeField] private float _weaponRange = 2f;
+        #endregion
+
+
+
+        #region --Fields-- (In Class)
+        private Transform _target;
+        private Mover _mover;
+        #endregion
+
+
+
+        #region --Methods-- (Built In)
+        private void Start()
         {
-            print("TAKE THAT!");
+            _mover = GetComponent<Mover>();
+        }
+
+        private void Update()
+        {
+            bool inStopRange = Vector3.Distance(transform.position, _target.position) < _weaponRange;
+
+            if (_target != null && !inStopRange)
+            {
+                _mover.MoveTo(_target.position);
+                print(Vector3.Distance(transform.position, _target.position));
+            }
+            else
+            {
+                _mover.Stop();
+            }
+        }
+        #endregion
+
+
+        #region --Methods-- (Custom PUBLIC)
+        public void Attack(CombatTarget target)
+        {
+            _target = target.transform;
         }
         #endregion
     }
