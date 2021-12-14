@@ -8,11 +8,14 @@ namespace RPG.Combat
     {
         #region --Fields-- (Inspector)
         [SerializeField] private float _weaponRange = 2f;
+        [SerializeField] private float _timeBetweenAttacks = 1f;
         #endregion
 
 
 
         #region --Fields-- (In Class)
+        private float _timeSinceLastAttack;
+
         private ActionScheduler _actionScheduler;
 
         private Transform _target;
@@ -33,6 +36,8 @@ namespace RPG.Combat
 
         private void Update()
         {
+            _timeSinceLastAttack += Time.deltaTime;
+
             if (_target == null) return;
 
             if (!IsInStopRange())
@@ -68,7 +73,11 @@ namespace RPG.Combat
 
         private void AttackBehaviour()
         {
-            _animator.SetTrigger("Attack");
+            if (_timeSinceLastAttack > _timeBetweenAttacks)
+            {
+                _animator.SetTrigger("Attack");
+                _timeSinceLastAttack = 0f;
+            }
         }
 
         private bool IsInStopRange() => Vector3.Distance(transform.position, _target.position) < _weaponRange;
