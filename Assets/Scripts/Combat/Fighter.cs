@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
+using RPG.Core;
 using RPG.Movement;
 
 namespace RPG.Combat
 {
-    public class Fighter : MonoBehaviour
+    public class Fighter : MonoBehaviour, IAction
     {
         #region --Fields-- (Inspector)
         [SerializeField] private float _weaponRange = 2f;
@@ -12,6 +13,8 @@ namespace RPG.Combat
 
 
         #region --Fields-- (In Class)
+        private ActionScheduler _actionScheduler;
+
         private Transform _target;
         private Mover _mover;
         #endregion
@@ -21,6 +24,8 @@ namespace RPG.Combat
         #region --Methods-- (Built In)
         private void Start()
         {
+            _actionScheduler = GetComponent<ActionScheduler>();
+
             _mover = GetComponent<Mover>();
         }
 
@@ -34,7 +39,7 @@ namespace RPG.Combat
             }
             else
             {
-                _mover.Stop();
+                _mover.CancelMoveTo();
             }
         }
         #endregion
@@ -44,19 +49,30 @@ namespace RPG.Combat
         #region --Methods-- (Custom PUBLIC)
         public void Attack(CombatTarget target)
         {
-            _target = target.transform;
-        }
+            _actionScheduler.StartAction(this);
 
-        public void CancelAttack()
-        {
-            _target = null;
+            _target = target.transform;
         }
         #endregion
 
 
 
         #region --Methods-- (Custom PRIVATE)
+        private void CancelAttack()
+        {
+            _target = null;
+        }
+
         private bool IsInStopRange() => Vector3.Distance(transform.position, _target.position) < _weaponRange;
+        #endregion
+
+
+
+        #region --Methods-- (Interface)
+        void IAction.Cancel()
+        {
+            CancelAttack();
+        }
         #endregion
     }
 }

@@ -6,11 +6,6 @@ namespace RPG.Control
 {
     public class PlayerController : MonoBehaviour
     {
-        #region --Fields-- (Inspector)
-        #endregion
-
-
-
         #region --Fields-- (In Class)
         private Camera _camera;
         private Mover _mover;

@@ -1,21 +1,17 @@
 using UnityEngine;
 using UnityEngine.AI;
-using RPG.Combat;
+using RPG.Core;
 
 namespace RPG.Movement
 {
     [RequireComponent(typeof(NavMeshAgent), typeof(Animator))]
-    public class Mover : MonoBehaviour
+    public class Mover : MonoBehaviour, IAction
     {
-        #region --Fields-- (Inspector)
-        #endregion
-
-
-
         #region --Fields-- (In Class)
+        private ActionScheduler _actionScheduler;
+
         private NavMeshAgent _agent;
         private Animator _animator;
-        private Fighter _fighter;
         #endregion
 
 
@@ -23,9 +19,10 @@ namespace RPG.Movement
         #region --Methods-- (Built In)
         private void Start()
         {
+            _actionScheduler = GetComponent<ActionScheduler>();
+
             _agent = GetComponent<NavMeshAgent>();
             _animator = GetComponent<Animator>();
-            _fighter = GetComponent<Fighter>();
         }
 
         private void Update()
@@ -39,7 +36,7 @@ namespace RPG.Movement
         #region --Methods-- (Custom PUBLIC)
         public void StartMoveAction(Vector3 destination)
         {
-            _fighter.CancelAttack();
+            _actionScheduler.StartAction(this);
 
             MoveTo(destination);
         }
@@ -50,7 +47,7 @@ namespace RPG.Movement
             _agent.isStopped = false;
         }
 
-        public void Stop()
+        public void CancelMoveTo()
         {
             _agent.isStopped = true;
         }
@@ -67,6 +64,15 @@ namespace RPG.Movement
             float forwardSpeed = localVelocity.z; // We could use .magnitude BUT it just speed in all direction, also count when move left, right. LOOK MORE NATURAL with .z which only takes forward speed
 
             _animator.SetFloat("MoveSpeed", forwardSpeed);
+        }
+        #endregion
+
+
+
+        #region --Methods-- (Interface)
+        void IAction.Cancel()
+        {
+            CancelMoveTo();
         }
         #endregion
     }
