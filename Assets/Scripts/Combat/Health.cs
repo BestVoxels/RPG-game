@@ -11,9 +11,13 @@ namespace RPG.Combat
 
 
         #region --Fields-- (In Class)
-        private bool _isDead = false;
-
         private Animator _animator;
+        #endregion
+
+
+
+        #region --Properties-- (Auto)
+        public bool IsDead { get; private set; } = false;
         #endregion
 
 
@@ -44,10 +48,10 @@ namespace RPG.Combat
         #region --Methods-- (Custom PRIVATE)
         private void DeathBehaviour()
         {
-            if (_isDead) return;
+            if (IsDead) return;
             
             _animator.SetTrigger("Die");
-            _isDead = true;
+            IsDead = true;
         }
         #endregion
     }

@@ -19,7 +19,7 @@ namespace RPG.Combat
 
         private ActionScheduler _actionScheduler;
 
-        private Transform _target;
+        private Health _target;
         private Mover _mover;
         private Animator _animator;
         #endregion
@@ -40,10 +40,11 @@ namespace RPG.Combat
             _timeSinceLastAttack += Time.deltaTime;
 
             if (_target == null) return;
+            if (_target.IsDead) return;
 
             if (!IsInStopRange())
             {
-                _mover.MoveTo(_target.position);
+                _mover.MoveTo(_target.transform.position);
             }
             else
             {
@@ -60,7 +61,7 @@ namespace RPG.Combat
         {
             _actionScheduler.StartAction(this);
 
-            _target = target.transform;
+            _target = target.GetComponent<Health>();
         }
         #endregion
 
@@ -70,6 +71,8 @@ namespace RPG.Combat
         private void CancelAttack()
         {
             _target = null;
+
+            _animator.SetTrigger("StopAttack");
         }
 
         private void AttackBehaviour()
@@ -81,15 +84,14 @@ namespace RPG.Combat
             }
         }
 
-        private bool IsInStopRange() => Vector3.Distance(transform.position, _target.position) < _weaponRange;
+        private bool IsInStopRange() => Vector3.Distance(transform.position, _target.transform.position) < _weaponRange;
 
         // For Animation Event
         private void Hit()
         {
             if (_target == null) return;
 
-            Health health = _target.GetComponent<Health>();
-            health.TakeDamage(_weaponDamage);
+            _target.TakeDamage(_weaponDamage);
         }
         #endregion
 
