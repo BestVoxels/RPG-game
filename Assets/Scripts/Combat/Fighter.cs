@@ -10,6 +10,7 @@ namespace RPG.Combat
         [SerializeField] private float _weaponRange = 2f;
         [SerializeField] private float _weaponDamage = 5f;
         [SerializeField] private float _timeBetweenAttacks = 1f;
+        [SerializeField] private float _rotateSpeed = 10f;
         #endregion
 
 
@@ -77,11 +78,27 @@ namespace RPG.Combat
 
         private void AttackBehaviour()
         {
+            SmoothRotateTo(_target.transform);
+
             if (_timeSinceLastAttack > _timeBetweenAttacks)
             {
+                _animator.ResetTrigger("StopAttack"); // Reset first so no weird movement when player gonna attack
+
                 _animator.SetTrigger("Attack"); // This will Trigger the Hit() event
                 _timeSinceLastAttack = 0f;
             }
+        }
+
+        private void SmoothRotateTo(Transform target)
+        {
+            // Getting Direction from vector3 by using formula 'targetPos - ourPos'
+            Vector3 direction = target.position - transform.position;
+
+            // Get Rotation that we want to rotate to
+            Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0f, direction.z), Vector3.up);
+
+            // Gradually Rotate
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, _rotateSpeed * Time.deltaTime);
         }
 
         private bool IsInStopRange() => Vector3.Distance(transform.position, _target.transform.position) < _weaponRange;
