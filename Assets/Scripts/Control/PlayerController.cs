@@ -40,12 +40,13 @@ namespace RPG.Control
             foreach (RaycastHit each in hitsInfo)
             {
                 CombatTarget combatTarget = each.transform.GetComponent<CombatTarget>();
-                if (combatTarget == null) continue;
+                if (!_fighter.CanAttack(combatTarget)) continue;
 
                 if (Input.GetMouseButtonDown(0))
                 {
                     _fighter.Attack(combatTarget);
                 }
+
                 return true;
             }
             return false;

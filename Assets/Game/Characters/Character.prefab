@@ -116,7 +116,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _weaponRange: 2
   _weaponDamage: 5
-  _timeBetweenAttacks: 1.25
+  _timeBetweenAttacks: 1
   _rotateSpeed: 10
 --- !u!114 &5791211194352794541
 MonoBehaviour:

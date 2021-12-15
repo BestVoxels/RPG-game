@@ -58,11 +58,19 @@ namespace RPG.Combat
 
 
         #region --Methods-- (Custom PUBLIC)
-        public void Attack(CombatTarget target)
+        public void Attack(CombatTarget combatTarget)
         {
             _actionScheduler.StartAction(this);
 
-            _target = target.GetComponent<Health>();
+            _target = combatTarget.GetComponent<Health>();
+        }
+
+        public bool CanAttack(CombatTarget combatTarget)
+        {
+            if (combatTarget == null) return false;
+
+            Health target = combatTarget.GetComponent<Health>();
+            return target != null && !target.IsDead;
         }
         #endregion
 
