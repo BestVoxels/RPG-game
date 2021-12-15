@@ -8,6 +8,7 @@ namespace RPG.Combat
     {
         #region --Fields-- (Inspector)
         [SerializeField] private float _weaponRange = 2f;
+        [SerializeField] private float _weaponDamage = 5f;
         [SerializeField] private float _timeBetweenAttacks = 1f;
         #endregion
 
@@ -75,7 +76,7 @@ namespace RPG.Combat
         {
             if (_timeSinceLastAttack > _timeBetweenAttacks)
             {
-                _animator.SetTrigger("Attack");
+                _animator.SetTrigger("Attack"); // This will Trigger the Hit() event
                 _timeSinceLastAttack = 0f;
             }
         }
@@ -85,7 +86,8 @@ namespace RPG.Combat
         // For Animation Event
         private void Hit()
         {
-            
+            Health health = _target.GetComponent<Health>();
+            health.TakeDamage(_weaponDamage);
         }
         #endregion
 
