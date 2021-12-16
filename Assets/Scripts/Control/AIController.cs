@@ -1,4 +1,5 @@
 using UnityEngine;
+using RPG.Combat;
 
 namespace RPG.Control
 {
@@ -11,7 +12,8 @@ namespace RPG.Control
 
 
         #region --Fields-- (In Class)
-        private Transform _target;
+        private Transform _player;
+        private Fighter _fighter;
         #endregion
 
 
@@ -19,14 +21,19 @@ namespace RPG.Control
         #region --Methods-- (Built In)
         private void Start()
         {
-            _target = GameObject.FindWithTag("Player").transform;
+            _player = GameObject.FindWithTag("Player").transform;
+            _fighter = GetComponent<Fighter>();
         }
 
         private void Update()
         {
-            if (IsInChaseRange())
+            if (IsInChaseRange() && _fighter.CanAttack(_player.gameObject))
             {
-                print($"{transform.name} will chase PLAYER!!!");
+                _fighter.Attack(_player.gameObject);
+            }
+            else
+            {
+                _fighter.CancelAttack();
             }
         }
 
@@ -40,7 +47,7 @@ namespace RPG.Control
 
 
         #region --Methods-- (Custom PRIVATE)
-        private bool IsInChaseRange() => Vector3.Distance(transform.position, _target.position) < _chaseDistance;
+        private bool IsInChaseRange() => Vector3.Distance(transform.position, _player.position) < _chaseDistance;
         #endregion
     }
 }

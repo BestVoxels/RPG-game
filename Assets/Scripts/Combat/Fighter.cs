@@ -58,33 +58,33 @@ namespace RPG.Combat
 
 
         #region --Methods-- (Custom PUBLIC)
-        public void Attack(CombatTarget combatTarget)
+        public void Attack(GameObject combatTarget)
         {
             _actionScheduler.StartAction(this);
 
             _target = combatTarget.GetComponent<Health>();
         }
 
-        public bool CanAttack(CombatTarget combatTarget)
+        public bool CanAttack(GameObject combatTarget)
         {
             if (combatTarget == null) return false;
 
             Health target = combatTarget.GetComponent<Health>();
             return target != null && !target.IsDead;
         }
-        #endregion
 
-
-
-        #region --Methods-- (Custom PRIVATE)
-        private void CancelAttack()
+        public void CancelAttack()
         {
             _target = null;
 
             _animator.ResetTrigger("Attack");
             _animator.SetTrigger("StopAttack");
         }
+        #endregion
 
+
+
+        #region --Methods-- (Custom PRIVATE)
         private void AttackBehaviour()
         {
             SmoothRotateTo(_target.transform);
