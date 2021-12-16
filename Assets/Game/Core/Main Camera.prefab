@@ -130,6 +130,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04e0ee297e6cd4e2d96886e8cb8dd699, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _target: {fileID: 0}
-  _offSet: {x: 0, y: 12, z: -11}
+  _offSet: {x: 11, y: 12, z: 0}
   _smoothSpeed: 0.2
