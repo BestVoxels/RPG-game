@@ -1,6 +1,7 @@
 using UnityEngine;
 using RPG.Movement;
 using RPG.Combat;
+using RPG.Core;
 
 namespace RPG.Control
 {
@@ -10,6 +11,7 @@ namespace RPG.Control
         private Camera _camera;
         private Mover _mover;
         private Fighter _fighter;
+        private Health _health;
         #endregion
 
 
@@ -20,10 +22,13 @@ namespace RPG.Control
             _camera = Camera.main;
             _mover = GetComponent<Mover>();
             _fighter = GetComponent<Fighter>();
+            _health = GetComponent<Health>();
         }
 
         private void Update()
         {
+            if (_health.IsDead) return;
+
             if (InteractWithCombat()) return;
             if (InteractWithMovement()) return;
         }

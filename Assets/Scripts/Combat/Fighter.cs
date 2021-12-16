@@ -16,7 +16,7 @@ namespace RPG.Combat
 
 
         #region --Fields-- (In Class)
-        private float _timeSinceLastAttack;
+        private float _timeSinceLastAttack = Mathf.Infinity;
 
         private ActionScheduler _actionScheduler;
 

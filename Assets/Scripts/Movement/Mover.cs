@@ -12,6 +12,7 @@ namespace RPG.Movement
 
         private NavMeshAgent _agent;
         private Animator _animator;
+        private Health _health;
         #endregion
 
 
@@ -23,10 +24,14 @@ namespace RPG.Movement
 
             _agent = GetComponent<NavMeshAgent>();
             _animator = GetComponent<Animator>();
+            _health = GetComponent<Health>();
         }
 
         private void Update()
         {
+            if (_health.IsDead && _agent.enabled)
+                _agent.enabled = false;
+
             AnimateCharacter();
         }
         #endregion

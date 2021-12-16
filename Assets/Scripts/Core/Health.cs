@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace RPG.Combat
+namespace RPG.Core
 {
     public class Health : MonoBehaviour
     {
@@ -11,6 +11,8 @@ namespace RPG.Combat
 
 
         #region --Fields-- (In Class)
+        private ActionScheduler _actionScheduler;
+
         private Animator _animator;
         #endregion
 
@@ -26,6 +28,7 @@ namespace RPG.Combat
         private void Start()
         {
             _animator = GetComponent<Animator>();
+            _actionScheduler = GetComponent<ActionScheduler>();
         }
         #endregion
 
@@ -49,9 +52,11 @@ namespace RPG.Combat
         private void DeathBehaviour()
         {
             if (IsDead) return;
-            
-            _animator.SetTrigger("Die");
+
             IsDead = true;
+
+            _animator.SetTrigger("Die");
+            _actionScheduler.StopCurrentAction();
         }
         #endregion
     }

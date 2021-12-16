@@ -1,5 +1,6 @@
 using UnityEngine;
 using RPG.Combat;
+using RPG.Core;
 
 namespace RPG.Control
 {
@@ -14,6 +15,7 @@ namespace RPG.Control
         #region --Fields-- (In Class)
         private Transform _player;
         private Fighter _fighter;
+        private Health _health;
         #endregion
 
 
@@ -23,10 +25,13 @@ namespace RPG.Control
         {
             _player = GameObject.FindWithTag("Player").transform;
             _fighter = GetComponent<Fighter>();
+            _health = GetComponent<Health>();
         }
 
         private void Update()
         {
+            if (_health.IsDead) return;
+
             if (IsInChaseRange() && _fighter.CanAttack(_player.gameObject))
             {
                 _fighter.Attack(_player.gameObject);

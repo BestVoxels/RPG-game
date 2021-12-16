@@ -22,6 +22,11 @@ namespace RPG.Core
 
             _currentAction = action;
         }
+
+        public void StopCurrentAction()
+        {
+            StartAction(null);
+        }
         #endregion
     }
 }
