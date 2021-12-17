@@ -186,4 +186,5 @@ MonoBehaviour:
   _chaseDistance: 7
   _suspicionTime: 5
   _patrolPath: {fileID: 0}
+  _waypointDwellTime: 2
   _waypointReachDistance: 1

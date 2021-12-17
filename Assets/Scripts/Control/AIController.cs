@@ -10,7 +10,10 @@ namespace RPG.Control
         #region --Fields-- (Inspector)
         [SerializeField] private float _chaseDistance = 5f;
         [SerializeField] private float _suspicionTime = 5f;
+
+        [Header("Patrol")]
         [SerializeField] private PatrolPath _patrolPath;
+        [SerializeField] private float _waypointDwellTime = 2f;
         [Tooltip("The Smaller number to Closer it will walk to the waypoint")]
         [SerializeField] private float _waypointReachDistance = 1f;
         #endregion
@@ -28,6 +31,7 @@ namespace RPG.Control
         private Vector3 _guardPosition;
         private float _timeSinceLastSawPlayer = Mathf.Infinity;
         private int _currentWaypointIndex = 0;
+        private float _timeSinceArrivedAtWaypoint = Mathf.Infinity;
         #endregion
 
 
@@ -51,7 +55,6 @@ namespace RPG.Control
 
             if (IsInChaseRange() && _fighter.CanAttack(_player.gameObject))
             {
-                _timeSinceLastSawPlayer = 0f;
                 AttackBehaviour();
             }
             else if (_timeSinceLastSawPlayer < _suspicionTime)
@@ -63,7 +66,7 @@ namespace RPG.Control
                 PatrolBehaviour();
             }
 
-            _timeSinceLastSawPlayer += Time.deltaTime;
+            UpdateTimers();
         }
 
         private void OnDrawGizmosSelected()
@@ -76,8 +79,15 @@ namespace RPG.Control
 
 
         #region --Methods-- (Custom PRIVATE)
+        private void UpdateTimers()
+        {
+            _timeSinceLastSawPlayer += Time.deltaTime;
+            _timeSinceArrivedAtWaypoint += Time.deltaTime;
+        }
+
         private void AttackBehaviour()
         {
+            _timeSinceLastSawPlayer = 0f;
             _fighter.Attack(_player.gameObject);
         }
 
@@ -93,12 +103,17 @@ namespace RPG.Control
             if (_patrolPath != null)
             {
                 if (AtWaypoint())
+                {
+                    _timeSinceArrivedAtWaypoint = 0f;
                     CycleWaypoint();
-
+                }
                 nextPosition = GetCurrentWaypoint();
             }
 
-            _mover.StartMoveAction(nextPosition);
+            if (_timeSinceArrivedAtWaypoint > _waypointDwellTime)
+            {
+                _mover.StartMoveAction(nextPosition);
+            }
         }
 
         private bool AtWaypoint() => Vector3.Distance(transform.position, GetCurrentWaypoint()) < _waypointReachDistance;
