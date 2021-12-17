@@ -16,13 +16,13 @@ namespace RPG.Combat
 
 
         #region --Fields-- (In Class)
-        private float _timeSinceLastAttack = Mathf.Infinity;
-
         private ActionScheduler _actionScheduler;
 
         private Health _target;
         private Mover _mover;
         private Animator _animator;
+
+        private float _timeSinceLastAttack = Mathf.Infinity;
         #endregion
 
 

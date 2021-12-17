@@ -29,15 +29,14 @@ namespace RPG.Control
 
 
         #region --Methods-- (Custom PUBLIC)
+        public int GetNextIndex(int index) => (index == transform.childCount - 1) ? 0 : index + 1;
+
+        public Vector3 GetWaypoint(int index) => transform.GetChild(index).position;
         #endregion
 
 
 
         #region --Methods-- (Custom PRIVATE)
-        private int GetNextIndex(int index) => (index == transform.childCount - 1) ? 0 : index + 1;
-
-        private Vector3 GetWaypoint(int index) => transform.GetChild(index).position;
-
         private void DrawLine(Vector3 p1, Vector3 p2, float width)
         {
             int count = 1 + Mathf.CeilToInt(width); // how many lines are needed.

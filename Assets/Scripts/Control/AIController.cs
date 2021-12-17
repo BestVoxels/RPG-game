@@ -10,20 +10,24 @@ namespace RPG.Control
         #region --Fields-- (Inspector)
         [SerializeField] private float _chaseDistance = 5f;
         [SerializeField] private float _suspicionTime = 5f;
+        [SerializeField] private PatrolPath _patrolPath;
+        [Tooltip("The Smaller number to Closer it will walk to the waypoint")]
+        [SerializeField] private float _waypointReachDistance = 1f;
         #endregion
 
 
 
         #region --Fields-- (In Class)
-        private Vector3 _guardPosition;
-        private float _timeSinceLastSawPlayer = Mathf.Infinity;
-
         private ActionScheduler _actionScheduler;
 
         private Transform _player;
         private Fighter _fighter;
         private Health _health;
         private Mover _mover;
+
+        private Vector3 _guardPosition;
+        private float _timeSinceLastSawPlayer = Mathf.Infinity;
+        private int _currentWaypointIndex = 0;
         #endregion
 
 
@@ -31,14 +35,14 @@ namespace RPG.Control
         #region --Methods-- (Built In)
         private void Start()
         {
-            _guardPosition = transform.position;
-
             _actionScheduler = GetComponent<ActionScheduler>();
 
             _player = GameObject.FindWithTag("Player").transform;
             _fighter = GetComponent<Fighter>();
             _health = GetComponent<Health>();
             _mover = GetComponent<Mover>();
+
+            _guardPosition = transform.position; 
         }
 
         private void Update()
@@ -56,7 +60,7 @@ namespace RPG.Control
             }
             else
             {
-                GuardBehaviour();
+                PatrolBehaviour();
             }
 
             _timeSinceLastSawPlayer += Time.deltaTime;
@@ -82,10 +86,27 @@ namespace RPG.Control
             _actionScheduler.StopCurrentAction();
         }
 
-        private void GuardBehaviour()
+        private void PatrolBehaviour()
         {
-            _mover.StartMoveAction(_guardPosition);
+            Vector3 nextPosition = _guardPosition;
+
+            if (_patrolPath != null)
+            {
+                if (AtWaypoint())
+                    CycleWaypoint();
+
+                nextPosition = GetCurrentWaypoint();
+            }
+
+            _mover.StartMoveAction(nextPosition);
         }
+
+        private bool AtWaypoint() => Vector3.Distance(transform.position, GetCurrentWaypoint()) < _waypointReachDistance;
+
+        private void CycleWaypoint() => _currentWaypointIndex = _patrolPath.GetNextIndex(_currentWaypointIndex);
+
+        private Vector3 GetCurrentWaypoint() => _patrolPath.GetWaypoint(_currentWaypointIndex);
+
 
         private bool IsInChaseRange() => Vector3.Distance(transform.position, _player.position) < _chaseDistance;
         #endregion
