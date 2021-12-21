@@ -87,7 +87,7 @@ namespace RPG.Combat
 
         private void AttackBehaviour()
         {
-            SmoothRotateTo(_target.transform);
+            Utilities.SmoothRotateTo(transform, _target.transform, _rotateSpeed);
 
             if (_timeSinceLastAttack > _timeBetweenAttacks)
             {
@@ -100,18 +100,6 @@ namespace RPG.Combat
         {
             _animator.ResetTrigger("StopAttack"); // Reset first so no weird movement when player gonna attack
             _animator.SetTrigger("Attack"); // This will Trigger the Hit() event
-        }
-
-        private void SmoothRotateTo(Transform target)
-        {
-            // Getting Direction from vector3 by using formula 'targetPos - ourPos'
-            Vector3 direction = target.position - transform.position;
-
-            // Get Rotation that we want to rotate to
-            Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0f, direction.z), Vector3.up);
-
-            // Gradually Rotate
-            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, _rotateSpeed * Time.deltaTime);
         }
 
         private bool IsInStopRange() => Vector3.Distance(transform.position, _target.transform.position) < _weaponRange;

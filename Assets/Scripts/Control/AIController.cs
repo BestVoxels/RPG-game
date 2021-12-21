@@ -16,6 +16,11 @@ namespace RPG.Control
         [SerializeField] private float _waypointDwellTime = 2f;
         [Tooltip("The Smaller number to Closer it will walk to the waypoint")]
         [SerializeField] private float _waypointReachDistance = 1f;
+
+        [Header("Guard")]
+        [Tooltip("The Smaller number to Closer it will walk to the waypoint")]
+        [SerializeField] private float _guardReachDistance = 0.1f;
+        [SerializeField] private float _guardRotateSpeed = 5f;
         #endregion
 
 
@@ -113,6 +118,12 @@ namespace RPG.Control
             if (_timeSinceArrivedAtWaypoint > _waypointDwellTime)
             {
                 _mover.StartMoveAction(nextPosition);
+
+                if (AtGuardPosition())
+                {
+
+                    print($"{transform.name} is at its Guard Position");
+                }
             }
         }
 
@@ -121,6 +132,8 @@ namespace RPG.Control
         private void CycleWaypoint() => _currentWaypointIndex = _patrolPath.GetNextIndex(_currentWaypointIndex);
 
         private Vector3 GetCurrentWaypoint() => _patrolPath.GetWaypoint(_currentWaypointIndex);
+
+        private bool AtGuardPosition() => Vector3.Distance(transform.position, _guardPosition) < _guardReachDistance && _patrolPath == null;
 
 
         private bool IsInChaseRange() => Vector3.Distance(transform.position, _player.position) < _chaseDistance;
