@@ -70,6 +70,10 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1230804437610166928, guid: 58df80d8498834bdc838433c906b5b40, type: 3}
+      propertyPath: _chaseSpeedFraction
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 1230804437610166928, guid: 58df80d8498834bdc838433c906b5b40, type: 3}
       propertyPath: _timeBetweenAttacks
       value: 1.25
       objectReference: {fileID: 0}
@@ -124,10 +128,6 @@ PrefabInstance:
     - target: {fileID: 6947039788277725674, guid: 58df80d8498834bdc838433c906b5b40, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6947039788277725675, guid: 58df80d8498834bdc838433c906b5b40, type: 3}
-      propertyPath: m_Speed
-      value: 2.66
       objectReference: {fileID: 0}
     - target: {fileID: 6947039788277725678, guid: 58df80d8498834bdc838433c906b5b40, type: 3}
       propertyPath: m_Name
@@ -190,6 +190,7 @@ MonoBehaviour:
   _chaseDistance: 7
   _suspicionTime: 5
   _patrolPath: {fileID: 0}
+  _patrolSpeedFraction: 0.3
   _waypointDwellTime: 2
   _waypointReachDistance: 1
   _guardReachDistance: 0.2

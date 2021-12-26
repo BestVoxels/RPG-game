@@ -7,6 +7,12 @@ namespace RPG.Movement
     [RequireComponent(typeof(NavMeshAgent), typeof(Animator))]
     public class Mover : MonoBehaviour, IAction
     {
+        #region --Fields-- (Inspector)
+        [SerializeField] private float _maxSpeed = 5.66f;
+        #endregion
+
+
+
         #region --Fields-- (In Class)
         private ActionScheduler _actionScheduler;
 
@@ -39,16 +45,17 @@ namespace RPG.Movement
 
 
         #region --Methods-- (Custom PUBLIC)
-        public void StartMoveAction(Vector3 destination)
+        public void StartMoveAction(Vector3 destination, float speedFraction)
         {
             _actionScheduler.StartAction(this);
 
-            MoveTo(destination);
+            MoveTo(destination, speedFraction);
         }
 
-        public void MoveTo(Vector3 destination)
+        public void MoveTo(Vector3 destination, float speedFraction)
         {
             _agent.SetDestination(destination);
+            _agent.speed = _maxSpeed * Mathf.Clamp01(speedFraction);
             _agent.isStopped = false;
         }
 

@@ -10,6 +10,8 @@ namespace RPG.Combat
         [SerializeField] private float _weaponRange = 2f;
         [SerializeField] private float _weaponDamage = 5f;
         [SerializeField] private float _timeBetweenAttacks = 1f;
+        [Range(0f, 1f)]
+        [SerializeField] private float _chaseSpeedFraction = 1f;
         [SerializeField] private float _rotateSpeed = 10f;
         #endregion
 
@@ -45,7 +47,7 @@ namespace RPG.Combat
 
             if (!IsInStopRange())
             {
-                _mover.MoveTo(_target.transform.position);
+                _mover.MoveTo(_target.transform.position, _chaseSpeedFraction);
             }
             else
             {

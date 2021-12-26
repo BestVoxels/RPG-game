@@ -13,6 +13,8 @@ namespace RPG.Control
 
         [Header("Patrol")]
         [SerializeField] private PatrolPath _patrolPath;
+        [Range(0f,1f)]
+        [SerializeField] private float _patrolSpeedFraction = 0.3f;
         [SerializeField] private float _waypointDwellTime = 2f;
         [Tooltip("The Smaller number to Closer it will walk to the waypoint")]
         [SerializeField] private float _waypointReachDistance = 1f;
@@ -120,7 +122,7 @@ namespace RPG.Control
 
             if (_timeSinceArrivedAtWaypoint > _waypointDwellTime)
             {
-                _mover.StartMoveAction(nextPosition);
+                _mover.StartMoveAction(nextPosition, _patrolSpeedFraction);
 
                 if (AtGuardPosition())
                 {
