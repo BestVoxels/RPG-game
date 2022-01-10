@@ -22,6 +22,13 @@ namespace RPG.SceneManagement
         [SerializeField] private int _sceneIndexToLoad = -1;
         [SerializeField] private Transform _spawnPoint;
         [SerializeField] private DestinationIdentifier _destination;
+
+        [Header("Transition")]
+        [SerializeField] private Transition.Types _transitionType = Transition.Types.CircleWipe;
+        [Tooltip("When Start Loading to Other Scene")]
+        [SerializeField] private float _startTransitionTime = 1f;
+        [Tooltip("When Get Loaded on Other Scene")]
+        [SerializeField] private float _endTransitionTime = 1f;
         #endregion
 
 
@@ -31,7 +38,7 @@ namespace RPG.SceneManagement
         {
             if (other.CompareTag("Player"))
             {
-                StartCoroutine(Transition());
+                StartCoroutine(LoadLevelWithTransition());
             }
         }
         #endregion
@@ -39,7 +46,7 @@ namespace RPG.SceneManagement
 
 
         #region --Methods-- (Custom PRIVATE)
-        private IEnumerator Transition()
+        private IEnumerator LoadLevelWithTransition()
         {
             if (_sceneIndexToLoad < 0)
             {
@@ -49,12 +56,31 @@ namespace RPG.SceneManagement
 
             DontDestroyOnLoad(gameObject);
 
-            yield return SceneManager.LoadSceneAsync(_sceneIndexToLoad);
-
+            yield return Transition.Instance.StartTransition(_transitionType, _startTransitionTime);
+            print("started");
+            yield return LoadAsynchronously();
+            print("loaded");
             Portal otherPortal = GetOtherPortal();
             UpdatePlayer(otherPortal);
-            
+
+            yield return Transition.Instance.EndTransition(otherPortal._transitionType, _endTransitionTime);
+            print("ended");
             Destroy(gameObject);
+        }
+
+        private IEnumerator LoadAsynchronously()
+        {
+            AsyncOperation operation = SceneManager.LoadSceneAsync(_sceneIndexToLoad);
+
+            while (!operation.isDone)
+            {
+                float progress = Mathf.Clamp01(operation.progress / 0.9f);
+                print(progress);
+
+                yield return null;
+            }
+            print("LOADED");
+            yield break;
         }
 
         private Portal GetOtherPortal()
