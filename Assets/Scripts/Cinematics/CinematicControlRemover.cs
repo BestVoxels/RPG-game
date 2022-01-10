@@ -32,7 +32,7 @@ namespace RPG.Cinematics
 
 
 
-        #region --Methods-- (Custom)
+        #region --Methods-- (Observer)
         private void DisableControl(PlayableDirector playableDirector)
         {
             _actionScheduler.StopCurrentAction();
