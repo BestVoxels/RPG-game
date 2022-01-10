@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 namespace RPG.SceneManagement
 {
@@ -10,10 +11,23 @@ namespace RPG.SceneManagement
         {
             if (other.CompareTag("Player"))
             {
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-
-                print("Portal Trigger");
+                StartCoroutine(Transition());
             }
+        }
+        #endregion
+
+
+
+        #region --Methods-- (Custom PRIVATE)
+        private IEnumerator Transition()
+        {
+            DontDestroyOnLoad(gameObject);
+
+            yield return SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex + 1);
+
+            print("Scene Loaded");
+
+            Destroy(gameObject);
         }
         #endregion
     }
