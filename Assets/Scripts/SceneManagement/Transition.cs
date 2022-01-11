@@ -150,7 +150,7 @@ namespace RPG.SceneManagement
         public void UpdateLoadingBar(float progress)
         {
             _loadingBar.value = progress;
-            _progressText.text = $"{progress * 100f}%";
+            _progressText.text = $"{(progress * 100f):N0}%";
         }
 
         public void ResetLoadingBar()
