@@ -1,5 +1,9 @@
-using UnityEngine;
 using System.Collections;
+using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
+using RPG.Control;
+using RPG.Core;
 
 namespace RPG.SceneManagement
 {
@@ -14,7 +18,13 @@ namespace RPG.SceneManagement
 
 
         #region --Fields-- (Inspector)
+        [Header("Level Transitions")]
         [SerializeField] private Animator[] _animators;
+
+        [Header("Loading Screen")]
+        [SerializeField] private Animator _loadingScreenAnimator;
+        [SerializeField] private TMP_Text _progressText;
+        [SerializeField] private Slider _loadingBar;
         #endregion
 
 
@@ -34,6 +44,10 @@ namespace RPG.SceneManagement
         #region --Methods-- (Custom PUBLIC)
         public IEnumerator StartTransition(Types types, float transitioningSpeed)
         {
+            // Disable PlayerControl
+            GameObject.FindWithTag("Player").GetComponent<ActionScheduler>().StopCurrentAction();
+            GameObject.FindWithTag("Player").GetComponent<PlayerController>().enabled = false;
+
             int index = 0;
             switch (types)
             {
@@ -61,12 +75,13 @@ namespace RPG.SceneManagement
             {
                 yield return null;
             }
-            print("STARTED");
-            yield break;
         }
 
         public IEnumerator EndTransition(Types types, float transitioningSpeed)
         {
+            // Enable PlayerControl (optional cuz once it loaded in new scene, this enabled by default, but it's good practice to put here)
+            GameObject.FindWithTag("Player").GetComponent<PlayerController>().enabled = true;
+
             int index = 0;
             switch (types)
             {
@@ -94,8 +109,54 @@ namespace RPG.SceneManagement
             {
                 yield return null;
             }
-            print("ENDED");
-            yield break;
+        }
+
+        public IEnumerator OpenLoadingScreen()
+        {
+            _loadingScreenAnimator.Play("LoadingScreen Start", -1, 0f);
+
+            // While Animation Clip is still the OLD one, wait for it to get update
+            while (!_loadingScreenAnimator.GetCurrentAnimatorStateInfo(0).IsName("LoadingScreen Start"))
+            {
+                yield return null;
+            }
+
+            // Wait for New Animation Clip to play until it ends
+            while (_loadingScreenAnimator.GetCurrentAnimatorStateInfo(0).IsName("LoadingScreen Start") &&
+                _loadingScreenAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f)
+            {
+                yield return null;
+            }
+        }
+
+        public IEnumerator CloseLoadingScreen()
+        {
+            _loadingScreenAnimator.Play("LoadingScreen End", -1, 0f);
+
+            // While Animation Clip is still the OLD one, wait for it to get update
+            while (!_loadingScreenAnimator.GetCurrentAnimatorStateInfo(0).IsName("LoadingScreen End"))
+            {
+                yield return null;
+            }
+
+            // Wait for New Animation Clip to play until it ends
+            while (_loadingScreenAnimator.GetCurrentAnimatorStateInfo(0).IsName("LoadingScreen End") &&
+                _loadingScreenAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f)
+            {
+                yield return null;
+            }
+        }
+
+        public void UpdateLoadingBar(float progress)
+        {
+            _loadingBar.value = progress;
+            _progressText.text = $"{progress * 100f}%";
+        }
+
+        public void ResetLoadingBar()
+        {
+            _loadingBar.value = 0f;
+            _progressText.text = $"{0f}%";
         }
         #endregion
     }

@@ -25,10 +25,16 @@ namespace RPG.SceneManagement
 
         [Header("Transition")]
         [SerializeField] private Transition.Types _transitionType = Transition.Types.CircleWipe;
-        [Tooltip("When Start Loading to Other Scene")]
-        [SerializeField] private float _startTransitionTime = 1f;
-        [Tooltip("When Get Loaded on Other Scene")]
-        [SerializeField] private float _endTransitionTime = 1f;
+        [Tooltip("When Start Loading to Other Scene (1 = normal speed)")]
+        [SerializeField] private float _startTransitionSpeed = 1f;
+        [Tooltip("When End Loading at Other Scene (1 = normal speed)")]
+        [SerializeField] private float _endTransitionSpeed = 1f;
+        #endregion
+
+
+
+        #region --Fields-- (In Class)
+        private const float _unityLoadingStateMax = 0.9f;
         #endregion
 
 
@@ -45,7 +51,7 @@ namespace RPG.SceneManagement
 
 
 
-        #region --Methods-- (Custom PRIVATE)
+        #region --Methods-- (Custom PRIVATE) ~Coroutines~
         private IEnumerator LoadLevelWithTransition()
         {
             if (_sceneIndexToLoad < 0)
@@ -56,33 +62,45 @@ namespace RPG.SceneManagement
 
             DontDestroyOnLoad(gameObject);
 
-            yield return Transition.Instance.StartTransition(_transitionType, _startTransitionTime);
-            print("started");
+            // StartingTransition
+            yield return Transition.Instance.StartTransition(_transitionType, _startTransitionSpeed);
+
+            // StartLoadingLevel Once Transition is Done
             yield return LoadAsynchronously();
-            print("loaded");
+            
             Portal otherPortal = GetOtherPortal();
             UpdatePlayer(otherPortal);
 
-            yield return Transition.Instance.EndTransition(otherPortal._transitionType, _endTransitionTime);
-            print("ended");
+            // EndingTransition Once Level is Loaded
+            yield return Transition.Instance.EndTransition(_transitionType, _endTransitionSpeed);
+            
             Destroy(gameObject);
         }
 
         private IEnumerator LoadAsynchronously()
         {
-            AsyncOperation operation = SceneManager.LoadSceneAsync(_sceneIndexToLoad);
+            // ResetLoadingBar progress first SO when it open up with animation value start from 0
+            Transition.Instance.ResetLoadingBar();
+            yield return Transition.Instance.OpenLoadingScreen();
 
+            // Start Loading Scene
+            AsyncOperation operation = SceneManager.LoadSceneAsync(_sceneIndexToLoad);
             while (!operation.isDone)
             {
-                float progress = Mathf.Clamp01(operation.progress / 0.9f);
-                print(progress);
+                float progress = Mathf.Clamp01(operation.progress / _unityLoadingStateMax);
+
+                Transition.Instance.UpdateLoadingBar(progress);
 
                 yield return null;
             }
-            print("LOADED");
-            yield break;
-        }
 
+            yield return Transition.Instance.CloseLoadingScreen();
+        }
+        #endregion
+
+
+
+        #region --Methods-- (Custom PRIVATE) ~Utilities~
         private Portal GetOtherPortal()
         {
             Portal[] portals = FindObjectsOfType<Portal>();
