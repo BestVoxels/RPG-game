@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using System.Collections;
 using UnityEngine.AI;
 
@@ -33,12 +32,6 @@ namespace RPG.SceneManagement
 
 
 
-        #region --Fields-- (In Class)
-        private const float _unityLoadingStateMax = 0.9f;
-        #endregion
-
-
-
         #region --Methods-- (Built In)
         private void OnTriggerEnter(Collider other)
         {
@@ -68,37 +61,19 @@ namespace RPG.SceneManagement
             SavingWrapper.Instance.Save();
 
             // StartLoadingLevel Once Transition is Done
-            yield return LoadAsynchronously();
+            yield return Transition.Instance.LoadAsynchronously(_sceneIndexToLoad);
 
             SavingWrapper.Instance.Load();
 
             Portal otherPortal = GetOtherPortal();
             UpdatePlayer(otherPortal);
 
+            SavingWrapper.Instance.Save();
+
             // EndingTransition Once Level is Loaded
             yield return Transition.Instance.EndTransition(_transitionType, _endTransitionSpeed);
             
             Destroy(gameObject);
-        }
-
-        private IEnumerator LoadAsynchronously()
-        {
-            // ResetLoadingBar progress first SO when it open up with animation value start from 0
-            Transition.Instance.ResetLoadingBar();
-            yield return Transition.Instance.OpenLoadingScreen();
-
-            // Start Loading Scene
-            AsyncOperation operation = SceneManager.LoadSceneAsync(_sceneIndexToLoad);
-            while (!operation.isDone)
-            {
-                float progress = Mathf.Clamp01(operation.progress / _unityLoadingStateMax);
-
-                Transition.Instance.UpdateLoadingBar(progress);
-
-                yield return null;
-            }
-
-            yield return Transition.Instance.CloseLoadingScreen();
         }
         #endregion
 

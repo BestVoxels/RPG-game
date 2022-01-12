@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using TMPro;
 using RPG.Control;
 using RPG.Core;
@@ -30,6 +31,8 @@ namespace RPG.SceneManagement
 
 
         #region --Fields-- (In Class)
+        private const float _unityLoadingStateMax = 0.9f;
+
         public static Transition Instance { get; private set; }
         #endregion
 
@@ -41,7 +44,7 @@ namespace RPG.SceneManagement
 
 
 
-        #region --Methods-- (Custom PUBLIC)
+        #region --Methods-- (Custom PUBLIC) ~Transitions~
         public IEnumerator StartTransition(Types types, float transitioningSpeed)
         {
             // Disable PlayerControl
@@ -111,7 +114,31 @@ namespace RPG.SceneManagement
             }
         }
 
-        public IEnumerator OpenLoadingScreen()
+        public IEnumerator LoadAsynchronously(int sceneIndexToLoad)
+        {
+            // ResetLoadingBar progress first SO when it open up with animation value start from 0
+            ResetLoadingBar();
+            yield return OpenLoadingScreen();
+
+            // Start Loading Scene
+            AsyncOperation operation = SceneManager.LoadSceneAsync(sceneIndexToLoad);
+            while (!operation.isDone)
+            {
+                float progress = Mathf.Clamp01(operation.progress / _unityLoadingStateMax);
+
+                UpdateLoadingBar(progress);
+
+                yield return null;
+            }
+
+            yield return CloseLoadingScreen();
+        }
+        #endregion
+
+
+
+        #region --Methods-- (Custom PRIVATE)
+        private IEnumerator OpenLoadingScreen()
         {
             _loadingScreenAnimator.Play("LoadingScreen Start", -1, 0f);
 
@@ -129,7 +156,7 @@ namespace RPG.SceneManagement
             }
         }
 
-        public IEnumerator CloseLoadingScreen()
+        private IEnumerator CloseLoadingScreen()
         {
             _loadingScreenAnimator.Play("LoadingScreen End", -1, 0f);
 
@@ -147,13 +174,13 @@ namespace RPG.SceneManagement
             }
         }
 
-        public void UpdateLoadingBar(float progress)
+        private void UpdateLoadingBar(float progress)
         {
             _loadingBar.value = progress;
             _progressText.text = $"{(progress * 100f):N0}%";
         }
 
-        public void ResetLoadingBar()
+        private void ResetLoadingBar()
         {
             _loadingBar.value = 0f;
             _progressText.text = $"{0f}%";

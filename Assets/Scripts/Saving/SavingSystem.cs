@@ -6,6 +6,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using RPG.SceneManagement;
 
 namespace RPG.Saving
 {
@@ -19,7 +20,11 @@ namespace RPG.Saving
             {
                 buildIndex = (int)state["lastSceneBuildIndex"];
             }
-            yield return SceneManager.LoadSceneAsync(buildIndex);
+            //yield return SceneManager.LoadSceneAsync(buildIndex);
+            yield return Transition.Instance.LoadAsynchronously(buildIndex);
+
+            yield return null; // make sure that all others scripts initialize properly first, before load data
+
             RestoreState(state);
         }
 
