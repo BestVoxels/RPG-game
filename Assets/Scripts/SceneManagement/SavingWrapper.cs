@@ -7,10 +7,15 @@ namespace RPG.SceneManagement
     {
         #region --Fields-- (In Class)
         private const string _defaultSaveFile = "save";
+
+        public static SavingWrapper Instance { get; private set; }
         #endregion
 
 
+
         #region --Methods-- (Built In)
+        private void Awake() => Instance = this;
+
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.S))
@@ -27,13 +32,13 @@ namespace RPG.SceneManagement
 
 
 
-        #region --Methods-- (Custom PRIVATE)
-        private void Save()
+        #region --Methods-- (Custom PUBLIC)
+        public void Save()
         {
             GetComponent<SavingSystem>().Save(_defaultSaveFile);
         }
 
-        private void Load()
+        public void Load()
         {
             GetComponent<SavingSystem>().Load(_defaultSaveFile);
         }

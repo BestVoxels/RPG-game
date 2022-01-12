@@ -65,9 +65,13 @@ namespace RPG.SceneManagement
             // StartingTransition
             yield return Transition.Instance.StartTransition(_transitionType, _startTransitionSpeed);
 
+            SavingWrapper.Instance.Save();
+
             // StartLoadingLevel Once Transition is Done
             yield return LoadAsynchronously();
-            
+
+            SavingWrapper.Instance.Load();
+
             Portal otherPortal = GetOtherPortal();
             UpdatePlayer(otherPortal);
 
