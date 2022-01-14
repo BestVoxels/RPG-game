@@ -1,9 +1,7 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using RPG.SceneManagement;
@@ -59,7 +57,7 @@ namespace RPG.Saving
             }
         }
 
-        private void SaveFile(string saveFile, object state)
+        private void SaveFile(string saveFile, Dictionary<string, object> state)
         {
             string path = GetPathFromSaveFile(saveFile);
             print("Saving to " + path);
