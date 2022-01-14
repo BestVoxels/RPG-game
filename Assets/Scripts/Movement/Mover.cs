@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using RPG.Core;
 using RPG.Saving;
+using System.Collections.Generic;
 
 namespace RPG.Movement
 {
@@ -93,13 +94,18 @@ namespace RPG.Movement
 
         object ISaveable.CaptureState()
         {
-            return new SerializableVector3(transform.position);
+            Dictionary<string, object> data = new Dictionary<string, object>();
+            data["position"] = new SerializableVector3(transform.position);
+            data["rotation"] = new SerializableVector3(transform.eulerAngles);
+            
+            return data;
         }
 
         void ISaveable.RestoreState(object state) // When level loaded it get called AFTER Awake(), BEFORE Start()
         {
-            SerializableVector3 position = (SerializableVector3)state;
-            GetComponent<NavMeshAgent>().Warp(position.ToVector());
+            Dictionary<string, object> stateDict = (Dictionary<string, object>)state;
+            GetComponent<NavMeshAgent>().Warp(((SerializableVector3)stateDict["position"]).ToVector()); // Using Warp() it also Cancel Old Target Postition that it Need to Move To
+            transform.eulerAngles = ((SerializableVector3)stateDict["rotation"]).ToVector();
         }
         #endregion
     }
