@@ -13,6 +13,9 @@ namespace RPG.Combat
         [Range(0f, 1f)]
         [SerializeField] private float _chaseSpeedFraction = 1f;
         [SerializeField] private float _rotateSpeed = 10f;
+        [Header("Weapon")]
+        [SerializeField] private GameObject _weaponPrefab = null;
+        [SerializeField] private Transform _handTransform = null;
         #endregion
 
 
@@ -36,6 +39,8 @@ namespace RPG.Combat
 
             _mover = GetComponent<Mover>();
             _animator = GetComponent<Animator>();
+
+            SpawnWeapon();
         }
 
         private void Update()
@@ -114,6 +119,11 @@ namespace RPG.Combat
             if (_target == null) return;
 
             _target.TakeDamage(_weaponDamage);
+        }
+
+        private void SpawnWeapon()
+        {
+            Instantiate(_weaponPrefab, _handTransform);
         }
         #endregion
 

@@ -123,6 +123,8 @@ MonoBehaviour:
   _timeBetweenAttacks: 1
   _chaseSpeedFraction: 1
   _rotateSpeed: 10
+  _weaponPrefab: {fileID: 0}
+  _handTransform: {fileID: 0}
 --- !u!114 &5791211194352794541
 MonoBehaviour:
   m_ObjectHideFlags: 0
