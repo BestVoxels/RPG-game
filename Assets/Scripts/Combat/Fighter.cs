@@ -14,9 +14,8 @@ namespace RPG.Combat
         [SerializeField] private float _chaseSpeedFraction = 1f;
         [SerializeField] private float _rotateSpeed = 10f;
         [Header("Weapon")]
-        [SerializeField] private GameObject _weaponPrefab = null;
         [SerializeField] private Transform _handTransform = null;
-        [SerializeField] private AnimatorOverrideController _weaponOverride = null;
+        [SerializeField] private Weapon _weapon = null;
         #endregion
 
 
@@ -124,9 +123,9 @@ namespace RPG.Combat
 
         private void SpawnWeapon()
         {
-            _animator.runtimeAnimatorController = _weaponOverride;
+            if (_weapon == null) return;
 
-            Instantiate(_weaponPrefab, _handTransform);
+            _weapon.Spawn(_handTransform, _animator);
         }
         #endregion
 

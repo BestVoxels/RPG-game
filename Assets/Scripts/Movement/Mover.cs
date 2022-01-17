@@ -82,6 +82,16 @@ namespace RPG.Movement
 
             _animator.SetFloat("MoveSpeed", forwardSpeed);
         }
+
+        // For Animation Event
+        private void FootR()
+        {
+        }
+
+        // For Animation Event
+        private void FootL()
+        {
+        }
         #endregion
 
 
