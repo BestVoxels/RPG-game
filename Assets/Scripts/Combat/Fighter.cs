@@ -7,8 +7,6 @@ namespace RPG.Combat
     public class Fighter : MonoBehaviour, IAction
     {
         #region --Fields-- (Inspector)
-        [SerializeField] private float _weaponRange = 2f;
-        [SerializeField] private float _weaponDamage = 5f;
         [SerializeField] private float _timeBetweenAttacks = 1f;
         [Range(0f, 1f)]
         [SerializeField] private float _chaseSpeedFraction = 1f;
@@ -111,14 +109,14 @@ namespace RPG.Combat
             _animator.SetTrigger("Attack"); // This will Trigger the Hit() event
         }
 
-        private bool IsInStopRange() => Vector3.Distance(transform.position, _target.transform.position) < _weaponRange;
+        private bool IsInStopRange() => Vector3.Distance(transform.position, _target.transform.position) < _weapon.Range;
 
         // For Animation Event
         private void Hit()
         {
             if (_target == null) return;
 
-            _target.TakeDamage(_weaponDamage);
+            _target.TakeDamage(_weapon.Damage);
         }
 
         private void SpawnWeapon()

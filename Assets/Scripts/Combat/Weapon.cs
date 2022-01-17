@@ -6,8 +6,18 @@ namespace RPG.Combat
     public class Weapon : ScriptableObject
     {
         #region --Fields-- (Inspector)
-        [SerializeField] private GameObject _weaponPrefab = null;
+        [SerializeField] private GameObject _equippedPrefab = null;
         [SerializeField] private AnimatorOverrideController _animatorOverride = null;
+        [SerializeField] private float _damage = 10f;
+        [Tooltip("How Close the character need to walk near opponent in order to deal damange.")]
+        [SerializeField] private float _range = 2f;
+        #endregion
+
+
+
+        #region --Properties-- (With Backing Fields)
+        public float Damage { get { return _damage; } }
+        public float Range { get { return _range; } }
         #endregion
 
 
@@ -15,9 +25,15 @@ namespace RPG.Combat
         #region --Methods-- (Custom PUBLIC)
         public void Spawn(Transform handTransform, Animator animator)
         {
-            animator.runtimeAnimatorController = _animatorOverride;
+            if (_animatorOverride != null)
+            {
+                animator.runtimeAnimatorController = _animatorOverride;
+            }
 
-            Instantiate(_weaponPrefab, handTransform);
+            if (_equippedPrefab != null)
+            {
+                Instantiate(_equippedPrefab, handTransform);
+            }
         }
         #endregion
     }
