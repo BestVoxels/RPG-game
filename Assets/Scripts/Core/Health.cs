@@ -58,6 +58,8 @@ namespace RPG.Core
 
             _animator.SetTrigger("Die");
             _actionScheduler.StopCurrentAction();
+            GetComponent<CapsuleCollider>().enabled = false;
+            // NavMeshAgent Get disabled in Mover class
         }
         #endregion
 
