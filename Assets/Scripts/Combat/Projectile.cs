@@ -7,6 +7,7 @@ namespace RPG.Combat
     {
         #region --Fields-- (Inspector)
         [SerializeField] private float _speed = 20f;
+        [SerializeField] private bool _isHoming = false;
         #endregion
 
 
@@ -19,17 +20,24 @@ namespace RPG.Combat
 
 
         #region --Methods-- (Built In)
+        private void Start()
+        {
+            transform.LookAt(GetAimLocation());
+        }
+
         private void Update()
         {
             if (_target == null) return;
 
-            transform.LookAt(GetAimLocation());
+            if (_isHoming && !_target.IsDead)
+                transform.LookAt(GetAimLocation());
+
             transform.Translate(Vector3.forward * _speed * Time.deltaTime);
         }
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.GetComponent<Health>() != _target) return;
+            if (other.GetComponent<Health>() != _target || _target.IsDead) return;
 
             _target.TakeDamage(_damage);
 

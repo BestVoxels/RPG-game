@@ -66,7 +66,7 @@ namespace RPG.Combat
             if (oldWeapon == null) oldWeapon = leftHand.Find(_weaponName);
             if (oldWeapon == null) return;
 
-            oldWeapon.name = "DESTROYING"; // for not having confusing from new Instantiated Weapon
+            oldWeapon.name = "DESTROYING"; // for not having Destroy Confusion with new Instantiated Weapon
             Destroy(oldWeapon.gameObject);
         }
 
