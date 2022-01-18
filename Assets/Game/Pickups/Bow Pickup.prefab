@@ -60,7 +60,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 532fd0b8be45f47598cfad4b4631b464, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _pickupWeapon: {fileID: 11400000, guid: a86d3a2315ed546aab4198023f8bfbc2, type: 2}
+  _pickupWeapon: {fileID: 11400000, guid: bf577a5d73ad9451d972141311f059d9, type: 2}
 --- !u!1001 &4694370943307601994
 PrefabInstance:
   m_ObjectHideFlags: 0
