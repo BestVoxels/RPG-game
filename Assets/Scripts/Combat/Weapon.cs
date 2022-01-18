@@ -43,7 +43,7 @@ namespace RPG.Combat
         public void LaunchProjectile(Transform rightHand, Transform leftHand, Health target)
         {
             Projectile projectileCloned = Instantiate(_projectile, GetTransform(rightHand, leftHand).position, Quaternion.identity);
-            projectileCloned.SetTarget(target);
+            projectileCloned.SetTarget(target, _damage);
         }
         #endregion
 

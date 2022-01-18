@@ -13,6 +13,7 @@ namespace RPG.Combat
 
         #region --Fields-- (In Class)
         private Health _target = null;
+        private float _damage = 0f;
         #endregion
 
 
@@ -25,12 +26,25 @@ namespace RPG.Combat
             transform.LookAt(GetAimLocation());
             transform.Translate(Vector3.forward * _speed * Time.deltaTime);
         }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.GetComponent<Health>() != _target) return;
+
+            _target.TakeDamage(_damage);
+
+            Destroy(gameObject);
+        }
         #endregion
 
 
 
         #region --Methods-- (Custom PUBLIC)
-        public void SetTarget(Health target) => _target = target;
+        public void SetTarget(Health target, float damage)
+        {
+            _target = target;
+            _damage = damage;
+        }
         #endregion
 
 
