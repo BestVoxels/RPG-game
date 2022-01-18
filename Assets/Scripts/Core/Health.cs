@@ -58,8 +58,7 @@ namespace RPG.Core
 
             _animator.SetTrigger("Die");
             _actionScheduler.StopCurrentAction();
-            GetComponent<CapsuleCollider>().enabled = false;
-            // NavMeshAgent Get disabled in Mover class
+            // NavMeshAgent Get disabled in Mover class | Can walk through because Is Kinematic need to be turn on
         }
         #endregion
 
