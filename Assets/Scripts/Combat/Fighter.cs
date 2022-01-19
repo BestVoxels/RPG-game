@@ -15,6 +15,7 @@ namespace RPG.Combat
         [SerializeField] private Transform _rightHandTransform = null;
         [SerializeField] private Transform _leftHandTransform = null;
         [SerializeField] private Weapon _defaultWeapon = null;
+        [SerializeField] private string _defaultWeaponName = "Unarmed";
         #endregion
 
 
@@ -41,7 +42,8 @@ namespace RPG.Combat
             _mover = GetComponent<Mover>();
             _animator = GetComponent<Animator>();
 
-            EquippedWeapon(_defaultWeapon);
+            Weapon weapon = Resources.Load<Weapon>(_defaultWeaponName);
+            EquippedWeapon(weapon);
         }
 
         private void Update()
