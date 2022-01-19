@@ -9,6 +9,9 @@ namespace RPG.Combat
         [SerializeField] private float _speed = 20f;
         [SerializeField] private bool _isHoming = false;
         [SerializeField] private GameObject _hitEffect = null;
+        [SerializeField] private float _maxLifeTime = 10f;
+        [SerializeField] private GameObject[] _destroyOnHit = null;
+        [SerializeField] private float _lifeAfterHit = 0.5f;
         #endregion
 
 
@@ -40,12 +43,19 @@ namespace RPG.Combat
         {
             if (other.GetComponent<Health>() != _target || _target.IsDead) return;
 
+            _target.TakeDamage(_damage);
+
             if (_hitEffect != null)
                 Instantiate(_hitEffect, other.ClosestPointOnBounds(transform.position), transform.rotation);
 
-            _target.TakeDamage(_damage);
+            foreach (GameObject each in _destroyOnHit)
+            {
+                Destroy(each);
+            }
 
-            Destroy(gameObject);
+            _speed = 0f;
+
+            Destroy(gameObject, _lifeAfterHit);
         }
         #endregion
 
@@ -56,6 +66,8 @@ namespace RPG.Combat
         {
             _target = target;
             _damage = damage;
+
+            Destroy(gameObject, _maxLifeTime);
         }
         #endregion
 
