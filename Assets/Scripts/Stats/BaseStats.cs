@@ -15,6 +15,8 @@ namespace RPG.Stats
 
         #region --Methods-- (Custom PUBLIC)
         public float GetHealth() => _progression.GetHealth(_characterType, _startingLevel);
+
+        public float GetExperienceReward() => 10f;
         #endregion
     }
 }

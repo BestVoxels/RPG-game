@@ -140,11 +140,11 @@ namespace RPG.Combat
 
             if (_currentWeapon.HasProjectile)
             {
-                _currentWeapon.LaunchProjectile(_target);
+                _currentWeapon.LaunchProjectile(gameObject, _target);
             }
             else
             {
-                _target.TakeDamage(_currentWeapon.Damage);
+                _target.TakeDamage(gameObject, _currentWeapon.Damage);
             }
         }
 

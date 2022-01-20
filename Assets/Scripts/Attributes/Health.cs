@@ -42,13 +42,15 @@ namespace RPG.Attributes
 
 
         #region --Methods-- (Custom PUBLIC)
-        public void TakeDamage(float damage)
+        public void TakeDamage(GameObject attacker, float damage)
         {
             _healthPoints = Mathf.Max(0f, _healthPoints - damage);
 
             if (_healthPoints <= 0f)
             {
                 DeathBehaviour();
+
+                AwardExperience(attacker);
             }
         }
 
@@ -61,6 +63,14 @@ namespace RPG.Attributes
 
 
         #region --Methods-- (Custom PRIVATE)
+        private void AwardExperience(GameObject attacker)
+        {
+            Experience experience = attacker.GetComponent<Experience>();
+            if (experience == null) return;
+
+            experience.GainExperience(_baseStats.GetExperienceReward());
+        }
+
         private void DeathBehaviour()
         {
             if (IsDead) return;

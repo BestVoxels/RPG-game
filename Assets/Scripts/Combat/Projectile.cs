@@ -19,6 +19,7 @@ namespace RPG.Combat
         #region --Fields-- (In Class)
         private Health _target = null;
         private float _damage = 0f;
+        private GameObject _attacker = null;
         #endregion
 
 
@@ -43,7 +44,7 @@ namespace RPG.Combat
         {
             if (other.GetComponent<Health>() != _target || _target.IsDead) return;
 
-            _target.TakeDamage(_damage);
+            _target.TakeDamage(_attacker, _damage);
 
             if (_hitEffect != null)
                 Instantiate(_hitEffect, other.ClosestPointOnBounds(transform.position), transform.rotation);
@@ -62,10 +63,11 @@ namespace RPG.Combat
 
 
         #region --Methods-- (Custom PUBLIC)
-        public void SetTarget(Health target, float damage)
+        public void SetTarget(GameObject attacker, Health target, float damage)
         {
             _target = target;
             _damage = damage;
+            _attacker = attacker;
 
             Destroy(gameObject, _maxLifeTime);
         }
