@@ -28,6 +28,10 @@ PrefabInstance:
       value: 1.25
       objectReference: {fileID: 0}
     - target: {fileID: 3323380601352519069, guid: 58df80d8498834bdc838433c906b5b40, type: 3}
+      propertyPath: _characterType
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3323380601352519069, guid: 58df80d8498834bdc838433c906b5b40, type: 3}
       propertyPath: _characterClass
       value: 3
       objectReference: {fileID: 0}

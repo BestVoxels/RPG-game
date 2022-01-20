@@ -95,7 +95,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _startingLevel: 1
-  _characterClass: 1
+  _characterType: 1
+  _progression: {fileID: 11400000, guid: 374e6c2a3a1924f02bfa201ade6df41b, type: 2}
 --- !u!114 &4989239459153347107
 MonoBehaviour:
   m_ObjectHideFlags: 0
