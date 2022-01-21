@@ -16,6 +16,11 @@ namespace RPG.Attributes
         {
             _experiencePoints += experience;
         }
+
+        public float GetExperiencePoints()
+        {
+            return _experiencePoints;
+        }
         #endregion
 
 
