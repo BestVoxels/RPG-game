@@ -18,9 +18,16 @@ namespace RPG.Stats
             {
                 if (characterProgression.characterType == characterType)
                 {
-                    return characterProgression.health[currentLevel - 1];
+                    //return characterProgression.health[currentLevel - 1];
                 }
             }
+
+            return 0f;
+        }
+
+        public float GetExperienceReward(CharacterType characterType, int currentLevel)
+        {
+
 
             return 0f;
         }
@@ -34,8 +41,15 @@ namespace RPG.Stats
         {
             public CharacterType characterType;
 
-            public int[] health;
-            public int[] damage;
+            public ProgressionStatType[] statProgression;
+        }
+
+        [System.Serializable]
+        private class ProgressionStatType
+        {
+            public StatType statType;
+
+            public float[] levels;
         }
         #endregion
     }

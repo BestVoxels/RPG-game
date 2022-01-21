@@ -14,14 +14,66 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _chractersProgression:
   - characterType: 0
-    health: 28000000460000006400000096000000c8000000
-    damage: 
+    statProgression:
+    - statType: 0
+      levels:
+      - 40
+      - 70
+      - 100
+      - 150
+      - 200
+    - statType: 1
+      levels:
+      - 10
+      - 30
+      - 50
+      - 70
+      - 100
   - characterType: 1
-    health: 28000000460000006400000096000000c8000000
-    damage: 
+    statProgression:
+    - statType: 0
+      levels:
+      - 40
+      - 70
+      - 100
+      - 150
+      - 200
+    - statType: 1
+      levels:
+      - 10
+      - 30
+      - 50
+      - 70
+      - 100
   - characterType: 2
-    health: 28000000460000006400000096000000c8000000
-    damage: 
+    statProgression:
+    - statType: 0
+      levels:
+      - 40
+      - 70
+      - 100
+      - 150
+      - 200
+    - statType: 1
+      levels:
+      - 20
+      - 60
+      - 100
+      - 140
+      - 200
   - characterType: 3
-    health: 28000000460000006400000096000000c8000000
-    damage: 
+    statProgression:
+    - statType: 0
+      levels:
+      - 40
+      - 70
+      - 100
+      - 150
+      - 200
+    - statType: 1
+      levels:
+      - 30
+      - 90
+      - 150
+      - 210
+      - 300
