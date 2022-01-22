@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace RPG.Stats
@@ -11,24 +12,44 @@ namespace RPG.Stats
 
 
 
+        #region --Fields-- (In Class)
+        private Dictionary<CharacterType, Dictionary<StatType, float[]>> _progressionTable = null;
+        #endregion
+
+
+
         #region --Methods-- (Custom PUBLIC)
-        public float GetStat(StatType statType, CharacterType characterType, int currentLevel)
+        public float GetStat(CharacterType characterType, StatType statType, int currentLevel)
         {
+            CreateLookupTable();
+
+            float[] levels = _progressionTable[characterType][statType];
+
+            if (currentLevel > levels.Length) return 0f; // Guard Check for Index OutofBound
+
+            return levels[currentLevel - 1];
+        }
+        #endregion
+
+
+
+        #region --Methods-- (Custom PRIVATE)
+        private void CreateLookupTable()
+        {
+            if (_progressionTable != null) return; // Only Create Table Once
+
+            _progressionTable = new Dictionary<CharacterType, Dictionary<StatType, float[]>>();
+
             foreach (ProgressionCharacterType characterProgression in _chractersProgression)
             {
-                if (characterProgression.characterType == characterType)
-                    foreach (ProgressionStatType statProgression in characterProgression.statProgression)
-                    {
-                        if (statProgression.statType == statType)
-                        {
-                            if (currentLevel > statProgression.levels.Length) continue;
+                _progressionTable.Add(characterProgression.characterType, new Dictionary<StatType, float[]>());
 
-                            return statProgression.levels[currentLevel - 1];
-                        }
-                    }
+                foreach (ProgressionStatType statProgression in characterProgression.statProgression)
+                {
+                    _progressionTable[characterProgression.characterType].Add(statProgression.statType, statProgression.levels);
+                }
             }
-
-            return 0f;
+            
         }
         #endregion
 
