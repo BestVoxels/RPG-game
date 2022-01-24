@@ -51,6 +51,12 @@ MonoBehaviour:
       - 50
       - 70
       - 100
+    - statType: 2
+      levels:
+      - 20
+      - 40
+      - 70
+      - 100
   - characterType: 2
     statProgression:
     - statType: 0
@@ -67,6 +73,12 @@ MonoBehaviour:
       - 100
       - 140
       - 200
+    - statType: 2
+      levels:
+      - 20
+      - 40
+      - 70
+      - 100
   - characterType: 3
     statProgression:
     - statType: 0
@@ -83,3 +95,9 @@ MonoBehaviour:
       - 150
       - 210
       - 300
+    - statType: 2
+      levels:
+      - 20
+      - 40
+      - 70
+      - 100

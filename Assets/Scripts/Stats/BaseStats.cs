@@ -23,14 +23,6 @@ namespace RPG.Stats
         {
             _experience = GetComponent<Experience>();
         }
-
-        private void Update()
-        {
-            if (gameObject.tag == "Player")
-            {
-                print(GetLevel());
-            }
-        }
         #endregion
 
 
