@@ -8,7 +8,6 @@ namespace RPG.Attributes
     public class Health : MonoBehaviour, ISaveable
     {
         #region --Fields-- (Inspector)
-        [SerializeField] private float _healthPoints = 100f;
         #endregion
 
 
@@ -18,6 +17,8 @@ namespace RPG.Attributes
 
         private Animator _animator;
         private BaseStats _baseStats;
+
+        private float _healthPoints = -1f;
         #endregion
 
 
@@ -35,7 +36,10 @@ namespace RPG.Attributes
             _animator = GetComponent<Animator>();
             _baseStats = GetComponent<BaseStats>();
 
-            _healthPoints = _baseStats.GetHealth(); // If this run after Load Save then death enemy back to life BUT This one run before LOAD SAVE for sure because in there we set wait for 1 frame then Load
+            if (_healthPoints < 0f) // Just to make sure this won't override Load Data but it won't anyway cuz in SavingSystem already wait for 1 frame then load
+            {
+                _healthPoints = _baseStats.GetHealth();
+            }
         }
         #endregion
 
@@ -56,6 +60,8 @@ namespace RPG.Attributes
 
         public float GetPercentage()
         {
+            // Add GetHealth() Differences l.1 vs l.2 diff is 30 then add 30 to healthPoints
+
             return Mathf.InverseLerp(0f, _baseStats.GetHealth(), _healthPoints) * 100f;
         }
         #endregion

@@ -48,6 +48,11 @@ namespace RPG.SceneManagement
             {
                 Load();
             }
+
+            if (Input.GetKeyDown(KeyCode.D))
+            {
+                Delete();
+            }
         }
         #endregion
 
@@ -62,6 +67,11 @@ namespace RPG.SceneManagement
         public void Load()
         {
             GetComponent<SavingSystem>().Load(_defaultSaveFile);
+        }
+
+        public void Delete()
+        {
+            GetComponent<SavingSystem>().Delete(_defaultSaveFile);
         }
         #endregion
     }
