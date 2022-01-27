@@ -21,7 +21,7 @@ namespace VoxelArsenal
                 initIntensity = li.intensity;
             }
             else
-                print("No light object found on " + gameObject.name);
+                Debug.Log("No light object found on " + gameObject.name);
         }
 
         // Update is called once per frame

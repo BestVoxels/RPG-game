@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 
 namespace RPG.Stats
 {
@@ -9,6 +10,13 @@ namespace RPG.Stats
         [SerializeField] private int _startingLevel = 1;
         [SerializeField] private CharacterType _characterType;
         [SerializeField] private Progression _progression = null;
+        [SerializeField] private GameObject _levelUpParticleEffect = null;
+        #endregion
+
+
+
+        #region --Events-- (Delegate as Action)
+        public event Action OnLevelUp;
         #endregion
 
 
@@ -29,6 +37,7 @@ namespace RPG.Stats
             if (_experience != null)
             {
                 _experience.OnExperienceGained += UpdateLevel;
+                _experience.OnExperienceLoaded += RefreshCurrentLevel;
             }
             
             _currentLevel = CalculateLevel();
@@ -72,14 +81,31 @@ namespace RPG.Stats
 
 
 
+        #region --Methods-- (Custom PRIVATE)
+        private void LevelUpEffect()
+        {
+            Instantiate(_levelUpParticleEffect, transform);
+        }
+        #endregion
+
+
+
         #region --Methods-- (Subscriber)
         private void UpdateLevel()
         {
             int newLevel = CalculateLevel();
             if (newLevel > _currentLevel)
             {
-                _currentLevel = newLevel;
+                _currentLevel = newLevel; // Have to Run First! Cuz OnLevelUp will use _currentLevel new value
+
+                OnLevelUp?.Invoke();
+                LevelUpEffect();
             }
+        }
+
+        private void RefreshCurrentLevel()
+        {
+            _currentLevel = CalculateLevel();
         }
         #endregion
     }

@@ -8,6 +8,8 @@ namespace RPG.Attributes
     public class Health : MonoBehaviour, ISaveable
     {
         #region --Fields-- (Inspector)
+        [Range(1f, 100f)]
+        [SerializeField] private float _healthRegneratePercentage = 70f;
         #endregion
 
 
@@ -35,6 +37,8 @@ namespace RPG.Attributes
             _actionScheduler = GetComponent<ActionScheduler>();
             _animator = GetComponent<Animator>();
             _baseStats = GetComponent<BaseStats>();
+
+            _baseStats.OnLevelUp += RegenerateHealth;
 
             if (_healthPoints < 0f) // Just to make sure this won't override Load Data but it won't anyway cuz in SavingSystem already wait for 1 frame then load
             {
@@ -86,6 +90,16 @@ namespace RPG.Attributes
             _animator.SetTrigger("Die");
             _actionScheduler.StopCurrentAction();
             // NavMeshAgent Get disabled in Mover class | Can walk through because Is Kinematic need to be turn on
+        }
+        #endregion
+
+
+
+        #region --Methods-- (Subscriber)
+        private void RegenerateHealth()
+        {
+            float regenHealthPoints = (_baseStats.GetHealth() * _healthRegneratePercentage) / 100f;
+            _healthPoints = Mathf.Max(_healthPoints, regenHealthPoints);
         }
         #endregion
 

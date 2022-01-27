@@ -89,7 +89,7 @@ public class VoxelBeamStatic : MonoBehaviour
             line.positionCount = 2;
         }
         else
-            print("Add a hecking prefab with a line renderer to the SciFiBeamStatic script on " + gameObject.name + "! Heck!");
+            Debug.Log("Add a hecking prefab with a line renderer to the SciFiBeamStatic script on " + gameObject.name + "! Heck!");
     }
 
     public void RemoveBeam() //This function removes the prefab with linerenderer

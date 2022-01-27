@@ -14,6 +14,7 @@ namespace RPG.Stats
 
         #region --Events-- (Delegate as Action)
         public event Action OnExperienceGained;
+        public event Action OnExperienceLoaded;
         #endregion
 
 
@@ -42,8 +43,8 @@ namespace RPG.Stats
         public void RestoreState(object state)
         {
             _experiencePoints = (float)state;
-            
-            OnExperienceGained?.Invoke(); // Update Level After Load XP
+
+            OnExperienceLoaded?.Invoke(); // Update CurrentLevel After Load XP
         }
         #endregion
     }

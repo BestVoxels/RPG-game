@@ -103,6 +103,10 @@ PrefabInstance:
       propertyPath: _timeBetweenAttacks
       value: 1.25
       objectReference: {fileID: 0}
+    - target: {fileID: 3323380601352519069, guid: 58df80d8498834bdc838433c906b5b40, type: 3}
+      propertyPath: _levelUpParticleEffect
+      value: 
+      objectReference: {fileID: 3737197392197787819, guid: f9d1685b8ac644f6b975cd2d02bac77b, type: 3}
     - target: {fileID: 4989239459153347107, guid: 58df80d8498834bdc838433c906b5b40, type: 3}
       propertyPath: _health
       value: 20
