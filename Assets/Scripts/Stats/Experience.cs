@@ -22,7 +22,7 @@ namespace RPG.Stats
         public void GainExperience(float experience)
         {
             _experiencePoints += experience;
-            OnExperienceGained();
+            OnExperienceGained?.Invoke();
         }
 
         public float GetExperiencePoints()
@@ -42,6 +42,8 @@ namespace RPG.Stats
         public void RestoreState(object state)
         {
             _experiencePoints = (float)state;
+            
+            OnExperienceGained?.Invoke(); // Update Level After Load XP
         }
         #endregion
     }

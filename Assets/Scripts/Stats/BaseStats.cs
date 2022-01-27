@@ -12,6 +12,7 @@ namespace RPG.Stats
         #endregion
 
 
+
         #region --Fields-- (In Class)
         private Experience _experience;
 
@@ -29,7 +30,7 @@ namespace RPG.Stats
             {
                 _experience.OnExperienceGained += UpdateLevel;
             }
-
+            
             _currentLevel = CalculateLevel();
         }
         #endregion
@@ -78,7 +79,6 @@ namespace RPG.Stats
             if (newLevel > _currentLevel)
             {
                 _currentLevel = newLevel;
-                print("LEVEL UP!");
             }
         }
         #endregion
