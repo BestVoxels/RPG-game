@@ -10,6 +10,8 @@ namespace RPG.Combat
         [SerializeField] private GameObject _equippedPrefab = null;
         [SerializeField] private AnimatorOverrideController _animatorOverride = null;
         [SerializeField] private float _damage = 10f;
+        [Range(0f, 100f)]
+        [SerializeField] private float _damageBonusPercentage = 0f;
         [Tooltip("How Close the character need to walk near opponent in order to deal damange.")]
         [SerializeField] private float _range = 2f;
         [SerializeField] private bool _isRightHanded = true;
@@ -29,6 +31,7 @@ namespace RPG.Combat
 
         #region --Properties-- (With Backing Fields)
         public float Damage { get { return _damage; } }
+        public float DamageBonusPercentage { get { return _damageBonusPercentage; } }
         public float Range { get { return _range; } }
         public bool HasProjectile { get { return _projectile != null; } }
         #endregion

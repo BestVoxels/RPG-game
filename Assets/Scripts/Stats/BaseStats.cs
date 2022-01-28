@@ -1,6 +1,5 @@
 using UnityEngine;
 using System;
-using System.Collections.Generic;
 
 namespace RPG.Stats
 {
@@ -12,6 +11,7 @@ namespace RPG.Stats
         [SerializeField] private CharacterType _characterType;
         [SerializeField] private Progression _progression = null;
         [SerializeField] private GameObject _levelUpParticleEffect = null;
+        [SerializeField] private bool _shouldUseModifiers = false;
         #endregion
 
 
@@ -48,11 +48,11 @@ namespace RPG.Stats
 
 
         #region --Methods-- (Custom PUBLIC)
-        public float GetHealth() => _progression.GetStat(_characterType, StatType.Health, GetLevel()) + GetAdditiveModifier(StatType.Health);
+        public float GetHealth() => GetStat(StatType.Health);
 
-        public float GetExperienceReward() => _progression.GetStat(_characterType, StatType.ExperienceReward, GetLevel()) + GetAdditiveModifier(StatType.ExperienceReward);
+        public float GetExperienceReward() => GetStat(StatType.ExperienceReward);
 
-        public float GetDamage() => _progression.GetStat(_characterType, StatType.Damage, GetLevel()) + GetAdditiveModifier(StatType.Damage);
+        public float GetDamage() => GetStat(StatType.Damage);
 
         public int GetLevel()
         {
@@ -67,22 +67,53 @@ namespace RPG.Stats
 
 
 
-        #region --Methods-- (Custom PRIVATE)
-        private float GetAdditiveModifier(StatType statType)
+        #region --Methods-- (Custom PRIVATE) ~Stats Formula~
+        private float GetStat(StatType statType)
         {
-            float total = 0f;
-
-            foreach (IModifierProvider eachProvider in GetComponents<IModifierProvider>()) // Get All Classes that Implement IModifierProvider attached on this gameObject
-            {
-                foreach (float eachModifier in eachProvider.GetAdditiveModifier(statType))
-                {
-                    total += eachModifier;
-                }
-            }
-
-            return total;
+            return ((GetBaseStat(statType) + GetAdditiveModifier(statType)) * (100f + GetPercentageModifier(statType))) / 100f; // +100f cuz we want on top of the Damage we currently have
         }
 
+        private float GetBaseStat(StatType statType)
+        {
+            return _progression.GetStat(_characterType, statType, GetLevel());
+        }
+
+        private float GetAdditiveModifier(StatType statType)
+        {
+            if (!_shouldUseModifiers) return 0f;
+
+            float totalAdditive = 0f;
+            foreach (IModifierProvider eachProvider in GetComponents<IModifierProvider>()) // Get All Classes that Implement IModifierProvider attached on this gameObject
+            {
+                foreach (float eachModifier in eachProvider.GetAdditiveModifiers(statType))
+                {
+                    totalAdditive += eachModifier;
+                }
+            }
+            
+            return totalAdditive;
+        }
+
+        private float GetPercentageModifier(StatType statType)
+        {
+            if (!_shouldUseModifiers) return 0f;
+
+            float totalPercentage = 0f;
+            foreach (IModifierProvider eachProvider in GetComponents<IModifierProvider>()) // Get All Classes that Implement IModifierProvider attached on this gameObject
+            {
+                foreach (float eachModifier in eachProvider.GetPercentageModifiers(statType))
+                {
+                    totalPercentage += eachModifier;
+                }
+            }
+            
+            return totalPercentage;
+        }
+        #endregion
+
+
+
+        #region --Methods-- (Custom PRIVATE) ~Level~
         private int CalculateLevel()
         {
             if (_experience == null) return _startingLevel; // Guard check for Chracter without Experience component

@@ -59,8 +59,6 @@ namespace RPG.Attributes
         #region --Methods-- (Custom PUBLIC)
         public void TakeDamage(GameObject attacker, float damage)
         {
-            print($"{gameObject.name} Took Damage : {damage}");
-
             _healthPoints = Mathf.Max(0f, _healthPoints - damage);
 
             if (_healthPoints <= 0f)
