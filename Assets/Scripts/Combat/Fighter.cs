@@ -3,6 +3,7 @@ using RPG.Core;
 using RPG.Movement;
 using RPG.Saving;
 using RPG.Attributes;
+using RPG.Stats;
 
 namespace RPG.Combat
 {
@@ -27,6 +28,7 @@ namespace RPG.Combat
         private Health _target;
         private Mover _mover;
         private Animator _animator;
+        private BaseStats _baseStats;
 
         private float _timeSinceLastAttack = Mathf.Infinity;
 
@@ -42,6 +44,7 @@ namespace RPG.Combat
 
             _mover = GetComponent<Mover>();
             _animator = GetComponent<Animator>();
+            _baseStats = GetComponent<BaseStats>();
 
             if (_currentWeapon == null) // Just to make sure this won't override Load Data but it won't anyway cuz in SavingSystem already wait for 1 frame then load
             {
@@ -138,14 +141,18 @@ namespace RPG.Combat
         {
             if (_target == null) return;
 
+            float damage = _baseStats.GetDamage();
+
             if (_currentWeapon.HasProjectile)
             {
-                _currentWeapon.LaunchProjectile(gameObject, _target);
+                _currentWeapon.LaunchProjectile(gameObject, _target, damage);
             }
             else
             {
-                _target.TakeDamage(gameObject, _currentWeapon.Damage);
+                _target.TakeDamage(gameObject, damage);
             }
+
+            // _currentWeapon.Damage
         }
 
         private void Shoot()

@@ -31,6 +31,13 @@ namespace RPG.Attributes
 
 
 
+        #region --Properties-- (With Backing Fields)
+        public float HealthPoints { get { return _healthPoints; } }
+        public float MaxHealthPoints { get { return _baseStats.GetHealth(); } }
+        #endregion
+
+
+
         #region --Methods-- (Built In)
         private void Start()
         {
@@ -52,6 +59,8 @@ namespace RPG.Attributes
         #region --Methods-- (Custom PUBLIC)
         public void TakeDamage(GameObject attacker, float damage)
         {
+            print($"{gameObject.name} Took Damage : {damage}");
+
             _healthPoints = Mathf.Max(0f, _healthPoints - damage);
 
             if (_healthPoints <= 0f)

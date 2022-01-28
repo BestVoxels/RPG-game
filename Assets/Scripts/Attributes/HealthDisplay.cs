@@ -25,7 +25,8 @@ namespace RPG.Attributes
 
         private void Update()
         {
-            _healthText.text = $"{_health.GetPercentage():N0}%";
+            _healthText.text = $"{_health.HealthPoints:N0}/{_health.MaxHealthPoints:N0}";
+            //_healthText.text = $"{_health.GetPercentage():N0}%";
         }
         #endregion
     }

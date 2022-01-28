@@ -19,16 +19,17 @@ namespace RPG.Stats
 
 
 
+        #region --Properties-- (With Backing Fields)
+        public float ExperiencePoints { get { return _experiencePoints; } private set { _experiencePoints = value; } }
+        #endregion
+
+
+
         #region --Methods-- (Custom PUBLIC)
         public void GainExperience(float experience)
         {
-            _experiencePoints += experience;
+            ExperiencePoints += experience;
             OnExperienceGained?.Invoke();
-        }
-
-        public float GetExperiencePoints()
-        {
-            return _experiencePoints;
         }
         #endregion
 
@@ -37,12 +38,12 @@ namespace RPG.Stats
         #region --Methods-- (Interface)
         public object CaptureState()
         {
-            return _experiencePoints;
+            return ExperiencePoints;
         }
 
         public void RestoreState(object state)
         {
-            _experiencePoints = (float)state;
+            ExperiencePoints = (float)state;
 
             OnExperienceLoaded?.Invoke(); // Update CurrentLevel After Load XP
         }

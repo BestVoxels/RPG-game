@@ -60,10 +60,10 @@ namespace RPG.Combat
             }
         }
 
-        public void LaunchProjectile(GameObject attacker, Health target)
+        public void LaunchProjectile(GameObject attacker, Health target, float calculatedDamage)
         {
-            Projectile projectileCloned = Instantiate(_projectile, _launcherCreated.transform.position, _launcherCreated.transform.rotation); // Create from LauncherPosition instead of using Transform as quippedWeapon because Projectile can't have parent other it's going to move according to player hand shake
-            projectileCloned.SetTarget(attacker, target, _damage);
+            Projectile projectileCloned = Instantiate(_projectile, _launcherCreated.transform.position, _launcherCreated.transform.rotation); // Create from LauncherPosition instead of using Transform as quippedWeapon because Projectile can't have parent otherwise it's going to move according to player hand shake
+            projectileCloned.SetTarget(attacker, target, calculatedDamage);
         }
         #endregion
 

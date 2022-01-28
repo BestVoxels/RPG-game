@@ -51,6 +51,8 @@ namespace RPG.Stats
 
         public float GetExperienceReward() => _progression.GetStat(_characterType, StatType.ExperienceReward, GetLevel());
 
+        public float GetDamage() => _progression.GetStat(_characterType, StatType.Damage, GetLevel());
+
         public int GetLevel()
         {
             if (_currentLevel < 1) // Initialized CurrentLevel first before using it, incase it not yet initialized
@@ -66,7 +68,7 @@ namespace RPG.Stats
             if (_experience == null) return _startingLevel; // Guard check for Chracter without Experience component
 
             int newLevel = _startingLevel;
-            float currentXP = _experience.GetExperiencePoints();
+            float currentXP = _experience.ExperiencePoints;
             float maxLevel = _progression.GetLevelsLength(_characterType, StatType.ExperienceToLevelUp);
 
             for (int level = 1; level <= maxLevel; level++)

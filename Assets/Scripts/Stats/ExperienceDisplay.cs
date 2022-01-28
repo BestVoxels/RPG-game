@@ -25,7 +25,7 @@ namespace RPG.Stats
 
         private void Update()
         {
-            _experienceText.text = $"{_experience.GetExperiencePoints()}";
+            _experienceText.text = $"{_experience.ExperiencePoints}";
         }
         #endregion
     }
