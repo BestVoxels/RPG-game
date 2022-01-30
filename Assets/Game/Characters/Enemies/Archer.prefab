@@ -91,7 +91,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Archer
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2218599637383506606, guid: 58df80d8498834bdc838433c906b5b40, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 58df80d8498834bdc838433c906b5b40, type: 3}
 --- !u!1 &7309124461365018960 stripped
 GameObject:
