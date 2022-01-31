@@ -7,16 +7,6 @@ namespace RPG.Control
 {
     public class PlayerController : MonoBehaviour
     {
-        private enum CursorType
-        {
-            None,
-            Movement,
-            Combat,
-            UI
-        }
-
-
-
         #region --Fields-- (Inspector)
         [SerializeField] private CursorMapping[] _cursorMappings = null;
         #endregion
@@ -80,7 +70,7 @@ namespace RPG.Control
                 {
                     if (eachRaycastable.HandleRaycast(this))
                     {
-                        SetCursor(CursorType.Combat);
+                        SetCursor(eachRaycastable.GetCursorType());
                         return true;
                     }
                 }

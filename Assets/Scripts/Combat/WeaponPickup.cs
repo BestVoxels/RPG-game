@@ -63,6 +63,11 @@ namespace RPG.Combat
 
 
         #region --Methods-- (Interface)
+        CursorType IRaycastable.GetCursorType()
+        {
+            return CursorType.Pickup;
+        }
+
         bool IRaycastable.HandleRaycast(PlayerController playerController)
         {
             if (Input.GetMouseButtonDown(0))
