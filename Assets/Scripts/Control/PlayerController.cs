@@ -2,6 +2,7 @@ using UnityEngine;
 using RPG.Movement;
 using RPG.Attributes;
 using UnityEngine.EventSystems;
+using System;
 
 namespace RPG.Control
 {
@@ -47,7 +48,7 @@ namespace RPG.Control
 
 
 
-        #region --Methods-- (Custom PRIVATE)
+        #region --Methods-- (Custom PRIVATE) ~Raycast Stuff~
         private bool InteractWithUI()
         {
             if (EventSystem.current.IsPointerOverGameObject())
@@ -61,8 +62,8 @@ namespace RPG.Control
 
         private bool InteractWithComponent()
         {
-            // Draw the ray GET ALL, WON'T GET BLOCK
-            RaycastHit[] hitsInfo = Physics.RaycastAll(GetMouseRay());
+            // Draw the ray GET ALL, WON'T GET BLOCK & SORTED with Hit Distance
+            RaycastHit[] hitsInfo = RaycastAllSorted();
 
             foreach (RaycastHit eachHit in hitsInfo)
             {
@@ -95,6 +96,21 @@ namespace RPG.Control
         }
 
         private Ray GetMouseRay() => _camera.ScreenPointToRay(Input.mousePosition); // get ray direction from camera to a screen point
+
+        private RaycastHit[] RaycastAllSorted()
+        {
+            RaycastHit[] hits = Physics.RaycastAll(GetMouseRay());
+
+            float[] distances = new float[hits.Length];
+            for (int i = 0; i < distances.Length; i++)
+            {
+                distances[i] = hits[i].distance;
+            }
+
+            Array.Sort(distances, hits);
+
+            return hits;
+        }
         #endregion
 
 
