@@ -1,6 +1,5 @@
 using UnityEngine;
 using RPG.Movement;
-using RPG.Combat;
 using RPG.Attributes;
 using UnityEngine.EventSystems;
 
@@ -27,7 +26,6 @@ namespace RPG.Control
         #region --Fields-- (In Class)
         private Camera _camera;
         private Mover _mover;
-        private Fighter _fighter;
         private Health _health;
         #endregion
 
@@ -38,7 +36,6 @@ namespace RPG.Control
         {
             _camera = Camera.main;
             _mover = GetComponent<Mover>();
-            _fighter = GetComponent<Fighter>();
             _health = GetComponent<Health>();
         }
 
@@ -51,7 +48,7 @@ namespace RPG.Control
                 return;
             }
 
-            if (InteractWithCombat()) return;
+            if (InteractWithComponent()) return;
             if (InteractWithMovement()) return;
 
             SetCursor(CursorType.None);
@@ -72,24 +69,21 @@ namespace RPG.Control
             return false;
         }
 
-        private bool InteractWithCombat()
+        private bool InteractWithComponent()
         {
             // Draw the ray GET ALL, WON'T GET BLOCK
             RaycastHit[] hitsInfo = Physics.RaycastAll(GetMouseRay());
 
-            foreach (RaycastHit each in hitsInfo)
+            foreach (RaycastHit eachHit in hitsInfo)
             {
-                CombatTarget combatTarget = each.transform.GetComponent<CombatTarget>();
-                if (combatTarget == null) continue;
-                if (!_fighter.CanAttack(combatTarget.gameObject)) continue;
-
-                if (Input.GetMouseButton(0))
+                foreach (IRaycastable eachRaycastable in eachHit.transform.GetComponents<IRaycastable>())
                 {
-                    _fighter.Attack(combatTarget.gameObject);
+                    if (eachRaycastable.HandleRaycast(this))
+                    {
+                        SetCursor(CursorType.Combat);
+                        return true;
+                    }
                 }
-
-                SetCursor(CursorType.Combat);
-                return true;
             }
             return false;
         }
@@ -111,7 +105,11 @@ namespace RPG.Control
         }
 
         private Ray GetMouseRay() => _camera.ScreenPointToRay(Input.mousePosition); // get ray direction from camera to a screen point
+        #endregion
 
+
+
+        #region --Methods-- (Custom PRIVATE) ~Cursor Stuff~
         private void SetCursor(CursorType cursorType)
         {
             CursorMapping mapping = GetCursorMapping(cursorType);
