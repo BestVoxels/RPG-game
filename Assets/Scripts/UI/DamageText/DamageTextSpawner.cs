@@ -13,7 +13,8 @@ namespace RPG.UI.DamageText
         #region --Methods-- (Custom PUBLIC)
         public void Spawn(float damageAmount)
         {
-            DamageText instance = Instantiate<DamageText>(_damageTextPrefab, transform);
+            DamageText damageText = Instantiate<DamageText>(_damageTextPrefab, transform);
+            damageText.text = $"{damageAmount}";
         }
         #endregion
     }
