@@ -10,17 +10,8 @@ namespace RPG.UI.DamageText
 
 
 
-        #region --Methods-- (Built In)
-        private void Start()
-        {
-            Spawn(1f);
-        }
-        #endregion
-
-
-
-        #region --Methods-- (Custom PRIVATE)
-        private void Spawn(float damageAmount)
+        #region --Methods-- (Custom PUBLIC)
+        public void Spawn(float damageAmount)
         {
             DamageText instance = Instantiate<DamageText>(_damageTextPrefab, transform);
         }

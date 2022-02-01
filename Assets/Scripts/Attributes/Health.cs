@@ -3,6 +3,7 @@ using RPG.Saving;
 using RPG.Stats;
 using RPG.Core;
 using BestVoxels.Utils;
+using UnityEngine.Events;
 
 namespace RPG.Attributes
 {
@@ -11,6 +12,12 @@ namespace RPG.Attributes
         #region --Fields-- (Inspector)
         [Range(1f, 100f)]
         [SerializeField] private float _healthRegneratePercentage = 70f;
+        #endregion
+
+
+
+        #region --Events-- (UnityEvent)
+        [SerializeField] private UnityEvent _onTakeDamage = null;
         #endregion
 
 
@@ -75,6 +82,10 @@ namespace RPG.Attributes
                 DeathBehaviour();
 
                 AwardExperience(attacker);
+            }
+            else
+            {
+                _onTakeDamage?.Invoke();
             }
         }
 
