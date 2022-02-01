@@ -1,4 +1,5 @@
 using UnityEngine;
+using RPG.Attributes;
 
 namespace RPG.UI.DamageText
 {
@@ -10,8 +11,33 @@ namespace RPG.UI.DamageText
 
 
 
-        #region --Methods-- (Custom PUBLIC)
-        public void Spawn(float damageAmount)
+        #region --Fields-- (In Class)
+        private Health _health;
+        #endregion
+
+
+
+        #region --Methods-- (Built In)
+        private void Awake()
+        {
+            _health = GetComponentInParent<Health>();
+        }
+
+        private void OnEnable()
+        {
+            _health.OnTakeDamage += Spawn;
+        }
+
+        private void OnDisable()
+        {
+            _health.OnTakeDamage -= Spawn;
+        }
+        #endregion
+
+
+
+        #region --Methods-- (Subscriber)
+        private void Spawn(float damageAmount)
         {
             DamageText damageText = Instantiate<DamageText>(_damageTextPrefab, transform);
             damageText.text = $"{damageAmount}";

@@ -3,7 +3,7 @@ using RPG.Saving;
 using RPG.Stats;
 using RPG.Core;
 using BestVoxels.Utils;
-using UnityEngine.Events;
+using System;
 
 namespace RPG.Attributes
 {
@@ -16,8 +16,8 @@ namespace RPG.Attributes
 
 
 
-        #region --Events-- (UnityEvent)
-        [SerializeField] private UnityEvent _onTakeDamage = null;
+        #region --Events-- (Delegate as Action)
+        public event Action<float> OnTakeDamage;
         #endregion
 
 
@@ -85,7 +85,7 @@ namespace RPG.Attributes
             }
             else
             {
-                _onTakeDamage?.Invoke();
+                OnTakeDamage?.Invoke(damage);
             }
         }
 
