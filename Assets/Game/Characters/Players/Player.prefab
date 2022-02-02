@@ -59,6 +59,14 @@ PrefabInstance:
       propertyPath: _levelUpParticleEffect
       value: 
       objectReference: {fileID: 3737197392197787819, guid: 9dc74d77558e34db981fae812b85b175, type: 3}
+    - target: {fileID: 3923784625103370523, guid: 58df80d8498834bdc838433c906b5b40, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3923784625103370523, guid: 58df80d8498834bdc838433c906b5b40, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 3.9
+      objectReference: {fileID: 0}
     - target: {fileID: 4405796285840990637, guid: 58df80d8498834bdc838433c906b5b40, type: 3}
       propertyPath: uniqueIdentifier
       value: player
