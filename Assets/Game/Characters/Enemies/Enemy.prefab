@@ -241,6 +241,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3098491048096653987}
     m_Modifications:
+    - target: {fileID: 4568392359285853605, guid: 7c5ee5a3fffee4e19b365cc07b79ff31, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4568392359285853605, guid: 7c5ee5a3fffee4e19b365cc07b79ff31, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7298822161047772739, guid: 7c5ee5a3fffee4e19b365cc07b79ff31, type: 3}
       propertyPath: m_Name
       value: Health Bar

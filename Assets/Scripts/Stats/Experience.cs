@@ -45,7 +45,7 @@ namespace RPG.Stats
         {
             ExperiencePoints = (float)state;
 
-            OnExperienceLoaded?.Invoke(); // Update CurrentLevel After Load XP
+            OnExperienceLoaded?.Invoke(); // Update HUD
         }
         #endregion
     }

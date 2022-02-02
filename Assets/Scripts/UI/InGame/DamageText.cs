@@ -1,7 +1,7 @@
 using UnityEngine;
 using TMPro;
 
-namespace RPG.UI.DamageText
+namespace RPG.UI.InGame
 {
     public class DamageText : MonoBehaviour
     {

@@ -19,6 +19,7 @@ namespace RPG.Stats
 
         #region --Events-- (Delegate as Action)
         public event Action OnLevelUp;
+        public event Action OnLevelChanged;
         #endregion
 
 
@@ -35,7 +36,7 @@ namespace RPG.Stats
         private void Awake()
         {
             _experience = GetComponent<Experience>();
-
+            
             _currentLevel = new AutoInit<int>(GetInitialCurrentLevel);
         }
 
@@ -43,8 +44,8 @@ namespace RPG.Stats
         {
             if (_experience != null)
             {
-                _experience.OnExperienceGained += UpdateLevel;
                 _experience.OnExperienceLoaded += RefreshCurrentLevel;
+                _experience.OnExperienceGained += UpdateLevel;
             }
         }
 
@@ -57,8 +58,8 @@ namespace RPG.Stats
         {
             if (_experience != null)
             {
-                _experience.OnExperienceGained -= UpdateLevel;
                 _experience.OnExperienceLoaded -= RefreshCurrentLevel;
+                _experience.OnExperienceGained -= UpdateLevel;
             }
         }
         #endregion
@@ -161,12 +162,16 @@ namespace RPG.Stats
 
                 OnLevelUp?.Invoke();
                 LevelUpEffect();
+
+                OnLevelChanged?.Invoke();
             }
         }
 
         private void RefreshCurrentLevel()
         {
             _currentLevel.value = CalculateLevel();
+
+            OnLevelChanged?.Invoke();
         }
         #endregion
     }

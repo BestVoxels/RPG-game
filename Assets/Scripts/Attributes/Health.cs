@@ -18,6 +18,7 @@ namespace RPG.Attributes
 
         #region --Events-- (Delegate as Action)
         public event Action<float> OnTakeDamage;
+        public event Action OnHealthChanged;
         #endregion
 
 
@@ -26,14 +27,14 @@ namespace RPG.Attributes
         private ActionScheduler _actionScheduler;
 
         private Animator _animator;
-        private BaseStats _baseStats;        
+        private BaseStats _baseStats;
         #endregion
 
 
 
         #region --Properties-- (Auto)
-        public bool IsDead { get; private set; } = false;
         public AutoInit<float> HealthPoints { get; private set; }
+        public bool IsDead { get; private set; } = false;
         #endregion
 
 
@@ -83,17 +84,19 @@ namespace RPG.Attributes
 
                 AwardExperience(attacker);
             }
-            else
-            {
-                OnTakeDamage?.Invoke(damage);
-            }
+
+            OnTakeDamage?.Invoke(damage);
+            OnHealthChanged?.Invoke();
         }
 
         public float GetPercentage()
         {
-            // Add GetHealth() Differences l.1 vs l.2 diff is 30 then add 30 to healthPoints
+            return GetPercentageDecimal() * 100f;
+        }
 
-            return Mathf.InverseLerp(0f, _baseStats.GetHealth(), HealthPoints.value) * 100f;
+        public float GetPercentageDecimal()
+        {
+            return Mathf.InverseLerp(0f, _baseStats.GetHealth(), HealthPoints.value);
         }
         #endregion
 
@@ -129,6 +132,8 @@ namespace RPG.Attributes
         {
             float regenHealthPoints = (_baseStats.GetHealth() * _healthRegneratePercentage) / 100f;
             HealthPoints.value = Mathf.Max(HealthPoints.value, regenHealthPoints);
+
+            OnHealthChanged?.Invoke();
         }
         #endregion
 
@@ -148,6 +153,8 @@ namespace RPG.Attributes
             {
                 DeathBehaviour();
             }
+
+            OnHealthChanged?.Invoke();
         }
         #endregion
     }

@@ -1,8 +1,9 @@
 using UnityEngine;
 using TMPro;
 using RPG.Attributes;
+using RPG.Combat;
 
-namespace RPG.Combat
+namespace RPG.UI.HUD
 {
     public class EnemyHealthDisplay : MonoBehaviour
     {
@@ -27,6 +28,7 @@ namespace RPG.Combat
 
         private void Update()
         {
+            // This work different from other Display so didn't use Action since it get updated based on when player Point to the Enemy
             _enemyHealth = _playerFighter.GetTarget();
 
             if (_enemyHealth == null)

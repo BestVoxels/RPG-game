@@ -1,7 +1,8 @@
 using UnityEngine;
 using TMPro;
+using RPG.Stats;
 
-namespace RPG.Stats
+namespace RPG.UI.HUD
 {
     public class LevelDisplay : MonoBehaviour
     {
@@ -23,7 +24,26 @@ namespace RPG.Stats
             _baseStats = GameObject.FindWithTag("Player").GetComponent<BaseStats>();
         }
 
-        private void Update()
+        private void OnEnable()
+        {
+            _baseStats.OnLevelChanged += UpdateLevelDisplay;
+        }
+
+        private void Start()
+        {
+            UpdateLevelDisplay();
+        }
+
+        private void OnDisable()
+        {
+            _baseStats.OnLevelChanged -= UpdateLevelDisplay;
+        }
+        #endregion
+
+
+
+        #region --Methods-- (Subscriber)
+        private void UpdateLevelDisplay()
         {
             _levelText.text = $"{_baseStats.GetLevel()}";
         }
