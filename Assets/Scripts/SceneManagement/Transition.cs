@@ -43,66 +43,20 @@ namespace RPG.SceneManagement
 
 
         #region --Methods-- (Custom PUBLIC) ~Transitions~
-        public IEnumerator StartTransition(Types types, float transitioningSpeed)
+        public Coroutine StartTransition(Types types, float transitioningSpeed)
         {
-            int index = 0;
-            switch (types)
-            {
-                case Types.Fade:
-                    index = 0;
-                    break;
+            _animators[GetIndex(types)].speed = transitioningSpeed;
+            _animators[GetIndex(types)].Play("Transition Start", -1, 0f);
 
-                case Types.CircleWipe:
-                    index = 1;
-                    break;
-            }
-
-            _animators[index].speed = transitioningSpeed;
-            _animators[index].Play("Transition Start", -1, 0f);
-
-            // While Animation Clip is still the OLD one, wait for it to get update
-            while (!_animators[index].GetCurrentAnimatorStateInfo(0).IsName("Transition Start"))
-            {
-                yield return null;
-            }
-
-            // Wait for New Animation Clip to play until it ends
-            while (_animators[index].GetCurrentAnimatorStateInfo(0).IsName("Transition Start") &&
-                _animators[index].GetCurrentAnimatorStateInfo(0).normalizedTime < 1f)
-            {
-                yield return null;
-            }
+            return StartCoroutine(WaitForClipFinished(_animators[GetIndex(types)], "Transition Start"));
         }
 
-        public IEnumerator EndTransition(Types types, float transitioningSpeed)
+        public Coroutine EndTransition(Types types, float transitioningSpeed)
         {
-            int index = 0;
-            switch (types)
-            {
-                case Types.Fade:
-                    index = 0;
-                    break;
+            _animators[GetIndex(types)].speed = transitioningSpeed;
+            _animators[GetIndex(types)].Play("Transition End", -1, 0f);
 
-                case Types.CircleWipe:
-                    index = 1;
-                    break;
-            }
-
-            _animators[index].speed = transitioningSpeed;
-            _animators[index].Play("Transition End", -1, 0f);
-
-            // While Animation Clip is still the OLD one, wait for it to get update
-            while (!_animators[index].GetCurrentAnimatorStateInfo(0).IsName("Transition End"))
-            {
-                yield return null;
-            }
-
-            // Wait for New Animation Clip to play until it ends
-            while (_animators[index].GetCurrentAnimatorStateInfo(0).IsName("Transition End") &&
-                _animators[index].GetCurrentAnimatorStateInfo(0).normalizedTime < 1f)
-            {
-                yield return null;
-            }
+            return StartCoroutine(WaitForClipFinished(_animators[GetIndex(types)], "Transition End"));
         }
 
         public IEnumerator LoadAsynchronously(int sceneIndexToLoad)
@@ -128,41 +82,56 @@ namespace RPG.SceneManagement
 
 
 
-        #region --Methods-- (Custom PRIVATE)
-        private IEnumerator OpenLoadingScreen()
+        #region --Methods-- (Custom PRIVATE) ~General~
+        private IEnumerator WaitForClipFinished(Animator animator, string clipName)
         {
-            _loadingScreenAnimator.Play("LoadingScreen Start", -1, 0f);
-
             // While Animation Clip is still the OLD one, wait for it to get update
-            while (!_loadingScreenAnimator.GetCurrentAnimatorStateInfo(0).IsName("LoadingScreen Start"))
+            while (!animator.GetCurrentAnimatorStateInfo(0).IsName(clipName))
             {
                 yield return null;
             }
 
             // Wait for New Animation Clip to play until it ends
-            while (_loadingScreenAnimator.GetCurrentAnimatorStateInfo(0).IsName("LoadingScreen Start") &&
-                _loadingScreenAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f)
+            while (animator.GetCurrentAnimatorStateInfo(0).IsName(clipName) && animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f)
             {
                 yield return null;
             }
+        }
+
+        private int GetIndex(Types types)
+        {
+            int index = 0;
+
+            switch (types)
+            {
+                case Types.Fade:
+                    index = 0;
+                    break;
+
+                case Types.CircleWipe:
+                    index = 1;
+                    break;
+            }
+
+            return index;
+        }
+        #endregion
+
+
+
+        #region --Methods-- (Custom PRIVATE) ~Loading Screen~
+        private IEnumerator OpenLoadingScreen()
+        {
+            _loadingScreenAnimator.Play("LoadingScreen Start", -1, 0f);
+
+            yield return StartCoroutine(WaitForClipFinished(_loadingScreenAnimator, "LoadingScreen Start"));
         }
 
         private IEnumerator CloseLoadingScreen()
         {
             _loadingScreenAnimator.Play("LoadingScreen End", -1, 0f);
 
-            // While Animation Clip is still the OLD one, wait for it to get update
-            while (!_loadingScreenAnimator.GetCurrentAnimatorStateInfo(0).IsName("LoadingScreen End"))
-            {
-                yield return null;
-            }
-
-            // Wait for New Animation Clip to play until it ends
-            while (_loadingScreenAnimator.GetCurrentAnimatorStateInfo(0).IsName("LoadingScreen End") &&
-                _loadingScreenAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f)
-            {
-                yield return null;
-            }
+            yield return StartCoroutine(WaitForClipFinished(_loadingScreenAnimator, "LoadingScreen End"));
         }
 
         private void UpdateLoadingBar(float progress)

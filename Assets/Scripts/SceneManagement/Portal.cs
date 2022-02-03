@@ -56,32 +56,29 @@ namespace RPG.SceneManagement
 
             DontDestroyOnLoad(gameObject);
 
-            // Disable Player Control (player on OLD scene) BUT not cancle action cuz it looks more smooth to walk through
-            PlayerController playerController = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
-            playerController.enabled = false;
+            PlayerController playerOnOldScene = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
+            playerOnOldScene.enabled = false;
 
-            // StartingTransition
+            // Wait until StartTransition DONE
             yield return Transition.Instance.StartTransition(_transitionType, _startTransitionSpeed);
-
+            
             SavingWrapper.Instance.Save();
 
-            // StartLoadingLevel Once Transition is Done
+            // Wait until LoadScene DONE
             yield return Transition.Instance.LoadAsynchronously(_sceneIndexToLoad);
-            // Disable Player Control (player on NEW scene)
-            PlayerController newPlayerController = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
-            newPlayerController.enabled = false;
+                        
+            PlayerController playerOnNEWScene = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
+            playerOnNEWScene.enabled = false;
 
             SavingWrapper.Instance.Load();
-
             Portal otherPortal = GetOtherPortal();
             UpdatePlayer(otherPortal);
-
             SavingWrapper.Instance.Save();
 
-            // EndingTransition Once Level is Loaded
-            yield return Transition.Instance.EndTransition(_transitionType, _endTransitionSpeed);
-            // Enable Player Control (player on NEW scene)
-            newPlayerController.enabled = true;
+            // DON'T Wait for EndTransition, so player won't be freeze BUT we can't enable it before this CUZ player might walk into portal again
+            Transition.Instance.EndTransition(_transitionType, _endTransitionSpeed);
+
+            playerOnNEWScene.enabled = true;
             
             Destroy(gameObject);
         }
