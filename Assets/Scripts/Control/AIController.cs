@@ -12,6 +12,7 @@ namespace RPG.Control
         #region --Fields-- (Inspector)
         [SerializeField] private float _chaseDistance = 5f;
         [SerializeField] private float _suspicionTime = 5f;
+        [SerializeField] private float _aggravateCoolDownTime = 8f;
 
         [Header("Patrol")]
         [SerializeField] private PatrolPath _patrolPath;
@@ -43,6 +44,7 @@ namespace RPG.Control
         private float _timeSinceLastSawPlayer = Mathf.Infinity;
         private int _currentWaypointIndex = 0;
         private float _timeSinceArrivedAtWaypoint = Mathf.Infinity;
+        private float _timeSinceAggravated = Mathf.Infinity;
         #endregion
 
 
@@ -71,7 +73,7 @@ namespace RPG.Control
         {
             if (_health.IsDead) return;
 
-            if (IsInChaseRange() && _fighter.CanAttack(_player.gameObject))
+            if (IsAggravated() && _fighter.CanAttack(_player.gameObject))
             {
                 AttackBehaviour();
             }
@@ -96,11 +98,21 @@ namespace RPG.Control
 
 
 
+        #region --Methods-- (Custom PUBLIC)
+        public void Aggravate()
+        {
+            _timeSinceAggravated = 0f;
+        }
+        #endregion
+
+
+
         #region --Methods-- (Custom PRIVATE)
         private void UpdateTimers()
         {
             _timeSinceLastSawPlayer += Time.deltaTime;
             _timeSinceArrivedAtWaypoint += Time.deltaTime;
+            _timeSinceAggravated += Time.deltaTime;
         }
 
         private void AttackBehaviour()
@@ -139,6 +151,13 @@ namespace RPG.Control
             }
         }
 
+        private bool IsAggravated()
+        {
+            float distanceToPlayer = Vector3.Distance(transform.position, _player.position);
+
+            return distanceToPlayer < _chaseDistance || _timeSinceAggravated < _aggravateCoolDownTime;
+        }
+
         private bool AtWaypoint() => Vector3.Distance(transform.position, GetCurrentWaypoint()) < _waypointReachDistance;
 
         private void CycleWaypoint() => _currentWaypointIndex = _patrolPath.GetNextIndex(_currentWaypointIndex); // SAVE CurrentWaypointIndex for enemy to continue follow
@@ -146,9 +165,6 @@ namespace RPG.Control
         private Vector3 GetCurrentWaypoint() => _patrolPath.GetWaypoint(_currentWaypointIndex);
 
         private bool AtGuardPosition() => Vector3.Distance(transform.position, _guardPosition.value) < _guardReachDistance && _patrolPath == null;
-
-
-        private bool IsInChaseRange() => Vector3.Distance(transform.position, _player.position) < _chaseDistance;
         #endregion
 
 
