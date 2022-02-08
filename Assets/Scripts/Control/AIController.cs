@@ -12,8 +12,12 @@ namespace RPG.Control
         #region --Fields-- (Inspector)
         [SerializeField] private float _chaseDistance = 5f;
         [SerializeField] private float _suspicionTime = 5f;
+        [Tooltip("This has no effect on isPositionFixed euqal 'true' like shooting unit BUT don't set it to 0 because it will shout rapidly")]
         [SerializeField] private float _aggravateCoolDownTime = 8f;
         [SerializeField] private float _shoutDistance = 6f;
+        [Space]
+        [Tooltip("This is for Shooting Unit, unlike Guard this box means it won't chase player. TODO Tick This Box & set ChaseDistance SAME AS WeaponRange that the Enemy Equip")]
+        [SerializeField] private bool _isPositionFixed = false;
 
         [Header("Patrol")]
         [SerializeField] private PatrolPath _patrolPath;
@@ -46,8 +50,7 @@ namespace RPG.Control
         private int _currentWaypointIndex = 0;
         private float _timeSinceArrivedAtWaypoint = Mathf.Infinity;
         private float _timeSinceAggravated = Mathf.Infinity;
-        private AIController _aggravateCaller = null;
-        private bool _canAggravate = true;
+        private bool _canShout = true;
         #endregion
 
 
@@ -102,12 +105,9 @@ namespace RPG.Control
 
 
         #region --Methods-- (Custom PUBLIC)
-        public void Aggravate(AIController caller)
+        public void Aggravate()
         {
             _timeSinceAggravated = 0f;
-            _aggravateCaller = caller;
-            _canAggravate = true;
-            print(caller);
         }
         #endregion
 
@@ -121,7 +121,7 @@ namespace RPG.Control
             _timeSinceAggravated += Time.deltaTime;
 
             if (_timeSinceAggravated >= _aggravateCoolDownTime)
-                _canAggravate = true;
+                _canShout = true;
         }
 
         private void AttackBehaviour()
@@ -129,10 +129,10 @@ namespace RPG.Control
             _timeSinceLastSawPlayer = 0f;
             _fighter.Attack(_player.gameObject);
 
-            if (_canAggravate)
+            if (_canShout)
             {
                 AggravateNearbyEnemies();
-                _canAggravate = false;
+                _canShout = false;
             }
         }
 
@@ -170,24 +170,36 @@ namespace RPG.Control
         {
             float distanceToPlayer = Vector3.Distance(transform.position, _player.position);
 
-            return distanceToPlayer < _chaseDistance || _timeSinceAggravated < _aggravateCoolDownTime;
+            if (distanceToPlayer < _chaseDistance)
+            {
+                _timeSinceAggravated = 0f;
+                return true;
+            }
+            else if (_isPositionFixed && _canShout == false)
+            {
+                _canShout = true;
+            }
+
+            if (_timeSinceAggravated < _aggravateCoolDownTime && !_isPositionFixed)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         private void AggravateNearbyEnemies()
         {
             RaycastHit[] hits = Physics.SphereCastAll(transform.position, _shoutDistance, Vector3.up, 0f);
 
-            print(transform.name + " STARTED");
-            print(transform.name + hits.Length);
             foreach (RaycastHit eachHit in hits)
             {
                 
                 AIController otherAI = eachHit.transform.GetComponent<AIController>();
-                if (otherAI == null || otherAI == _aggravateCaller || otherAI == this) continue;
-                print(transform.name + " Activate : " + eachHit.transform.name);
-                otherAI.Aggravate(this);
+                if (otherAI == null || otherAI == this) continue; // It will also Detect itself so check with 'this'
+
+                otherAI.Aggravate();
             }
-            print(transform.name + " ENDED");
         }
 
         private bool AtWaypoint() => Vector3.Distance(transform.position, GetCurrentWaypoint()) < _waypointReachDistance;
