@@ -8,8 +8,19 @@ using RPG.SceneManagement;
 
 namespace RPG.Saving
 {
+    /// <summary>
+    /// This component provides the interface to the saving system. It provides
+    /// methods to save and restore a scene.
+    ///
+    /// This component should be created once and shared between all subsequent scenes.
+    /// </summary>
     public class SavingSystem : MonoBehaviour
     {
+        /// <summary>
+        /// Will load the last scene that was saved and restore the state. This
+        /// must be run as a coroutine.
+        /// </summary>
+        /// <param name="saveFile">The save file to consult for loading.</param>
         public IEnumerator LoadLastScene(string saveFile)
         {
             Dictionary<string, object> state = LoadFile(saveFile);
@@ -18,15 +29,18 @@ namespace RPG.Saving
             {
                 buildIndex = (int)state["lastSceneBuildIndex"];
             }
-            
+
             //yield return SceneManager.LoadSceneAsync(buildIndex); // IF call this in Awake() this Line Completed after all Awake() but before all Start()
             yield return Transition.Instance.LoadAsynchronously(buildIndex); // This one will be called after Awake() & Start() because we aren't doing 'yield return' with LoadSceneAsync so the time is not pause
-            
+
             yield return null; // make sure that all others scripts initialize properly first, before load data
 
             RestoreState(state);
         }
 
+        /// <summary>
+        /// Save the current scene to the provided save file.
+        /// </summary>
         public void Save(string saveFile)
         {
             Dictionary<string, object> state = LoadFile(saveFile);
@@ -34,15 +48,23 @@ namespace RPG.Saving
             SaveFile(saveFile, state);
         }
 
+        /// <summary>
+        /// Delete the state in the given save file.
+        /// </summary>
+        public void Delete(string saveFile)
+        {
+            File.Delete(GetPathFromSaveFile(saveFile));
+        }
+
+        /// <summary>
+        /// Load the state in the given save file.
+        /// </summary>
         public void Load(string saveFile)
         {
             RestoreState(LoadFile(saveFile));
         }
 
-        public void Delete(string saveFile)
-        {
-            File.Delete(GetPathFromSaveFile(saveFile));
-        }
+        // PRIVATE
 
         private Dictionary<string, object> LoadFile(string saveFile)
         {

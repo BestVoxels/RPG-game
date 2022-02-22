@@ -3,7 +3,7 @@ using RPG.Combat;
 using RPG.Core;
 using RPG.Movement;
 using RPG.Attributes;
-using BestVoxels.Utils;
+using RPG.Utils;
 
 namespace RPG.Control
 {

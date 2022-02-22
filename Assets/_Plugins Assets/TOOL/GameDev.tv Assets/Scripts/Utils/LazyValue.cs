@@ -1,10 +1,10 @@
-﻿namespace BestVoxels.Utils
+﻿namespace GameDevTV.Utils
 {
     /// <summary>
     /// Container class that wraps a value and ensures initialisation is 
     /// called just before first use.
     /// </summary>
-    public class AutoInit<T>
+    public class LazyValue<T>
     {
         private T _value;
         private bool _initialized = false;
@@ -18,7 +18,7 @@
         /// <param name="initializer"> 
         /// The initialiser delegate to call when first used. 
         /// </param>
-        public AutoInit(InitializerDelegate initializer)
+        public LazyValue(InitializerDelegate initializer)
         {
             _initializer = initializer;
         }

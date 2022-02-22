@@ -4,10 +4,26 @@ using UnityEngine;
 
 namespace RPG.Saving
 {
+    /// <summary>
+    /// To be placed on any GameObject that has ISaveable components that
+    /// require saving.
+    ///
+    /// This class gives the GameObject a unique ID in the scene file. The ID is
+    /// used for saving and restoring the state related to this GameObject. This
+    /// ID can be manually override to link GameObjects between scenes (such as
+    /// recurring characters, the player or a score board). Take care not to set
+    /// this in a prefab unless you want to link all instances between scenes.
+    /// </summary>
     [ExecuteAlways]
     public class SaveableEntity : MonoBehaviour
     {
+        // CONFIG DATA
+        [Tooltip("The unique ID is automatically generated in a scene file if " +
+        "left empty. Do not set in a prefab unless you want all instances to " +
+        "be linked.")]
         [SerializeField] string uniqueIdentifier = "";
+
+        // CACHED STATE
         static Dictionary<string, SaveableEntity> globalLookup = new Dictionary<string, SaveableEntity>();
 
         public string GetUniqueIdentifier()
@@ -15,6 +31,11 @@ namespace RPG.Saving
             return uniqueIdentifier;
         }
 
+        /// <summary>
+        /// Will capture the state of all `ISaveables` on this component and
+        /// return a `System.Serializable` object that can restore this state
+        /// later.
+        /// </summary>
         public object CaptureState()
         {
             Dictionary<string, object> state = new Dictionary<string, object>();
@@ -25,6 +46,12 @@ namespace RPG.Saving
             return state;
         }
 
+        /// <summary>
+        /// Will restore the state that was captured by `CaptureState`.
+        /// </summary>
+        /// <param name="state">
+        /// The same object that was returned by `CaptureState`.
+        /// </param>
         public void RestoreState(object state)
         {
             Dictionary<string, object> stateDict = (Dictionary<string, object>)state;
@@ -38,14 +65,18 @@ namespace RPG.Saving
             }
         }
 
+        // PRIVATE
+
 #if UNITY_EDITOR
-        private void Update() {
+        private void Update()
+        {
             if (Application.IsPlaying(gameObject)) return;
             if (string.IsNullOrEmpty(gameObject.scene.path)) return; // For not generating when in Prefab Window Mode
 
+
             SerializedObject serializedObject = new SerializedObject(this); // Use SerializedObject to change the value serialized to a scene file or prefab we should instead of modify directly because this way we can make sure that it get saved to the scene file Instead of in Unity Scene Memory which is just cache and will be gone when close and open program.
             SerializedProperty property = serializedObject.FindProperty("uniqueIdentifier");
-            
+
             if (string.IsNullOrEmpty(property.stringValue) || !IsUnique(property.stringValue)) // !IsUnique() is when duplicate gameObject in scene it should generate new one
             {
                 property.stringValue = System.Guid.NewGuid().ToString();

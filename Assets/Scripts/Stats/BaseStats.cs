@@ -1,6 +1,6 @@
 using UnityEngine;
 using System;
-using BestVoxels.Utils;
+using RPG.Utils;
 
 namespace RPG.Stats
 {
