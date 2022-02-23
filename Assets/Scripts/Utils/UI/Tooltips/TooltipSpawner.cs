@@ -96,6 +96,12 @@ namespace GameDevTV.Core.UI.Tooltips
 
         void IPointerExitHandler.OnPointerExit(PointerEventData eventData)
         {
+            Vector3[] slotCorners = new Vector3[4];
+            GetComponent<RectTransform>().GetWorldCorners(slotCorners); // Initialize with four Corners of this UI gameObject. Start Clockwise from bottom left, top left, top right, bottom right
+
+            Rect rect = new Rect(slotCorners[0], slotCorners[2] - slotCorners[0]); // Position of minimum corner, Width and Height
+            if (rect.Contains(eventData.position)) return;
+
             ClearTooltip();
         }
 
