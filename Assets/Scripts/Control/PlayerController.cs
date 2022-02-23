@@ -25,6 +25,8 @@ namespace RPG.Control
         private Camera _camera;
         private Mover _mover;
         private Health _health;
+
+        private bool _isDraggingUI = false;
         #endregion
 
 
@@ -58,9 +60,24 @@ namespace RPG.Control
         #region --Methods-- (Custom PRIVATE) ~Raycast Stuff~
         private bool InteractWithUI()
         {
+            if (Input.GetMouseButtonUp(0))
+            {
+                _isDraggingUI = false;
+            }
+
             if (EventSystem.current.IsPointerOverGameObject())
             {
+                if (Input.GetMouseButtonDown(0))
+                {
+                    _isDraggingUI = true;
+                }
+
                 SetCursor(CursorType.UI);
+                return true;
+            }
+
+            if (_isDraggingUI)
+            {
                 return true;
             }
 
