@@ -1,8 +1,8 @@
 using UnityEngine;
-using GameDevTV.Inventories;
 using System.Collections.Generic;
+using RPG.Stats;
 
-namespace RPG.Stats
+namespace GameDevTV.Inventories.Enhancement
 {
     [CreateAssetMenu(menuName = "RPG/Inventory Item/Stats Equipable Item")]
     public class StatsEquipableItem : EquipableItem, IModifierProvider
