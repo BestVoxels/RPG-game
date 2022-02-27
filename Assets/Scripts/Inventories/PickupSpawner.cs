@@ -13,6 +13,14 @@ namespace GameDevTV.Inventories
         [SerializeField] InventoryItem item = null;
         [SerializeField] int number = 1;
 
+
+
+        #region --Fields-- (In Class)
+        private bool _isCollectedSave = false;
+        #endregion
+
+
+
         // LIFECYCLE METHODS
         private void Awake()
         {
@@ -57,19 +65,19 @@ namespace GameDevTV.Inventories
 
         object ISaveable.CaptureState()
         {
-            return isCollected();
+            return isCollected() || _isCollectedSave; // Need '_isCollectedSave' bcuz 'isCollected()' will return 'false' when load scene and will override save file as if we havn't pickup!
         }
 
         void ISaveable.RestoreState(object state)
         {
-            bool shouldBeCollected = (bool)state;
+            _isCollectedSave = (bool)state;
 
-            if (shouldBeCollected && !isCollected())
+            if (_isCollectedSave)
             {
                 DestroyPickup();
             }
 
-            if (!shouldBeCollected && isCollected())
+            if (!_isCollectedSave)
             {
                 SpawnPickup();
             }
