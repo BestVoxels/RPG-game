@@ -178,7 +178,7 @@ namespace RPG.Attributes
         void ISaveable.RestoreState(object state) // When level loaded it get called AFTER Awake(), BEFORE Start()
         {
             HealthPoints.value = (float)state;
-            
+
             if (HealthPoints.value <= 0f)
             {
                 DeathBehaviour();

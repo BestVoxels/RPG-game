@@ -4,7 +4,7 @@ namespace RPG.Core
 {
     public class FrameRateSetter : MonoBehaviour
     {
-//#if UNITY_IOS
+        //#if UNITY_IOS
         private void Start()
         {
             if (Application.isMobilePlatform)
@@ -13,6 +13,6 @@ namespace RPG.Core
                 Application.targetFrameRate = 60;
             }
         }
-//#endif
+        //#endif
     }
 }

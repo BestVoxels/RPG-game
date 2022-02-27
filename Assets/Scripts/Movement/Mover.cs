@@ -155,7 +155,7 @@ namespace RPG.Movement
             Dictionary<string, object> data = new Dictionary<string, object>();
             data["position"] = new SerializableVector3(transform.position);
             data["rotation"] = new SerializableVector3(transform.eulerAngles);
-            
+
             return data;
         }
 

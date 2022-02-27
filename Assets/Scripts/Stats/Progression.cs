@@ -57,7 +57,7 @@ namespace RPG.Stats
                     _progressionTable[characterProgression.characterType].Add(statProgression.statType, statProgression.levels);
                 }
             }
-            
+
         }
         #endregion
 

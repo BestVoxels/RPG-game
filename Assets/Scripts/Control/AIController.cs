@@ -21,7 +21,7 @@ namespace RPG.Control
 
         [Header("Patrol")]
         [SerializeField] private PatrolPath _patrolPath;
-        [Range(0f,1f)]
+        [Range(0f, 1f)]
         [SerializeField] private float _patrolSpeedFraction = 0.3f;
         [SerializeField] private float _waypointDwellTime = 2f;
         [Tooltip("The Smaller number to Closer it will walk to the waypoint")]
@@ -194,7 +194,7 @@ namespace RPG.Control
 
             foreach (RaycastHit eachHit in hits)
             {
-                
+
                 AIController otherAI = eachHit.transform.GetComponent<AIController>();
                 if (otherAI == null || otherAI == this) continue; // It will also Detect itself so check with 'this'
 

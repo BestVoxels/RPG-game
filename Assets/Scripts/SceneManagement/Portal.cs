@@ -61,12 +61,12 @@ namespace RPG.SceneManagement
 
             // Wait until StartTransition DONE
             yield return Transition.Instance.StartTransition(_transitionType, _startTransitionSpeed);
-            
+
             SavingWrapper.Instance.Save();
 
             // Wait until LoadScene DONE
             yield return Transition.Instance.LoadAsynchronously(_sceneIndexToLoad);
-                        
+
             PlayerController playerOnNEWScene = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
             playerOnNEWScene.enabled = false;
 
@@ -79,7 +79,7 @@ namespace RPG.SceneManagement
             Transition.Instance.EndTransition(_transitionType, _endTransitionSpeed);
 
             playerOnNEWScene.enabled = true;
-            
+
             Destroy(gameObject);
         }
         #endregion

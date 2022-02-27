@@ -36,7 +36,7 @@ namespace RPG.Stats
         private void Awake()
         {
             _experience = GetComponent<Experience>();
-            
+
             _currentLevel = new AutoInit<int>(GetInitialCurrentLevel);
         }
 
@@ -102,7 +102,7 @@ namespace RPG.Stats
                     totalAdditive += eachModifier;
                 }
             }
-            
+
             return totalAdditive;
         }
 
@@ -118,7 +118,7 @@ namespace RPG.Stats
                     totalPercentage += eachModifier;
                 }
             }
-            
+
             return totalPercentage;
         }
         #endregion
