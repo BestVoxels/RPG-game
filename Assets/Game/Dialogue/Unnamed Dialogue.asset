@@ -13,19 +13,18 @@ MonoBehaviour:
   m_Name: Unnamed Dialogue
   m_EditorClassIdentifier: 
   _nodes:
-  - _uniqueID: fjadksl23
-    _text: HELLO!!!
-    _children:
-    - b
-  - _uniqueID: b
-    _text: SUPP!!!
-    _children: []
-  - _uniqueID: 
-    _text: 
-    _children: []
-  - _uniqueID: 
-    _text: 
-    _children: []
-  - _uniqueID: 
-    _text: 
-    _children: []
+  - uniqueID: 
+    text: hello
+    children: []
+  - uniqueID: 
+    text: test
+    children: []
+  - uniqueID: 
+    text: yoooo
+    children: []
+  - uniqueID: 
+    text: 
+    children: []
+  - uniqueID: 
+    text: great!!!!!
+    children: []

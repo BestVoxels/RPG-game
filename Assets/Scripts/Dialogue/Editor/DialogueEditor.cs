@@ -20,7 +20,10 @@ namespace RPG.Dialogue.Editor
             }
             else
             {
-                EditorGUILayout.LabelField($"{_selectedDialogue.name}");
+                foreach (DialogueNode eachNode in _selectedDialogue.Nodes)
+                {
+                    EditorGUILayout.LabelField($"{eachNode.text}");
+                }
             }
         }
 
