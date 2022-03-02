@@ -14,16 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _nodes:
   - uniqueID: 
-    text: hello
+    text: b
     children: []
   - uniqueID: 
-    text: test
+    text: Hello!
     children: []
   - uniqueID: 
-    text: yoooo
+    text: a
     children: []
   - uniqueID: 
-    text: 
+    text: Hi!
     children: []
   - uniqueID: 
     text: great!!!!!

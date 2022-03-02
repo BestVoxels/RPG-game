@@ -1,5 +1,6 @@
 using UnityEditor;
 using UnityEditor.Callbacks;
+using UnityEngine;
 
 namespace RPG.Dialogue.Editor
 {
@@ -22,23 +23,20 @@ namespace RPG.Dialogue.Editor
             {
                 foreach (DialogueNode eachNode in _selectedDialogue.Nodes)
                 {
-                    EditorGUILayout.LabelField($"{eachNode.text}");
+                    string oldNodeText = eachNode.text;
+                    eachNode.text = EditorGUILayout.TextField($"{oldNodeText}");
+
+                    if (!oldNodeText.Equals(eachNode.text))
+                    {
+                        EditorUtility.SetDirty(_selectedDialogue);
+                    }
                 }
             }
         }
 
         private void OnSelectionChange()
         {
-            if (Selection.activeObject is Dialogue newDialogue)
-            {
-                _selectedDialogue = newDialogue;
-                Repaint();
-            }
-            else
-            {
-                _selectedDialogue = null;
-                Repaint();
-            }
+            RefreshDialogueWindow();
         }
         #endregion
 
@@ -48,7 +46,8 @@ namespace RPG.Dialogue.Editor
         [MenuItem("Window/RPG/Dialogue Window", false, 10000)]
         private static void ShowEditorWindow()
         {
-            GetWindow(typeof(DialogueEditor), false, "Dialogue");
+            DialogueEditor dialogueEditor = GetWindow(typeof(DialogueEditor), false, "Dialogue") as DialogueEditor;
+            dialogueEditor.RefreshDialogueWindow();
         }
 
         [OnOpenAsset(0)]
@@ -61,6 +60,24 @@ namespace RPG.Dialogue.Editor
             }
             
             return false;
+        }
+        #endregion
+
+
+
+        #region --Methods-- (Custom PRIVATE)
+        private void RefreshDialogueWindow()
+        {
+            if (Selection.activeObject is Dialogue newDialogue)
+            {
+                _selectedDialogue = newDialogue;
+                Repaint();
+            }
+            else
+            {
+                _selectedDialogue = null;
+                Repaint();
+            }
         }
         #endregion
     }
