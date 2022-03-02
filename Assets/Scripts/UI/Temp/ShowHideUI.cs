@@ -21,8 +21,17 @@ namespace RPG.UI.Temp
         {
             if (Input.GetKeyDown(_toggleKey))
             {
-                _uiContainer.SetActive(!_uiContainer.activeSelf);
+                ShowHideUIContainer();
             }
+        }
+        #endregion
+
+
+
+        #region --Methods-- (Subscriber) ~UnityEvent~
+        public void ShowHideUIContainer()
+        {
+            _uiContainer.SetActive(!_uiContainer.activeSelf);
         }
         #endregion
     }
