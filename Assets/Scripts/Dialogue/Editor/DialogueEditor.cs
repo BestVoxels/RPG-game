@@ -59,9 +59,14 @@ namespace RPG.Dialogue.Editor
             {
                 ProcessEvents();
 
+                // Drawing Bezier Curve first BEFORE Drawing Nodes to make Nodes stay infront of Curves
                 foreach (DialogueNode eachNode in _selectedDialogue.Nodes)
                 {
-                    OnGUINode(eachNode);
+                    DrawConnections(eachNode);
+                }
+                foreach (DialogueNode eachNode in _selectedDialogue.Nodes)
+                {
+                    DrawNode(eachNode);
                 }
             }
         }
@@ -117,7 +122,7 @@ namespace RPG.Dialogue.Editor
             return null;
         }
 
-        private void OnGUINode(DialogueNode node)
+        private void DrawNode(DialogueNode node)
         {
             GUILayout.BeginArea(node.rect, _nodeStyle);
 
@@ -137,12 +142,29 @@ namespace RPG.Dialogue.Editor
                 EditorUtility.SetDirty(_selectedDialogue);
             }
 
-            foreach (DialogueNode childNode in _selectedDialogue.GetAllChildren(node))
-            {
-                EditorGUILayout.LabelField(childNode.text);
-            }
-
             GUILayout.EndArea();
+        }
+
+        private void DrawConnections(DialogueNode node)
+        {
+            Vector3 startPosition = new Vector2(node.rect.xMax, node.rect.center.y);
+
+            foreach (DialogueNode eachChildNode in _selectedDialogue.GetAllChildren(node))
+            {
+                Vector3 endPosition = new Vector2(eachChildNode.rect.xMin, eachChildNode.rect.center.y);
+
+                // Making Curves
+                Vector3 curveOffset = endPosition - startPosition; // Make it vaires according to the distance between two nodes
+                curveOffset.y = 0; // no need to do curve on Y axis (only X axis)
+                curveOffset.x *= 0.8f; // reduce 'curve looks' by 20%
+
+                Handles.DrawBezier(
+                    startPosition,
+                    endPosition,
+                    startPosition + curveOffset,
+                    endPosition - curveOffset,
+                    Color.white, null, 4f);
+            }
         }
 
         private void RefreshDialogueWindow()
