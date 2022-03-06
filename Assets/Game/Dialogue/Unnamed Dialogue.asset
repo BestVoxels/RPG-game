@@ -13,51 +13,50 @@ MonoBehaviour:
   m_Name: Unnamed Dialogue
   m_EditorClassIdentifier: 
   _nodes:
-  - uniqueID: 123
-    text: bbb
-    children:
-    - 321
-    - 1234
-    - 5
-    rect:
+  - _uniqueID: e1332545-acab-44f0-beae-8f232559b9b2
+    _text: type dialogue script here...
+    _children:
+    - e091481b-d3bc-41a7-91ca-aac8771cdf9f
+    - a5002f10-beb4-4fd0-8056-62c441c40047
+    _rect:
       serializedVersion: 2
-      x: 379
-      y: 429
-      width: 200
-      height: 157.3
-  - uniqueID: 321
-    text: Hello!
-    children: []
-    rect:
-      serializedVersion: 2
-      x: 683
-      y: 533
+      x: 55
+      y: 93
       width: 200
       height: 100
-  - uniqueID: 1234
-    text: a
-    children: []
-    rect:
+  - _uniqueID: e091481b-d3bc-41a7-91ca-aac8771cdf9f
+    _text: type dialogue script here...
+    _children: []
+    _rect:
       serializedVersion: 2
-      x: 686
-      y: 386
+      x: 355
+      y: 194
       width: 200
       height: 100
-  - uniqueID: 4321
-    text: Hi!
-    children: []
-    rect:
+  - _uniqueID: a5002f10-beb4-4fd0-8056-62c441c40047
+    _text: type dialogue script here...
+    _children: []
+    _rect:
       serializedVersion: 2
-      x: 210
-      y: 204
+      x: 351
+      y: 84
       width: 200
       height: 100
-  - uniqueID: 12345
-    text: great!!!!!
-    children: []
-    rect:
+  - _uniqueID: 7cf413d8-bdbb-4850-89f0-c9b58ed2d669
+    _text: type dialogue script here...
+    _children: []
+    _rect:
       serializedVersion: 2
-      x: 15
-      y: 208
+      x: 344
+      y: 374
+      width: 200
+      height: 100
+  - _uniqueID: 043a4e26-ac4a-4044-87fe-5bc452b99895
+    _text: type dialogue script here...
+    _children: []
+    _rect:
+      serializedVersion: 2
+      x: 74
+      y: 369
       width: 200
       height: 100

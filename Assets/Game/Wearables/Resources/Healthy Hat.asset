@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7f5465f173f24db1b7f29881355b153, type: 3}
   m_Name: Healthy Hat
   m_EditorClassIdentifier: 
-  _itemID: 3eb0dbdd-5144-435a-a4bf-440f52bc728f
+  _itemID: f52bc728f5144-435a-a4bf-440f52bc728f
   _displayName: Healthy Hat
   _description: '+20 Health / +2% Bonus on Top
 

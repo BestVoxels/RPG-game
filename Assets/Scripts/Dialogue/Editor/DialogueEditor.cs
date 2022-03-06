@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using UnityEditor;
 using UnityEditor.Callbacks;
@@ -9,9 +10,11 @@ namespace RPG.Dialogue.Editor
     {
         #region --Fields-- (In Class)
         private Dialogue _selectedDialogue = null;
-        private GUIStyle _nodeStyle = null;
-        private DialogueNode _draggingNode = null;
-        private Vector2 _clickOffSet = new Vector2();
+        // It get Serialized by Unity as being Editor so need to use this to make it reload this data again.
+        [NonSerialized] private GUIStyle _nodeStyle = null;
+        [NonSerialized] private DialogueNode _draggingNode = null;
+        [NonSerialized] private Vector2 _clickOffSet = new Vector2();
+        [NonSerialized] private DialogueNode _creatingNode = null;
         #endregion
 
 
@@ -68,6 +71,14 @@ namespace RPG.Dialogue.Editor
                 {
                     DrawNode(eachNode);
                 }
+                // Add More Item to .Nodes list after finish iteration NOT doing inside DrawNode() while it's iterating over .Nodes
+                if (_creatingNode != null)
+                {
+                    Undo.RecordObject(_selectedDialogue, "Added Dialogue Node");
+
+                    _selectedDialogue.CreateChildNode(_creatingNode);
+                    _creatingNode = null;
+                }
             }
         }
 
@@ -87,13 +98,15 @@ namespace RPG.Dialogue.Editor
                 _draggingNode = GetNodeAtPoint(Event.current.mousePosition);
 
                 if (_draggingNode != null)
-                    _clickOffSet = _draggingNode.rect.position - Event.current.mousePosition;
+                    _clickOffSet = _draggingNode.Rect.position - Event.current.mousePosition;
             }
             else if (Event.current.type == EventType.MouseDrag && _draggingNode != null)
             {
                 Undo.RecordObject(_selectedDialogue, "Update Dialogue Position");
 
-                _draggingNode.rect.position = Event.current.mousePosition + _clickOffSet;
+                var temp = _draggingNode.Rect;
+                temp.position = Event.current.mousePosition + _clickOffSet;
+                _draggingNode.Rect = temp;
 
                 Repaint();
             }
@@ -109,7 +122,7 @@ namespace RPG.Dialogue.Editor
         {
             foreach (DialogueNode eachNode in _selectedDialogue.Nodes.Reverse()) // Reverse loop so that it pick the upper layer node first which is that lower bottom of the list
             {
-                if (eachNode.rect.Contains(point))
+                if (eachNode.Rect.Contains(point))
                 {
                     return eachNode;
                 }
@@ -124,22 +137,24 @@ namespace RPG.Dialogue.Editor
 
         private void DrawNode(DialogueNode node)
         {
-            GUILayout.BeginArea(node.rect, _nodeStyle);
+            GUILayout.BeginArea(node.Rect, _nodeStyle);
 
             EditorGUI.BeginChangeCheck();
 
-            EditorGUILayout.LabelField("Node : ", EditorStyles.whiteLargeLabel);
-            string newID = EditorGUILayout.TextField($"{node.uniqueID}");
-            string newText = EditorGUILayout.TextField($"{node.text}");
+            string newText = EditorGUILayout.TextField($"{node.Text}");
 
             if (EditorGUI.EndChangeCheck())
             {
-                Undo.RecordObject(_selectedDialogue, "Update Dialogue Field"); // This will undo only one at a time because once changes is made on any of the field this will trigger right away
+                Undo.RecordObject(_selectedDialogue, "Update Dialogue Field");
 
-                node.text = newText;
-                node.uniqueID = newID;
+                node.Text = newText;
 
                 EditorUtility.SetDirty(_selectedDialogue);
+            }
+
+            if (GUILayout.Button("+"))
+            {
+                _creatingNode = node;
             }
 
             GUILayout.EndArea();
@@ -147,11 +162,11 @@ namespace RPG.Dialogue.Editor
 
         private void DrawConnections(DialogueNode node)
         {
-            Vector3 startPosition = new Vector2(node.rect.xMax, node.rect.center.y);
+            Vector3 startPosition = new Vector2(node.Rect.xMax, node.Rect.center.y);
 
             foreach (DialogueNode eachChildNode in _selectedDialogue.GetAllChildren(node))
             {
-                Vector3 endPosition = new Vector2(eachChildNode.rect.xMin, eachChildNode.rect.center.y);
+                Vector3 endPosition = new Vector2(eachChildNode.Rect.xMin, eachChildNode.Rect.center.y);
 
                 // Making Curves
                 Vector3 curveOffset = endPosition - startPosition; // Make it vaires according to the distance between two nodes

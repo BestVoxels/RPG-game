@@ -13,7 +13,7 @@ namespace RPG.Dialogue
 
 
         #region --Fields-- (In Class)
-        private Dictionary<string, DialogueNode> _nodeTable = new Dictionary<string, DialogueNode>();
+        private Dictionary<string, DialogueNode> _nodeLookUpTable = new Dictionary<string, DialogueNode>();
         #endregion
 
 
@@ -30,23 +30,18 @@ namespace RPG.Dialogue
 #if UNITY_EDITOR
             if (_nodes.Count == 0)
             {
-                DialogueNode defaultNode = new DialogueNode();
-                defaultNode.text = "default dialogue";
+                DialogueNode rootNode = new DialogueNode();
+                rootNode.Text = "type dialogue script here... (root)";
 
-                _nodes.Add(defaultNode);
+                _nodes.Add(rootNode);
             }
 #endif
-            OnValidate();
+            UpdateLookUpTable();
         }
 
         private void OnValidate()
         {
-            _nodeTable.Clear();
-
-            foreach (DialogueNode eachParentNode in _nodes)
-            {
-                _nodeTable.Add(eachParentNode.uniqueID, eachParentNode);
-            }
+            UpdateLookUpTable();
         }
         #endregion
 
@@ -60,11 +55,36 @@ namespace RPG.Dialogue
 
         public IEnumerable<DialogueNode> GetAllChildren(DialogueNode parentNode)
         {
-            foreach (string childID in parentNode.children)
+            foreach (string childID in parentNode.Children)
             {
-                if (!_nodeTable.ContainsKey(childID)) continue;
+                if (!_nodeLookUpTable.ContainsKey(childID)) continue;
 
-                yield return _nodeTable[childID];
+                yield return _nodeLookUpTable[childID];
+            }
+        }
+
+        public void CreateChildNode(DialogueNode parentNode)
+        {
+            DialogueNode childNode = new DialogueNode();
+            childNode.Text = "default dialogue";
+            parentNode.Children.Add(childNode.UniqueID);
+
+            _nodes.Add(childNode);
+            
+            UpdateLookUpTable();
+        }
+        #endregion
+
+
+
+        #region --Methods-- (Custom PRIVATE)
+        private void UpdateLookUpTable()
+        {
+            _nodeLookUpTable.Clear();
+
+            foreach (DialogueNode eachParentNode in _nodes)
+            {
+                _nodeLookUpTable.Add(eachParentNode.UniqueID, eachParentNode);
             }
         }
         #endregion
