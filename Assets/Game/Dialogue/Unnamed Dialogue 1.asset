@@ -13,48 +13,12 @@ MonoBehaviour:
   m_Name: Unnamed Dialogue 1
   m_EditorClassIdentifier: 
   _nodes:
-  - _uniqueID: d5fa22e4-ae41-4cbd-a6aa-1281450c1582
+  - _uniqueID: d8907c5b-935d-42b9-8e6b-bc8a217fac67
     _text: type dialogue script here... (root)
-    _children:
-    - 1e2040d3-51d7-493d-bb72-25eace4ca912
+    _children: []
     _rect:
       serializedVersion: 2
-      x: 43
-      y: 173
-      width: 200
-      height: 100
-  - _uniqueID: 1e2040d3-51d7-493d-bb72-25eace4ca912
-    _text: default dialogue
-    _children:
-    - b3c9a46f-45e6-4d91-a118-1af3d8658bcc
-    - 5f81eea8-9739-4a6b-9c0a-40c5ba7f7dc7
-    _rect:
-      serializedVersion: 2
-      x: 337
-      y: 189
-      width: 200
-      height: 100
-  - _uniqueID: b3c9a46f-45e6-4d91-a118-1af3d8658bcc
-    _text: dfasdfsadf
-    _children:
-    - c40289ef-8138-4a1a-a946-7c0f79b225b9
-    - 1a03fe4b-c54e-4ee2-bc3c-dbf2a0701881
-    - b6f1d62f-c828-4971-9293-302a12ac0975
-    - 6e80f59f-486b-44f5-9d4c-90470d24dce7
-    _rect:
-      serializedVersion: 2
-      x: 618
-      y: 168
-      width: 200
-      height: 100
-  - _uniqueID: 5f81eea8-9739-4a6b-9c0a-40c5ba7f7dc7
-    _text: default dialogue
-    _children:
-    - 7c9aa632-5497-4fe4-844c-62be909399c4
-    - 17e67e8a-f558-4b50-a5ee-895e28075f01
-    _rect:
-      serializedVersion: 2
-      x: 623
-      y: 304
+      x: 47
+      y: 42
       width: 200
       height: 100

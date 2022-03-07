@@ -16,6 +16,7 @@ namespace RPG.Dialogue.Editor
         [NonSerialized] private Vector2 _clickOffSet = new Vector2();
         [NonSerialized] private DialogueNode _creatingNode = null;
         [NonSerialized] private DialogueNode _deletingNode = null;
+        [NonSerialized] private DialogueNode _linkingParentNode = null;
         #endregion
 
 
@@ -79,14 +80,14 @@ namespace RPG.Dialogue.Editor
                 {
                     Undo.RecordObject(_selectedDialogue, "Added Dialogue Node");
 
-                    _selectedDialogue.CreateChildNode(_creatingNode);
+                    _selectedDialogue.CreateChildNodeUnder(_creatingNode);
                     _creatingNode = null;
                 }
                 if (_deletingNode != null)
                 {
                     Undo.RecordObject(_selectedDialogue, "Deleted Dialogue Node");
 
-                    _selectedDialogue.DeleteItselfNode(_deletingNode);
+                    _selectedDialogue.DeleteThisNode(_deletingNode);
                     _deletingNode = null;
                 }
             }
@@ -163,14 +164,13 @@ namespace RPG.Dialogue.Editor
             }
 
             GUILayout.BeginHorizontal();
-            if (GUILayout.Button("x"))
-            {
-                _deletingNode = node;
-            }
-            if (GUILayout.Button("+"))
-            {
-                _creatingNode = node;
-            }
+            Color defaultGUIColor = GUI.backgroundColor; // Saves the default color
+
+            DrawDeleteButton(node);
+            DrawLinkButton(node);
+            DrawCreateButton(node);
+
+            GUI.backgroundColor = defaultGUIColor; // Sets the default color back
             GUILayout.EndHorizontal();
 
             GUILayout.EndArea();
@@ -209,6 +209,72 @@ namespace RPG.Dialogue.Editor
             {
                 _selectedDialogue = null;
                 Repaint();
+            }
+        }
+        #endregion
+
+
+
+        #region --Methods-- (Custom PRIVATE) ~Draw Buttons~
+        private void DrawDeleteButton(DialogueNode node)
+        {
+            GUI.backgroundColor = Color.white; // Set the color for Delete-button
+            if (GUILayout.Button("x"))
+            {
+                _deletingNode = node;
+            }
+        }
+
+        private void DrawLinkButton(DialogueNode node)
+        {
+            if (_linkingParentNode == null)
+            {
+                GUI.backgroundColor = Color.white; // Set the color for Link-button
+                if (GUILayout.Button("link"))
+                {
+                    _linkingParentNode = node;
+                }
+            }
+            else if (_linkingParentNode == node)
+            {
+                GUI.backgroundColor = Color.white; // Set the color for Link-button
+                if (GUILayout.Button("CANCEL"))
+                {
+                    _linkingParentNode = null;
+                }
+            }
+            else if (_selectedDialogue.IsBothNodesLinked(_linkingParentNode, node))
+            {
+                GUI.backgroundColor = Color.red; // Set the color for Link-button
+                if (GUILayout.Button("unlink"))
+                {
+                    Undo.RecordObject(_selectedDialogue, "Unlinked Dialogue Node");
+                    _selectedDialogue.UnlinkBothNodes(_linkingParentNode, node);
+                    _linkingParentNode = null;
+                }
+            }
+            else
+            {
+                GUI.backgroundColor = Color.green; // Set the color for Link-button
+                if (GUILayout.Button("link here"))
+                {
+                    Undo.RecordObject(_selectedDialogue, "Linked Dialogue Node");
+                    _selectedDialogue.LinkBothNodes(_linkingParentNode, node);
+                    _linkingParentNode = null;
+                }
+            }
+        }
+
+        private void DrawCreateButton(DialogueNode node)
+        {
+            if (_linkingParentNode == null)
+                GUI.backgroundColor = Color.green; // Set the color for the Add-button
+            else
+                GUI.backgroundColor = Color.white; // Set the color for the Add-button
+
+            if (GUILayout.Button("+"))
+            {
+                _creatingNode = node;
             }
         }
         #endregion

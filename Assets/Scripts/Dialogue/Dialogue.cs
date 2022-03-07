@@ -63,7 +63,7 @@ namespace RPG.Dialogue
             }
         }
 
-        public void CreateChildNode(DialogueNode parentNode)
+        public void CreateChildNodeUnder(DialogueNode parentNode)
         {
             DialogueNode childNode = new DialogueNode();
             childNode.Text = "type consequence dialogue script here...";
@@ -74,13 +74,28 @@ namespace RPG.Dialogue
             UpdateLookUpTable();
         }
 
-        public void DeleteItselfNode(DialogueNode nodeToDelete)
+        public void DeleteThisNode(DialogueNode nodeToDelete)
         {
             _nodes.Remove(nodeToDelete);
 
             UpdateLookUpTable();
 
             CleanDanglingNode(nodeToDelete);
+        }
+
+        public void LinkBothNodes(DialogueNode parentNode, DialogueNode childNode)
+        {
+            parentNode.Children.Add(childNode.UniqueID);
+        }
+
+        public bool IsBothNodesLinked(DialogueNode parentNode, DialogueNode childNode)
+        {
+            return parentNode.Children.Contains(childNode.UniqueID);
+        }
+
+        public void UnlinkBothNodes(DialogueNode parentNode, DialogueNode childNode)
+        {
+            parentNode.Children.Remove(childNode.UniqueID);
         }
         #endregion
 
