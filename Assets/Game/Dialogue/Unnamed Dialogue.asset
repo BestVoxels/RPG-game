@@ -20,8 +20,8 @@ MonoBehaviour:
     - 9949c3f1-0eb7-4fe5-a827-1c9a02b497dd
     _rect:
       serializedVersion: 2
-      x: 59
-      y: 98
+      x: 78
+      y: 147
       width: 200
       height: 100
   - _uniqueID: 7cf413d8-bdbb-4850-89f0-c9b58ed2d669
@@ -47,8 +47,8 @@ MonoBehaviour:
     _children: []
     _rect:
       serializedVersion: 2
-      x: 352
-      y: 192
+      x: 381
+      y: 214
       width: 200
       height: 100
   - _uniqueID: 9949c3f1-0eb7-4fe5-a827-1c9a02b497dd
@@ -67,6 +67,6 @@ MonoBehaviour:
     _rect:
       serializedVersion: 2
       x: 692
-      y: 75
+      y: 88
       width: 200
       height: 100

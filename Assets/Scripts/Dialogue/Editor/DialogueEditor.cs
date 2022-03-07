@@ -24,6 +24,13 @@ namespace RPG.Dialogue.Editor
 
 
 
+        #region --Fields-- (Constant)
+        private const float _canvasSize = 2000f;
+        private const float _backgroundSize = 50f;
+        #endregion
+
+
+
         #region --Methods-- (Annotation)
         [MenuItem("Window/RPG/Dialogue Window", false, 10000)]
         private static void ShowEditorWindow()
@@ -71,7 +78,10 @@ namespace RPG.Dialogue.Editor
 
                 _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition);
 
-                GUILayoutUtility.GetRect(2000, 2000); // Create ScrollView Size for BeginScrollView to work
+                Rect canvasRect = GUILayoutUtility.GetRect(_canvasSize, _canvasSize); // Create ScrollView Size for BeginScrollView to work
+                Texture2D backgroundTexture = Resources.Load("background") as Texture2D;
+                Rect textureCoords = new Rect(0, 0, _canvasSize / _backgroundSize, _canvasSize / _backgroundSize);
+                GUI.DrawTextureWithTexCoords(canvasRect, backgroundTexture, textureCoords);
 
                 // Drawing Bezier Curve first BEFORE Drawing Nodes to make Nodes stay infront of Curves
                 foreach (DialogueNode eachNode in _selectedDialogue.Nodes)
@@ -128,29 +138,31 @@ namespace RPG.Dialogue.Editor
                     _draggingCanvasOffset = Event.current.mousePosition + _scrollPosition;
                 }
             }
-            else if (Event.current.type == EventType.MouseDrag && (_draggingNode != null || _isDraggingCanvas == true))
+            else if (Event.current.type == EventType.MouseDrag && _draggingNode != null)
             {
-                if (_isDraggingCanvas)
-                {
-                    _scrollPosition = _draggingCanvasOffset - Event.current.mousePosition;
-                }
-                else
-                {
-                    Undo.RecordObject(_selectedDialogue, "Update Dialogue Position");
+                Undo.RecordObject(_selectedDialogue, "Update Dialogue Position");
 
-                    var temp = _draggingNode.Rect;
-                    temp.position = Event.current.mousePosition + _clickOffSet;
-                    _draggingNode.Rect = temp;
-                }
+                var temp = _draggingNode.Rect;
+                temp.position = Event.current.mousePosition + _clickOffSet;
+                _draggingNode.Rect = temp;
 
                 Repaint();
             }
-            else if (Event.current.type == EventType.MouseUp && (_draggingNode != null || _isDraggingCanvas == true))
+            else if (Event.current.type == EventType.MouseDrag && _isDraggingCanvas == true)
+            {
+                _scrollPosition = _draggingCanvasOffset - Event.current.mousePosition;
+
+                Repaint();
+            }
+            else if (Event.current.type == EventType.MouseUp && _draggingNode != null)
             {
                 _draggingNode = null;
-                _isDraggingCanvas = false;
 
                 EditorUtility.SetDirty(_selectedDialogue);
+            }
+            else if (Event.current.type == EventType.MouseUp && _isDraggingCanvas == true)
+            {
+                _isDraggingCanvas = false;
             }
         }
 
