@@ -5,7 +5,7 @@ using UnityEditor;
 namespace RPG.Dialogue
 {
     [CreateAssetMenu(fileName = "Unnamed Dialogue", menuName = "RPG/Dialogue/New Dialogue")]
-    public class Dialogue : ScriptableObject
+    public class Dialogue : ScriptableObject, ISerializationCallbackReceiver
     {
         #region --Fields-- (Inspector)
         [SerializeField] private List<DialogueNode> _nodes = new List<DialogueNode>();
@@ -28,12 +28,6 @@ namespace RPG.Dialogue
         #region --Methods-- (Built In)
         private void Awake()
         {
-#if UNITY_EDITOR
-            if (_nodes.Count == 0)
-            {
-                CreateChildNodeUnder(null);
-            }
-#endif
             UpdateLookUpTable();
         }
 
@@ -71,7 +65,8 @@ namespace RPG.Dialogue
                 parentNode.Children.Add(childNode.name);
 
             _nodes.Add(childNode);
-            
+            // IMPORTANT Can't AddObjectToAsset here bcuz when we call this in first Awake() it won't yet fully create this scriptable object as an asset, So we need to do this when Save the file.
+
             UpdateLookUpTable();
 
             Undo.RegisterCreatedObjectUndo(childNode, "Create Dialogue Node");
@@ -124,6 +119,36 @@ namespace RPG.Dialogue
             {
                 eachNode.Children.Remove(nodeToDelete.name);
             }
+        }
+        #endregion
+
+
+
+        #region --Methods-- (Interface)
+        public void OnBeforeSerialize() // Get Called when about to save the file to Hard Drive
+        {
+            if (_nodes.Count == 0)
+            {
+                CreateChildNodeUnder(null);
+            }
+
+            // Check whether this Scriptable Object asset has been created already or not, if it's in process of creating it won't yet have a path
+            if (AssetDatabase.GetAssetPath(this) != "")
+            {
+                // Add all the DialogueNode that doesn't yet have an Asset Path
+                foreach (DialogueNode eachNode in _nodes)
+                {
+                    // Check whether eachNode hasn't been created
+                    if (AssetDatabase.GetAssetPath(eachNode) == "")
+                    {
+                        AssetDatabase.AddObjectToAsset(eachNode, this); // Add SubObject to this scriptable object.
+                    }
+                }
+            }
+        }
+
+        public void OnAfterDeserialize() // Get Called when Load a file from the Hard Drive
+        {
         }
         #endregion
     }
