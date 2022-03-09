@@ -124,18 +124,20 @@ namespace RPG.Dialogue.Editor
         #region --Methods-- (Custom PRIVATE)
         private void ProcessEvents()
         {
-            if (Event.current.type == EventType.MouseDown && (_draggingNode == null || _isDraggingCanvas == false))
+            if (Event.current.type == EventType.MouseDown && (_draggingNode == null || _isDraggingCanvas == false)) // && _linkingParentNode == null
             {
                 _draggingNode = GetNodeAtPoint(Event.current.mousePosition + _scrollPosition);
 
                 if (_draggingNode != null)
                 {
                     _clickOffSet = _draggingNode.Rect.position - Event.current.mousePosition;
+                    Selection.activeObject = _draggingNode;
                 }
                 else
                 {
                     _isDraggingCanvas = true;
                     _draggingCanvasOffset = Event.current.mousePosition + _scrollPosition;
+                    Selection.activeObject = _selectedDialogue;
                 }
             }
             else if (Event.current.type == EventType.MouseDrag && _draggingNode != null)
@@ -242,11 +244,7 @@ namespace RPG.Dialogue.Editor
                 _selectedDialogue = newDialogue;
                 Repaint();
             }
-            else
-            {
-                _selectedDialogue = null;
-                Repaint();
-            }
+            // CAN'T HAVE else{} here bcuz when we select assign .avtiveObject with something else in ProcessEvents() this else{} will run and close the editor window
         }
         #endregion
 

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 namespace RPG.Dialogue
 {
@@ -30,10 +31,7 @@ namespace RPG.Dialogue
 #if UNITY_EDITOR
             if (_nodes.Count == 0)
             {
-                DialogueNode rootNode = new DialogueNode();
-                rootNode.Text = "type dialogue script here... (root)";
-
-                _nodes.Add(rootNode);
+                CreateChildNodeUnder(null);
             }
 #endif
             UpdateLookUpTable();
@@ -65,13 +63,18 @@ namespace RPG.Dialogue
 
         public void CreateChildNodeUnder(DialogueNode parentNode)
         {
-            DialogueNode childNode = new DialogueNode();
-            childNode.Text = "type consequence dialogue script here...";
-            parentNode.Children.Add(childNode.UniqueID);
+            DialogueNode childNode = CreateInstance<DialogueNode>();
+            childNode.name = System.Guid.NewGuid().ToString();
+            childNode.Text = "Type dialogue script here...";
+
+            if (parentNode != null)
+                parentNode.Children.Add(childNode.name);
 
             _nodes.Add(childNode);
             
             UpdateLookUpTable();
+
+            Undo.RegisterCreatedObjectUndo(childNode, "Create Dialogue Node");
         }
 
         public void DeleteThisNode(DialogueNode nodeToDelete)
@@ -81,21 +84,23 @@ namespace RPG.Dialogue
             UpdateLookUpTable();
 
             CleanDanglingNode(nodeToDelete);
+
+            Undo.DestroyObjectImmediate(nodeToDelete); // put this one on last line so that other can't use deleted one
         }
 
         public void LinkBothNodes(DialogueNode parentNode, DialogueNode childNode)
         {
-            parentNode.Children.Add(childNode.UniqueID);
+            parentNode.Children.Add(childNode.name);
         }
 
         public bool IsBothNodesLinked(DialogueNode parentNode, DialogueNode childNode)
         {
-            return parentNode.Children.Contains(childNode.UniqueID);
+            return parentNode.Children.Contains(childNode.name);
         }
 
         public void UnlinkBothNodes(DialogueNode parentNode, DialogueNode childNode)
         {
-            parentNode.Children.Remove(childNode.UniqueID);
+            parentNode.Children.Remove(childNode.name);
         }
         #endregion
 
@@ -108,7 +113,7 @@ namespace RPG.Dialogue
 
             foreach (DialogueNode eachParentNode in _nodes)
             {
-                _nodeLookUpTable.Add(eachParentNode.UniqueID, eachParentNode);
+                _nodeLookUpTable.Add(eachParentNode.name, eachParentNode);
             }
         }
 
@@ -117,7 +122,7 @@ namespace RPG.Dialogue
             // Remove this node from any of the other node's children list
             foreach (DialogueNode eachNode in _nodes)
             {
-                eachNode.Children.Remove(nodeToDelete.UniqueID);
+                eachNode.Children.Remove(nodeToDelete.name);
             }
         }
         #endregion
