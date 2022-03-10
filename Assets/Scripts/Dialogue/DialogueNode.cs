@@ -23,10 +23,14 @@ namespace RPG.Dialogue
             }
             set
             {
+                if (Text != value)
+                {
 #if UNITY_EDITOR
-                Undo.RecordObject(this, "Update Dialogue Field");
+                    Undo.RecordObject(this, "Update Dialogue Field");
+                    EditorUtility.SetDirty(this);
 #endif
-                _text = value;
+                    _text = value;
+                }
             }
         }
 
@@ -48,6 +52,7 @@ namespace RPG.Dialogue
             {
 #if UNITY_EDITOR
                 Undo.RecordObject(this, "Update Dialogue Position");
+                EditorUtility.SetDirty(this);
 #endif
                 _rect = value;
             }
@@ -61,6 +66,7 @@ namespace RPG.Dialogue
         {
 #if UNITY_EDITOR
             Undo.RecordObject(this, "Remove ChildID");
+            EditorUtility.SetDirty(this);
 #endif
             Children.Add(childID);
         }
@@ -69,6 +75,7 @@ namespace RPG.Dialogue
         {
 #if UNITY_EDITOR
             Undo.RecordObject(this, "Add ChildID");
+            EditorUtility.SetDirty(this);
 #endif
             Children.Remove(childID);
         }

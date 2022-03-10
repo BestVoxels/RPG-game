@@ -153,8 +153,6 @@ namespace RPG.Dialogue.Editor
             else if (Event.current.type == EventType.MouseUp && _draggingNode != null)
             {
                 _draggingNode = null;
-
-                EditorUtility.SetDirty(_selectedDialogue);
             }
             else if (Event.current.type == EventType.MouseUp && _isDraggingCanvas == true)
             {
@@ -183,16 +181,7 @@ namespace RPG.Dialogue.Editor
         {
             GUILayout.BeginArea(node.Rect, _nodeStyle);
 
-            EditorGUI.BeginChangeCheck();
-
-            string newText = EditorGUILayout.TextField($"{node.Text}");
-
-            if (EditorGUI.EndChangeCheck())
-            {
-                node.Text = newText;
-
-                EditorUtility.SetDirty(_selectedDialogue);
-            }
+            node.Text = EditorGUILayout.TextField($"{node.Text}");
 
             GUILayout.BeginHorizontal();
             Color defaultGUIColor = GUI.backgroundColor; // Saves the default color
