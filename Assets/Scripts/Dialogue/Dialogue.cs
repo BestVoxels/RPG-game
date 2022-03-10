@@ -9,6 +9,7 @@ namespace RPG.Dialogue
     {
         #region --Fields-- (Inspector)
         [SerializeField] private List<DialogueNode> _nodes = new List<DialogueNode>();
+        [SerializeField] private Vector2 _newNodeOffset = new Vector2(250, 0);
         #endregion
 
 
@@ -62,6 +63,7 @@ namespace RPG.Dialogue
             DialogueNode rootNode = CreateInstance<DialogueNode>();
             rootNode.name = System.Guid.NewGuid().ToString();
             rootNode.Text = "Type First Dialogue script here...";
+            rootNode.Speaker = DialogueSpeaker.AI;
 
             _nodes.Add(rootNode);
             UpdateLookUpTable();
@@ -73,6 +75,17 @@ namespace RPG.Dialogue
             DialogueNode childNode = CreateInstance<DialogueNode>();
             childNode.name = System.Guid.NewGuid().ToString();
             childNode.Text = "Type Consequence Dialogue script here...";
+            switch (parentNode.Speaker)
+            {
+                case DialogueSpeaker.AI:
+                    childNode.Speaker = DialogueSpeaker.Player;
+                    break;
+
+                case DialogueSpeaker.Player:
+                    childNode.Speaker = DialogueSpeaker.AI;
+                    break;
+            }
+            childNode.SetRectPosition(parentNode.Rect.position + _newNodeOffset);
 
 #if UNITY_EDITOR
             Undo.RegisterCreatedObjectUndo(childNode, "Create Dialogue Node");

@@ -1,0 +1,130 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-7899060562976875306
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90ecf6047c05b4430a9a93771aa5ea19, type: 3}
+  m_Name: 40d367c6-c1fc-4bfe-b88b-7bc5119b531c
+  m_EditorClassIdentifier: 
+  _speaker: 1
+  _text: Type Consequence Dialogue script here...
+  _children: []
+  _rect:
+    serializedVersion: 2
+    x: 1129
+    y: 196
+    width: 200
+    height: 100
+--- !u!114 &-7228353982710957109
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90ecf6047c05b4430a9a93771aa5ea19, type: 3}
+  m_Name: 35483153-0c04-4a57-b2c3-ab6642bc3e70
+  m_EditorClassIdentifier: 
+  _speaker: 0
+  _text: Type Consequence Dialogue script here...
+  _children:
+  - 3a5cfac2-dc0a-4319-99de-0cb8227320b8
+  _rect:
+    serializedVersion: 2
+    x: 260
+    y: 10
+    width: 200
+    height: 100
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1ef5e2bdeabd4de888a1dac01458fa7, type: 3}
+  m_Name: Unnamed Dialogue
+  m_EditorClassIdentifier: 
+  _nodes:
+  - {fileID: 5882760783270772444}
+  - {fileID: -7228353982710957109}
+  - {fileID: 1095374501775360591}
+  - {fileID: 5278242966237335639}
+  - {fileID: -7899060562976875306}
+  _newNodeOffset: {x: 250, y: 0}
+--- !u!114 &1095374501775360591
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90ecf6047c05b4430a9a93771aa5ea19, type: 3}
+  m_Name: 3a5cfac2-dc0a-4319-99de-0cb8227320b8
+  m_EditorClassIdentifier: 
+  _speaker: 1
+  _text: Type Consequence Dialogue script here...
+  _children:
+  - be912c78-54bb-40d6-8c62-ef24d270356f
+  _rect:
+    serializedVersion: 2
+    x: 526
+    y: 70
+    width: 200
+    height: 100
+--- !u!114 &5278242966237335639
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90ecf6047c05b4430a9a93771aa5ea19, type: 3}
+  m_Name: be912c78-54bb-40d6-8c62-ef24d270356f
+  m_EditorClassIdentifier: 
+  _speaker: 0
+  _text: Type Consequence Dialogue script here...
+  _children:
+  - 40d367c6-c1fc-4bfe-b88b-7bc5119b531c
+  _rect:
+    serializedVersion: 2
+    x: 879
+    y: 196
+    width: 200
+    height: 100
+--- !u!114 &5882760783270772444
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90ecf6047c05b4430a9a93771aa5ea19, type: 3}
+  m_Name: 1f76b67f-54f8-47dd-89aa-cd717072fc38
+  m_EditorClassIdentifier: 
+  _speaker: 1
+  _text: Type First Dialogue script here...
+  _children:
+  - 35483153-0c04-4a57-b2c3-ab6642bc3e70
+  _rect:
+    serializedVersion: 2
+    x: 10
+    y: 10
+    width: 200
+    height: 100

@@ -13,6 +13,7 @@ namespace RPG.Dialogue.Editor
         private Vector2 _scrollPosition;
         // It get Serialized by Unity as being Editor so need to use this to make it reload this data again.
         [NonSerialized] private GUIStyle _nodeStyle = null;
+        [NonSerialized] private GUIStyle _playerNodeStyle = null;
         [NonSerialized] private DialogueNode _draggingNode = null;
         [NonSerialized] private Vector2 _clickOffSet = new Vector2();
         [NonSerialized] private DialogueNode _creatingNode = null;
@@ -63,7 +64,11 @@ namespace RPG.Dialogue.Editor
             _nodeStyle.normal.background = EditorGUIUtility.Load("node0") as Texture2D;
             _nodeStyle.padding = new RectOffset(15, 15, 15, 15);
             _nodeStyle.border = new RectOffset(12, 12, 12, 12);
-            //_nodeStyle.normal.textColor = Color.white; // Not get any effect
+
+            _playerNodeStyle = new GUIStyle();
+            _playerNodeStyle.normal.background = EditorGUIUtility.Load("node1") as Texture2D;
+            _playerNodeStyle.padding = new RectOffset(15, 15, 15, 15);
+            _playerNodeStyle.border = new RectOffset(12, 12, 12, 12);
         }
 
         private void OnGUI()
@@ -138,9 +143,7 @@ namespace RPG.Dialogue.Editor
             }
             else if (Event.current.type == EventType.MouseDrag && _draggingNode != null)
             {
-                var temp = _draggingNode.Rect;
-                temp.position = Event.current.mousePosition + _clickOffSet;
-                _draggingNode.Rect = temp;
+                _draggingNode.SetRectPosition(Event.current.mousePosition + _clickOffSet);
 
                 Repaint();
             }
@@ -179,8 +182,16 @@ namespace RPG.Dialogue.Editor
 
         private void DrawNode(DialogueNode node)
         {
-            GUILayout.BeginArea(node.Rect, _nodeStyle);
+            GUIStyle style = _nodeStyle;
+            switch (node.Speaker)
+            {
+                case DialogueSpeaker.Player:
+                    style = _playerNodeStyle;
+                    break;
+            }
+            GUILayout.BeginArea(node.Rect, style);
 
+            node.Speaker = (DialogueSpeaker)EditorGUILayout.EnumPopup($"Speaker : {node.Speaker}", node.Speaker);
             node.Text = EditorGUILayout.TextField($"{node.Text}");
 
             GUILayout.BeginHorizontal();

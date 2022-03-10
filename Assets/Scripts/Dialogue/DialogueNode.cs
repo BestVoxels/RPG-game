@@ -7,6 +7,7 @@ namespace RPG.Dialogue
     public class DialogueNode : ScriptableObject
     {
         #region --Fields-- (Inspector)
+        [SerializeField] private DialogueSpeaker _speaker;
         [SerializeField] private string _text;
         [SerializeField] private List<string> _children = new List<string>(); // IF has to initialize first otherwise will get null exception when try to access in GetAllChildren method
         [SerializeField] private Rect _rect = new Rect(10, 10, 200, 100);
@@ -15,6 +16,22 @@ namespace RPG.Dialogue
 
 
         #region --Properties-- (With Backing Fields)
+        public DialogueSpeaker Speaker
+        {
+            get
+            {
+                return _speaker;
+            }
+            set
+            {
+#if UNITY_EDITOR
+                Undo.RecordObject(this, "Change Dialogue Speaker");
+                EditorUtility.SetDirty(this);
+#endif
+                _speaker = value;
+            }
+        }
+
         public string Text
         {
             get
@@ -48,14 +65,6 @@ namespace RPG.Dialogue
             {
                 return _rect;
             }
-            set
-            {
-#if UNITY_EDITOR
-                Undo.RecordObject(this, "Update Dialogue Position");
-                EditorUtility.SetDirty(this);
-#endif
-                _rect = value;
-            }
         }
         #endregion
 
@@ -78,6 +87,15 @@ namespace RPG.Dialogue
             EditorUtility.SetDirty(this);
 #endif
             Children.Remove(childID);
+        }
+
+        public void SetRectPosition(Vector2 newPosition)
+        {
+#if UNITY_EDITOR
+            Undo.RecordObject(this, "Update Dialogue Position");
+            EditorUtility.SetDirty(this);
+#endif
+            _rect.position = newPosition;
         }
         #endregion
     }
