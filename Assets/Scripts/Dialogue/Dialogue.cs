@@ -52,24 +52,17 @@ namespace RPG.Dialogue
         {
             foreach (string childID in parentNode.Children)
             {
-                if (!_nodeLookUpTable.ContainsKey(childID)) continue;
-
-                yield return _nodeLookUpTable[childID];
+                if (_nodeLookUpTable.ContainsKey(childID))
+                {
+                    yield return _nodeLookUpTable[childID];
+                }
             }
         }
+        #endregion
 
-        private void CreateRootNode()
-        {
-            DialogueNode rootNode = CreateInstance<DialogueNode>();
-            rootNode.name = System.Guid.NewGuid().ToString();
-            rootNode.Text = "Type First Dialogue script here...";
-            rootNode.Speaker = DialogueSpeaker.AI;
 
-            _nodes.Add(rootNode);
-            UpdateLookUpTable();
-            // IMPORTANT Can't put AddObjectToAsset here bcuz when we call this in first Awake() it won't yet fully create this scriptable object as an asset, So we need to do this when Save the file.
-        }
 
+        #region --Methods-- (Custom PUBLIC) ~Mainly For Dialogue Editor~
         public void CreateChildNodeUnder(DialogueNode parentNode)
         {
             DialogueNode childNode = CreateInstance<DialogueNode>();
@@ -135,6 +128,18 @@ namespace RPG.Dialogue
 
 
         #region --Methods-- (Custom PRIVATE)
+        private void CreateRootNode()
+        {
+            DialogueNode rootNode = CreateInstance<DialogueNode>();
+            rootNode.name = System.Guid.NewGuid().ToString();
+            rootNode.Text = "Type First Dialogue script here...";
+            rootNode.Speaker = DialogueSpeaker.AI;
+
+            _nodes.Add(rootNode);
+            UpdateLookUpTable();
+            // IMPORTANT Can't put AddObjectToAsset here bcuz when we call this in first Awake() it won't yet fully create this scriptable object as an asset, So we need to do this when Save the file.
+        }
+
         private void UpdateLookUpTable()
         {
             _nodeLookUpTable.Clear();

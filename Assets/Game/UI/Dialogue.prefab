@@ -569,7 +569,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 761.35, y: -217.43}
+  m_AnchoredPosition: {x: 761.35, y: -334.05}
   m_SizeDelta: {x: 1442.7, y: 121.619995}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &675560700316854472
@@ -729,10 +729,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'You don''t look like you''refrom around here.You don''t look like you''refrom
-    around here.You don''t look like you''refrom around here.
-
-'
+  m_text: 'Question. Question. Question. Question. Question. Question. Question.
+    fdsff Question. Question. '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -888,8 +886,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'I''ve live here all my life. I''ve live here all my life. I''ve live here
-    all my life. I''ve live here all my life. '
+  m_text: 'ReplyButton. ReplyButton. ReplyButton. aaaaa ReplyButton. ReplyButton.
+    ReplyButton. '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: ad2c7cbc63bb141b786431fec9199e91, type: 2}
@@ -1108,8 +1106,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: You don't look like you'refrom around here.You don't look like you'refrom
-    around here.You don't look like you'refrom around here.dasfasdfasdfasdfasdfsadfasdfdsfasdfasdfasdfasdfa
+  m_text: 'AI Dialogue Text. AI Dialogue Text. AI Dialogue Text. AI Dialogue Text.
+    AI Dialogue Text. AI Dialogue Text. AI Dialogue Text. '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1522,3 +1520,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _aiText: {fileID: 3296638604137227983}
+  _nextButton: {fileID: 8445181450021660735}
