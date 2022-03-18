@@ -14,7 +14,7 @@ namespace RPG.Dialogue
 
         #region --Fields-- (In Class)
         private DialogueNode _currentNode;
-        private DialogueNode _aiNode;
+        private DialogueNode _previousNode;
         #endregion
 
 
@@ -23,9 +23,6 @@ namespace RPG.Dialogue
         private void Awake()
         {
             _currentNode = _currentDialogue.GetRootNode();
-
-            if (_currentDialogue.GetRootNode().Speaker == DialogueSpeaker.AI)
-                _aiNode = _currentDialogue.GetRootNode();
         }
         #endregion
 
@@ -44,35 +41,49 @@ namespace RPG.Dialogue
 
         public string GetQuestionText()
         {
-            if (_aiNode == null)
+            if (_previousNode == null)
             {
                 return "";
             }
 
-            return _aiNode.QuestionText;
+            return _previousNode.QuestionText;
         }
 
-        public IEnumerable<string> GetChoices()
+        public IEnumerable<DialogueNode> GetChoices()
         {
-            DialogueNode[] childArray = _currentDialogue.GetAllChildren(_aiNode).ToArray();
+            DialogueNode[] playerNode = _currentDialogue.GetPlayerChildren(_previousNode).ToArray();
 
-            foreach (DialogueNode eachNode in childArray)
+            foreach (DialogueNode eachNode in playerNode)
             {
-                yield return eachNode.Text;
+                yield return eachNode;
             }
         }
 
-        public void Next()
+        public void GetChoiceNode(DialogueNode clickedNode)
+        {
+            _previousNode = _currentNode;
+            _currentNode = clickedNode;
+
+            GetNextNode();
+        }
+
+        public void GetNextNode()
         {
             if (!HasNext()) return;
 
-            DialogueNode[] childArray = _currentDialogue.GetAllChildren(_currentNode).ToArray();
+            //int numPlayerResponses = _currentDialogue.GetPlayerChildren(_currentNode).Count();
+            //if (numPlayerResponses > 0)
+            //{
+            //    _isResponsePanel = true;
+            //    return;
+            //}
 
-            DialogueNode randChild = childArray[Random.Range(0, childArray.Length)];
+            DialogueNode[] allNode = _currentDialogue.GetAllChildren(_currentNode).ToArray();
 
+            DialogueNode randChild = allNode[Random.Range(0, allNode.Length)];
+
+            _previousNode = _currentNode;
             _currentNode = randChild;
-            if (_currentNode.Speaker == DialogueSpeaker.AI)
-                _aiNode = _currentNode;
         }
 
         public bool HasNext()

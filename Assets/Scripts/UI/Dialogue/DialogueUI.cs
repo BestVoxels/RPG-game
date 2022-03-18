@@ -62,12 +62,7 @@ namespace RPG.UI.Dialogue
                 _questionText.text = _playerConversant.GetQuestionText();
 
                 ClearReplyButton();
-                foreach (string eachChoice in _playerConversant.GetChoices())
-                {
-                    GameObject spawnedGameObject = Instantiate(_replyButtonPrefab, _spawnParent);
-                    spawnedGameObject.GetComponentInChildren<TMP_Text>().text = eachChoice;
-                    spawnedGameObject.GetComponentInChildren<Button>().onClick.AddListener(Next);
-                }
+                BuildChoiceList();
             }
             else
             {
@@ -85,6 +80,16 @@ namespace RPG.UI.Dialogue
             foreach (Transform eachButton in _spawnParent.transform)
             {
                 Destroy(eachButton.gameObject);
+            }
+        }
+
+        private void BuildChoiceList()
+        {
+            foreach (DialogueNode choiceNode in _playerConversant.GetChoices())
+            {
+                GameObject spawnedGameObject = Instantiate(_replyButtonPrefab, _spawnParent);
+                spawnedGameObject.GetComponentInChildren<TMP_Text>().text = choiceNode.Text;
+                spawnedGameObject.GetComponentInChildren<Button>().onClick.AddListener(delegate { Pick(choiceNode); });
             }
         }
 
@@ -106,7 +111,13 @@ namespace RPG.UI.Dialogue
         #region --Methods-- (Subscriber) ~UnityEvent~
         private void Next()
         {
-            _playerConversant.Next();
+            _playerConversant.GetNextNode();
+            UpdateDialogueUI();
+        }
+
+        private void Pick(DialogueNode selectedNode)
+        {
+            _playerConversant.GetChoiceNode(selectedNode);
             UpdateDialogueUI();
         }
         #endregion

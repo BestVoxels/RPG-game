@@ -58,6 +58,28 @@ namespace RPG.Dialogue
                 }
             }
         }
+
+        public IEnumerable<DialogueNode> GetPlayerChildren(DialogueNode parentNode)
+        {
+            foreach (DialogueNode eachNode in GetAllChildren(parentNode))
+            {
+                if (eachNode.Speaker == DialogueSpeaker.Player)
+                {
+                    yield return eachNode;
+                }
+            }
+        }
+
+        public IEnumerable<DialogueNode> GetAIChildren(DialogueNode parentNode)
+        {
+            foreach (DialogueNode eachNode in GetAllChildren(parentNode))
+            {
+                if (eachNode.Speaker == DialogueSpeaker.AI)
+                {
+                    yield return eachNode;
+                }
+            }
+        }
         #endregion
 
 
