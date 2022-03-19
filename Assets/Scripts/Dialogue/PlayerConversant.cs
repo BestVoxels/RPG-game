@@ -48,6 +48,15 @@ namespace RPG.Dialogue
             OnDialogueUpdated?.Invoke();
         }
 
+        public void QuitDialogue()
+        {
+            _currentDialogue = null;
+            _currentNode = null;
+            _previousNode = null;
+
+            OnDialogueUpdated?.Invoke();
+        }
+
         public string GetText()
         {
             if (_currentNode == null)

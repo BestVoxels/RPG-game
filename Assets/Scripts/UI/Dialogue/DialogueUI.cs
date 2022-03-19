@@ -8,8 +8,11 @@ namespace RPG.UI.Dialogue
     public class DialogueUI : MonoBehaviour
     {
         #region --Fields-- (Inspector)
-        [Header("Dialogue Panels")]
-        [SerializeField] private GameObject[] _dialoguePanels;
+        [Header("Dialogue UI Panels")]
+        [SerializeField] private GameObject[] _dialogueUIPanels;
+
+        [Header("Talk Panels")]
+        [SerializeField] private GameObject[] _talkPanels;
 
         [Header("Response Panels")]
         [SerializeField] private GameObject[] _responsePanels;
@@ -18,7 +21,10 @@ namespace RPG.UI.Dialogue
         [Space]
 
         [Header("Dialogue Stuffs")]
-        [SerializeField] private TMP_Text _dialogueText;
+        [SerializeField] private Button _quitButton;
+
+        [Header("Talk Stuffs")]
+        [SerializeField] private TMP_Text _talkText;
         [SerializeField] private Button _nextButton;
 
         [Header("Response Stuffs")]
@@ -41,6 +47,7 @@ namespace RPG.UI.Dialogue
             _playerConversant = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerConversant>();
 
             _nextButton.onClick.AddListener(Next);
+            _quitButton.onClick.AddListener(Quit);
         }
 
         private void OnEnable()
@@ -83,9 +90,15 @@ namespace RPG.UI.Dialogue
             }
         }
 
-        private void SetDialoguePanels(bool status)
+        private void SetDialogueUIPanels(bool status)
         {
-            foreach (GameObject eachPanel in _dialoguePanels)
+            foreach (GameObject eachPanel in _dialogueUIPanels)
+                eachPanel.SetActive(status);
+        }
+
+        private void SetTalkPanels(bool status)
+        {
+            foreach (GameObject eachPanel in _talkPanels)
                 eachPanel.SetActive(status);
         }
 
@@ -101,11 +114,13 @@ namespace RPG.UI.Dialogue
         #region --Methods-- (Subscriber)
         private void UpdateDialogueUI()
         {
+            SetDialogueUIPanels(_playerConversant.IsActive());
+
             if (!_playerConversant.IsActive()) return;
 
             if (_playerConversant.IsPlayerSpeaking())
             {
-                SetDialoguePanels(false);
+                SetTalkPanels(false);
                 SetResponsePanels(true);
 
                 _questionText.text = _playerConversant.GetQuestionText();
@@ -116,9 +131,9 @@ namespace RPG.UI.Dialogue
             else
             {
                 SetResponsePanels(false);
-                SetDialoguePanels(true);
+                SetTalkPanels(true);
 
-                _dialogueText.text = _playerConversant.GetText();
+                _talkText.text = _playerConversant.GetText();
             }
 
             _nextButton.gameObject.SetActive(_playerConversant.HasNext());
@@ -136,6 +151,11 @@ namespace RPG.UI.Dialogue
         private void Pick(DialogueNode selectedNode)
         {
             _playerConversant.GetChoiceNode(selectedNode);
+        }
+
+        private void Quit()
+        {
+            _playerConversant.QuitDialogue();
         }
         #endregion
     }
