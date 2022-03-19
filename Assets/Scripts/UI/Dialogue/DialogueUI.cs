@@ -43,17 +43,66 @@ namespace RPG.UI.Dialogue
             _nextButton.onClick.AddListener(Next);
         }
 
+        private void OnEnable()
+        {
+            _playerConversant.OnDialogueUpdated += UpdateDialogueUI;
+        }
+
         private void Start()
         {
             UpdateDialogueUI();
+        }
+
+        private void OnDisable()
+        {
+            _playerConversant.OnDialogueUpdated -= UpdateDialogueUI;
         }
         #endregion
 
 
 
         #region --Methods-- (Custom PRIVATE)
+        private void ClearReplyButton()
+        {
+            foreach (Transform eachButton in _spawnParent.transform)
+            {
+                Destroy(eachButton.gameObject);
+            }
+        }
+
+        private void BuildChoiceList()
+        {
+            foreach (DialogueNode choiceNode in _playerConversant.GetChoices())
+            {
+                GameObject spawnedGameObject = Instantiate(_replyButtonPrefab, _spawnParent);
+                spawnedGameObject.GetComponentInChildren<TMP_Text>().text = choiceNode.Text;
+                spawnedGameObject.GetComponentInChildren<Button>().onClick.AddListener(() =>
+                {
+                    Pick(choiceNode);
+                });
+            }
+        }
+
+        private void SetDialoguePanels(bool status)
+        {
+            foreach (GameObject eachPanel in _dialoguePanels)
+                eachPanel.SetActive(status);
+        }
+
+        private void SetResponsePanels(bool status)
+        {
+            foreach (GameObject eachPanel in _responsePanels)
+                eachPanel.SetActive(status);
+        }
+        #endregion
+
+
+
+        #region --Methods-- (Subscriber)
         private void UpdateDialogueUI()
         {
+            if (!_playerConversant.IsActive()) return;
+
             if (_playerConversant.IsPlayerSpeaking())
             {
                 SetDialoguePanels(false);
@@ -74,36 +123,6 @@ namespace RPG.UI.Dialogue
 
             _nextButton.gameObject.SetActive(_playerConversant.HasNext());
         }
-
-        private void ClearReplyButton()
-        {
-            foreach (Transform eachButton in _spawnParent.transform)
-            {
-                Destroy(eachButton.gameObject);
-            }
-        }
-
-        private void BuildChoiceList()
-        {
-            foreach (DialogueNode choiceNode in _playerConversant.GetChoices())
-            {
-                GameObject spawnedGameObject = Instantiate(_replyButtonPrefab, _spawnParent);
-                spawnedGameObject.GetComponentInChildren<TMP_Text>().text = choiceNode.Text;
-                spawnedGameObject.GetComponentInChildren<Button>().onClick.AddListener(delegate { Pick(choiceNode); });
-            }
-        }
-
-        private void SetDialoguePanels(bool status)
-        {
-            foreach (GameObject eachPanel in _dialoguePanels)
-                eachPanel.SetActive(status);
-        }
-
-        private void SetResponsePanels(bool status)
-        {
-            foreach (GameObject eachPanel in _responsePanels)
-                eachPanel.SetActive(status);
-        }
         #endregion
 
 
@@ -112,13 +131,11 @@ namespace RPG.UI.Dialogue
         private void Next()
         {
             _playerConversant.GetNextNode();
-            UpdateDialogueUI();
         }
 
         private void Pick(DialogueNode selectedNode)
         {
             _playerConversant.GetChoiceNode(selectedNode);
-            UpdateDialogueUI();
         }
         #endregion
     }
