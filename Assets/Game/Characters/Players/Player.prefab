@@ -518,6 +518,12 @@ MonoBehaviour:
   - cursorType: 4
     texture: {fileID: 2800000, guid: f8c873f1e53e83f4aabf342d6be1dfc3, type: 3}
     hotspot: {x: 0, y: 0}
+  - cursorType: 5
+    texture: {fileID: 2800000, guid: cecad95c851b97f40b105b30b0bfede3, type: 3}
+    hotspot: {x: 0, y: 0}
+  - cursorType: 6
+    texture: {fileID: 2800000, guid: 96d4bfdb0d6d8c042bf8fccf6524d239, type: 3}
+    hotspot: {x: 0, y: 0}
   _raycastRadius: 0.5
 --- !u!114 &8858048794927821612
 MonoBehaviour:

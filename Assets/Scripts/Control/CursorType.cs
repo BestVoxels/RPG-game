@@ -7,6 +7,7 @@ namespace RPG.Control
         Combat,
         UI,
         Pickup,
-        PickupFull
+        PickupFull,
+        Dialogue,
     }
 }

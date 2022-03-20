@@ -8,12 +8,6 @@ namespace RPG.Dialogue
 {
     public class PlayerConversant : MonoBehaviour
     {
-        #region --Fields-- (Inspector)
-        [SerializeField] private Dialogue _testDialogue;
-        #endregion
-
-
-
         #region --Events-- (Delegate as Action)
         public event Action OnDialogueUpdated;
         #endregion
@@ -24,17 +18,6 @@ namespace RPG.Dialogue
         private Dialogue _currentDialogue;
         private DialogueNode _currentNode;
         private DialogueNode _previousNode;
-        #endregion
-
-
-
-        #region --Methods-- (Built In)
-        private IEnumerator Start()
-        {
-            yield return new WaitForSeconds(2f);
-
-            StartDialogue(_testDialogue);
-        }
         #endregion
 
 
