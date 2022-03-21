@@ -30,7 +30,7 @@ namespace RPG.Dialogue
         {
             if (other.CompareTag("Player"))
             {
-                _playerConversant.StartDialogue(_dialogue);
+                _playerConversant.StartDialogue(this, _dialogue);
                 _actionScheduler.StopCurrentAction();
             }
         }

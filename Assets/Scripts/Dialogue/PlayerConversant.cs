@@ -14,6 +14,7 @@ namespace RPG.Dialogue
 
 
         #region --Fields-- (In Class)
+        private AIConversant _aiConversant;
         private Dialogue _currentDialogue;
         private DialogueNode _currentNode;
         private DialogueNode _previousNode;
@@ -22,8 +23,9 @@ namespace RPG.Dialogue
 
 
         #region --Methods-- (Custom PUBLIC)
-        public void StartDialogue(Dialogue newDialogue)
+        public void StartDialogue(AIConversant newAIConversant, Dialogue newDialogue)
         {
+            _aiConversant = newAIConversant;
             _currentDialogue = newDialogue;
             _currentNode = _currentDialogue.GetRootNode();
 
@@ -38,6 +40,7 @@ namespace RPG.Dialogue
             if (!IsPlayerSpeaking())
                 TriggerExitAction();
 
+            _aiConversant = null;
             _currentDialogue = null;
             _currentNode = null;
             _previousNode = null;
@@ -128,16 +131,30 @@ namespace RPG.Dialogue
         // the current node will be one of player choice when get randomed, so only trigger enter normal node right away AND trigger exit when leave the current node.
         private void TriggerEnterAction()
         {
-            if (_currentNode == null || _currentNode.OnTriggerEnter == "") return;
+            if (_currentNode == null) return;
+
+            TriggerAction(_currentNode.OnTriggerEnter);
 
             Debug.Log(_currentNode.OnTriggerEnter);
         }
 
         private void TriggerExitAction()
         {
-            if (_currentNode == null || _currentNode.OnTriggerExit == "") return;
+            if (_currentNode == null) return;
+
+            TriggerAction(_currentNode.OnTriggerExit);
 
             Debug.Log(_currentNode.OnTriggerExit);
+        }
+
+        private void TriggerAction(string actionString)
+        {
+            if (actionString == "") return;
+
+            foreach (DialogueTrigger eachDialogueTrigger in _aiConversant.GetComponents<DialogueTrigger>())
+            {
+                eachDialogueTrigger.Trigger(actionString);
+            }
         }
         #endregion
     }
