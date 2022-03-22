@@ -145,9 +145,9 @@ namespace RPG.UI.Dialogue
                 SetResponsePanels(false);
                 SetTalkPanels(true);
 
-                _nextButton.gameObject.SetActive(_playerConversant.HasNext());
-
                 _talkText.text = _playerConversant.GetText();
+
+                _nextButton.gameObject.SetActive(_playerConversant.HasNext());
             }
         }
         #endregion

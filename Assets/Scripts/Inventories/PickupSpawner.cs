@@ -45,7 +45,7 @@ namespace RPG.Inventories
         /// <summary>
         /// True if the pickup was collected.
         /// </summary>
-        public bool isCollected()
+        public bool IsCollected()
         {
             return GetPickup() == null;
         }
@@ -74,7 +74,7 @@ namespace RPG.Inventories
         #region --Methods-- (Interface)
         object ISaveable.CaptureState()
         {
-            return isCollected() || _isCollectedSave; // Need '_isCollectedSave' bcuz 'isCollected()' will return 'false' when load scene and will override save file as if we havn't pickup!
+            return IsCollected() || _isCollectedSave; // Need '_isCollectedSave' bcuz 'isCollected()' will return 'false' when load scene and will override save file as if we havn't pickup!
         }
 
         void ISaveable.RestoreState(object state)
@@ -86,7 +86,7 @@ namespace RPG.Inventories
                 DestroyPickup();
             }
 
-            if (!_isCollectedSave)
+            if (!_isCollectedSave && GetPickup() == null) // check if there is Pickup exist don't spawn again cuz first spawned in Awake()
             {
                 SpawnPickup();
             }
