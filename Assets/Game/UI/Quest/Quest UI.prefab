@@ -500,6 +500,7 @@ GameObject:
   - component: {fileID: 2055626024490382986}
   - component: {fileID: 3082663458316496508}
   - component: {fileID: 4985296180845453477}
+  - component: {fileID: 6421067638824048981}
   m_Layer: 5
   m_Name: Quest Panel
   m_TagString: Untagged
@@ -575,6 +576,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 0
   m_VerticalFit: 2
+--- !u!114 &6421067638824048981
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5701730750825273434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eec0b674fbccd48e3968f78bb5650d97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _tempQuests:
+  - {fileID: 11400000, guid: e727e1a666bb74b4b921d05e2fd95e99, type: 2}
+  - {fileID: 11400000, guid: 1db6e382656b94159adc20a0b54f28fa, type: 2}
+  _questPrefab: {fileID: 5772906546484016993, guid: d838da1fc0b214f03aa107a0feefcb98, type: 3}
 --- !u!1 &5904193591054295017
 GameObject:
   m_ObjectHideFlags: 0

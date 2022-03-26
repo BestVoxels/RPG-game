@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 117972970883106314}
   - component: {fileID: 7565174318725666171}
   m_Layer: 5
-  m_Name: Counter Text
+  m_Name: Timer Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -67,7 +67,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 1/3
+  m_text: 2 Days
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -153,7 +153,7 @@ MonoBehaviour:
   m_MinHeight: -1
   m_PreferredWidth: 0
   m_PreferredHeight: -1
-  m_FlexibleWidth: 25
+  m_FlexibleWidth: 30
   m_FlexibleHeight: 100
   m_LayoutPriority: 1
 --- !u!1 &3413213844276606480
@@ -168,7 +168,9 @@ GameObject:
   - component: {fileID: 4794070611488458546}
   - component: {fileID: 6385611886294798592}
   - component: {fileID: 6171729623379954894}
+  - component: {fileID: 5106813286222079670}
   - component: {fileID: 860923776924374894}
+  - component: {fileID: 5772906546484016993}
   m_Layer: 5
   m_Name: Quest
   m_TagString: Untagged
@@ -262,6 +264,26 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &5106813286222079670
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3413213844276606480}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 306cc8c2b49d7114eaa3623786fc2126, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreLayout: 0
+  m_MinWidth: -1
+  m_MinHeight: -1
+  m_PreferredWidth: -1
+  m_PreferredHeight: 87
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &860923776924374894
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -275,6 +297,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _tooltipPrefab: {fileID: 5275336489632239790, guid: d4f11009c0583452e899252a8d31c709, type: 3}
+--- !u!114 &5772906546484016993
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3413213844276606480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7da035cae7314cb282d373c0ab7a2ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _title: {fileID: 7773187340029974160}
+  _timer: {fileID: 117972970883106314}
 --- !u!1 &8527727955661088195
 GameObject:
   m_ObjectHideFlags: 0
@@ -428,6 +464,6 @@ MonoBehaviour:
   m_MinHeight: -1
   m_PreferredWidth: 0
   m_PreferredHeight: -1
-  m_FlexibleWidth: 75
+  m_FlexibleWidth: 70
   m_FlexibleHeight: 100
   m_LayoutPriority: 1
