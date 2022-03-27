@@ -1,5 +1,50 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &860220039415556950
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8378161208671480879}
+  - component: {fileID: 1536168036078127709}
+  m_Layer: 0
+  m_Name: QuestGiver MomQuest
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8378161208671480879
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 860220039415556950}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7206508865189981829}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1536168036078127709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 860220039415556950}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b353afa0fc1f243f9a0376ce47536ee4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _questToGive: {fileID: 11400000, guid: 61b4ceafcf6d143da8ccabae4598c6cd, type: 2}
 --- !u!1001 &318205541062432623
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -211,7 +256,7 @@ MonoBehaviour:
   _onTriggerHappen:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8775130414735837217}
+      - m_Target: {fileID: 1536168036078127709}
         m_TargetAssemblyTypeName: RPG.Quests.QuestGiver, Assembly-CSharp
         m_MethodName: GiveQuest
         m_Mode: 1
@@ -303,19 +348,6 @@ MonoBehaviour:
   _profileImage: {fileID: 21300000, guid: 9221a33849c62451f8c1384e7f22c9ba, type: 3}
   _speakerName: Betty
   _dialogue: {fileID: 11400000, guid: e951ae69ffe574e6fb750dfdc5ec44ec, type: 2}
---- !u!114 &8775130414735837217
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7206508865189981825}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b353afa0fc1f243f9a0376ce47536ee4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _questToGive: {fileID: 11400000, guid: 61b4ceafcf6d143da8ccabae4598c6cd, type: 2}
 --- !u!4 &7206508865189981829 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6947039788277725674, guid: 58df80d8498834bdc838433c906b5b40, type: 3}

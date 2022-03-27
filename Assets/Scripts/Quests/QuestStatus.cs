@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 namespace RPG.Quests
 {
@@ -28,7 +29,28 @@ namespace RPG.Quests
 
 
         #region --Methods-- (Custom PUBLIC)
+        public bool AddCompletedObjective(string objectiveToAdd)
+        {
+            if (IsObjectiveCompleted(objectiveToAdd)) return false;
+            if (!Quest.IsObjectiveExist(objectiveToAdd))
+            {
+                UnityEngine.Debug.LogError($"There is no '{objectiveToAdd}' Objective in the '{Quest.name}' Quest's Objectives List");
+                return false;
+            }
+
+            _completedObjectives.Add(objectiveToAdd);
+
+            if (IsQuestCompleted())
+            {
+                UnityEngine.Debug.Log($"{Quest.Title} is Completed! GIVE OUT REWARD!");
+            }
+
+            return true;
+        }
+
         public bool IsObjectiveCompleted(string compareObjective) => _completedObjectives.Contains(compareObjective);
+
+        public bool IsQuestCompleted() => Quest.Objectives.Count() == CompletedCount;
         #endregion
     }
 }

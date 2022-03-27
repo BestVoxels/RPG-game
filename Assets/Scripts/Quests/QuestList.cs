@@ -25,14 +25,28 @@ namespace RPG.Quests
 
 
         #region --Methods-- (Custom PUBLIC)
-        public void AddQuest(Quest questToAdd)
+        public bool AddQuest(Quest questToGive)
         {
-            if (IsQuestExist(questToAdd)) return;
+            if (IsQuestExist(questToGive)) return false;
 
-            QuestStatus newQuestStatus = new QuestStatus(questToAdd);
+            QuestStatus newQuestStatus = new QuestStatus(questToGive);
             _questStatuses.Add(newQuestStatus);
 
             OnQuestListUpdated?.Invoke();
+
+            return true;
+        }
+
+        public bool AddCompletedObjective(Quest questToAddObjective, string objective)
+        {
+            if (!IsQuestExist(questToAddObjective)) return false;
+
+            QuestStatus questStatus = GetQuestStatus(questToAddObjective);
+            questStatus.AddCompletedObjective(objective);
+
+            OnQuestListUpdated?.Invoke();
+
+            return true;
         }
         #endregion
 
@@ -41,13 +55,16 @@ namespace RPG.Quests
         #region --Methods-- (Custom PRIVATE)
         private bool IsQuestExist(Quest questToCheck)
         {
-            foreach (QuestStatus eachQuestStatus in QuestStatuses)
-            {
-                if (eachQuestStatus.Quest == questToCheck)
-                    return true;
-            }
+            return GetQuestStatus(questToCheck) != null;
+        }
 
-            return false;
+        private QuestStatus GetQuestStatus(Quest questToGet)
+        {
+            foreach (QuestStatus eachQuestStatus in QuestStatuses)
+                if (eachQuestStatus.Quest == questToGet)
+                    return eachQuestStatus;
+
+            return null;
         }
         #endregion
     }

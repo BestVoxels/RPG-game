@@ -154,7 +154,7 @@ namespace RPG.Dialogue
         {
             if (actionString == "") return;
 
-            foreach (DialogueTrigger eachDialogueTrigger in _aiConversant.GetComponents<DialogueTrigger>())
+            foreach (DialogueTrigger eachDialogueTrigger in _aiConversant.GetComponentsInChildren<DialogueTrigger>())
             {
                 eachDialogueTrigger.Trigger(actionString);
             }

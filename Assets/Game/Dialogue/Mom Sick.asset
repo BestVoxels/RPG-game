@@ -15,10 +15,9 @@ MonoBehaviour:
   _speaker: 1
   _text: 'Thank you so much! Here is what you can do! You''re such a wonderful guy!
 
-    (check
-    your quest list)
 
-'
+    (check
+    your quest list)'
   _questionText: 
   _children: []
   _rect:

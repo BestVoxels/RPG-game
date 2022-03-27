@@ -15,7 +15,7 @@ MonoBehaviour:
   _title: Help Little Girl Mom
   _description: "My mom is really in a terrible fever! Please help as soon as possible!
     She live in the North of the Goblin town. \n-Betty"
-  _timerInHours: 12
+  _timerInHours: 24
   _objectives:
   - Find her mom
   - Get medicine beside the house

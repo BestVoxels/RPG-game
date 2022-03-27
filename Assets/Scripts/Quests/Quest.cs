@@ -11,8 +11,8 @@ namespace RPG.Quests
         [TextArea]
         [SerializeField] private string _description;
         [SerializeField] private int _timerInHours;
-        [SerializeField] private string[] _objectives;
-        [SerializeField] private string[] _rewards;
+        [SerializeField] private List<string> _objectives = new List<string>();
+        [SerializeField] private List<string> _rewards = new List<string>();
         #endregion
 
 
@@ -23,6 +23,12 @@ namespace RPG.Quests
         public int TimerInHours { get { return _timerInHours; } }
         public IEnumerable<string> Objectives { get { return _objectives; } }
         public IEnumerable<string> Rewards { get { return _rewards; } }
+        #endregion
+
+
+
+        #region --Methods-- (Custom PUBLIC)
+        public bool IsObjectiveExist(string objectiveToCheck) => _objectives.Contains(objectiveToCheck);
         #endregion
     }
 }
