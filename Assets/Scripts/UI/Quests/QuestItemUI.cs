@@ -14,24 +14,24 @@ namespace RPG.UI.Quests
 
 
         #region --Fields-- (In Class)
-        private Quest _quest;
+        private QuestStatus _questStatus;
         #endregion
 
 
 
         #region --Properties-- (With Backing Up)
-        public Quest Quest { get { return _quest; } }
+        public QuestStatus QuestStatus { get { return _questStatus; } }
         #endregion
 
 
 
         #region --Methods-- (Custom PUBLIC)
-        public void Setup(Quest quest)
+        public void Setup(QuestStatus questStatus)
         {
-            _quest = quest;
+            _questStatus = questStatus;
 
-            _title.text = quest.Title;
-            _timer.text = $"{quest.TimerInHours / 24} Days"; // Use Method to Convert the time here.
+            _title.text = questStatus.Quest.Title;
+            _timer.text = $"{questStatus.Quest.TimerInHours / 24} Days"; // Use Method to Convert the time here.
         }
         #endregion
     }

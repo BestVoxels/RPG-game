@@ -19,7 +19,7 @@ namespace RPG.UI.Quests
             QuestItemUI questItemUI = GetComponent<QuestItemUI>();
             if (questItemUI == null) return;
 
-            questTooltip.Setup(questItemUI.Quest);
+            questTooltip.Setup(questItemUI.QuestStatus);
         }
         #endregion
     }

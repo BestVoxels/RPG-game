@@ -16,7 +16,8 @@ namespace RPG.UI.Quests
         [SerializeField] private TMP_Text _rewardHeaderTextPrefab;
 
         [Header("Spawner Stuff")]
-        [SerializeField] private GameObject _objectivePrefab;
+        [SerializeField] private GameObject _objectiveCompletePrefab;
+        [SerializeField] private GameObject _objectiveIncompletePrefab;
         [SerializeField] private Transform _objectiveTransform;
         [SerializeField] private GameObject _rewardPrefab;
         [SerializeField] private Transform _rewardTransform;
@@ -25,38 +26,40 @@ namespace RPG.UI.Quests
 
 
         #region --Methods-- (Custom PUBLIC)
-        public void Setup(Quest quest)
+        public void Setup(QuestStatus questStatus)
         {
-            _headerText.text = quest.Title;
-            _descriptionText.text = quest.Description;
+            _headerText.text = questStatus.Quest.Title;
+            _descriptionText.text = questStatus.Quest.Description;
 
             ClearObjectiveList();
             ClearRewardList();
 
-            BuildObjectiveList(quest);
-            BuildRewardList(quest);
+            BuildObjectiveList(questStatus);
+            BuildRewardList(questStatus);
         }
         #endregion
 
 
 
         #region --Methods-- (Custom PRIVATE)
-        private void BuildObjectiveList(Quest quest)
+        private void BuildObjectiveList(QuestStatus questStatus)
         {
             Instantiate(_objectiveHeaderTextPrefab, _objectiveTransform);
 
-            foreach (string eachText in quest.Objectives)
+            foreach (string eachObjective in questStatus.Quest.Objectives)
             {
-                TMP_Text createdPrefabText = Instantiate(_objectivePrefab, _objectiveTransform).GetComponentInChildren<TMP_Text>();
-                createdPrefabText.text = eachText;
+                GameObject objectivePrefab = questStatus.IsObjectiveCompleted(eachObjective) ? _objectiveCompletePrefab : _objectiveIncompletePrefab;
+
+                TMP_Text createdPrefabText = Instantiate(objectivePrefab, _objectiveTransform).GetComponentInChildren<TMP_Text>();
+                createdPrefabText.text = eachObjective;
             }
         }
 
-        private void BuildRewardList(Quest quest)
+        private void BuildRewardList(QuestStatus questStatus)
         {
             Instantiate(_rewardHeaderTextPrefab, _rewardTransform);
 
-            foreach (string eachText in quest.Rewards)
+            foreach (string eachText in questStatus.Quest.Rewards)
             {
                 TMP_Text createdPrefabText = Instantiate(_rewardPrefab, _rewardTransform).GetComponentInChildren<TMP_Text>();
                 createdPrefabText.text = eachText;

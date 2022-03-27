@@ -6,8 +6,13 @@ namespace RPG.UI.Quests
     public class QuestListUI : MonoBehaviour
     {
         #region --Fields-- (Inspector)
-        [SerializeField] private Quest[] _tempQuests;
         [SerializeField] private QuestItemUI _questPrefab;
+        #endregion
+
+
+
+        #region --Fields-- (In Class)
+        private QuestList _questList;
         #endregion
 
 
@@ -15,6 +20,8 @@ namespace RPG.UI.Quests
         #region --Methods-- (Built In)
         private void Start()
         {
+            _questList = GameObject.FindGameObjectWithTag("Player").GetComponent<QuestList>();
+
             ClearQuestList();
 
             BuildQuestList();
@@ -26,10 +33,10 @@ namespace RPG.UI.Quests
         #region --Methods-- (Custom PRIVATE)
         private void BuildQuestList()
         {
-            foreach (Quest eachQuest in _tempQuests)
+            foreach (QuestStatus eachQuestStatus in _questList.QuestStatuses)
             {
                 QuestItemUI createdPrefab = Instantiate(_questPrefab, transform);
-                createdPrefab.Setup(eachQuest);
+                createdPrefab.Setup(eachQuestStatus);
             }
         }
 
