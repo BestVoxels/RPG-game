@@ -1,0 +1,156 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8697448208059011366
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90ecf6047c05b4430a9a93771aa5ea19, type: 3}
+  m_Name: 743bbff7-c7ae-4934-813a-2a59e1d740d7
+  m_EditorClassIdentifier: 
+  _speaker: 1
+  _text: 'Thank you so much! Here is what you can do! You''re such a wonderful guy!
+
+    (check
+    your quest list)
+
+'
+  _questionText: 
+  _children: []
+  _rect:
+    serializedVersion: 2
+    x: 791
+    y: 647
+    width: 200
+    height: 120
+  _onTriggerEnter: 
+  _onTriggerExit: GiveMomQuest
+--- !u!114 &-4305928430383020936
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90ecf6047c05b4430a9a93771aa5ea19, type: 3}
+  m_Name: 512b559b-6ae6-42fc-9a45-20ff01c8d659
+  m_EditorClassIdentifier: 
+  _speaker: 0
+  _text: Do I look like a docter?
+  _questionText: 
+  _children:
+  - 5463e3d4-82d1-4cb5-862a-52eed53fa53c
+  _rect:
+    serializedVersion: 2
+    x: 473
+    y: 352
+    width: 200
+    height: 120
+  _onTriggerEnter: 
+  _onTriggerExit: 
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1ef5e2bdeabd4de888a1dac01458fa7, type: 3}
+  m_Name: Mom Sick
+  m_EditorClassIdentifier: 
+  _isShowedNodesAction: 1
+  _isShowedQuestionTextOnAISpeaker: 1
+  _normalNodesSize: {x: 200, y: 120}
+  _showedNodesActionSize: {x: 200, y: 250}
+  _showedQuestionExtraHeightOnAI: 50
+  _newNodeOffset: {x: 250, y: 0}
+  _nodes:
+  - {fileID: 4508635113117480422}
+  - {fileID: -4305928430383020936}
+  - {fileID: 5995508938878511447}
+  - {fileID: 2875053274715746522}
+  - {fileID: -8697448208059011366}
+--- !u!114 &2875053274715746522
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90ecf6047c05b4430a9a93771aa5ea19, type: 3}
+  m_Name: 5463e3d4-82d1-4cb5-862a-52eed53fa53c
+  m_EditorClassIdentifier: 
+  _speaker: 1
+  _text: Grrrr... lets see what all the guards in towns will do to you!!! YOU LITTLE
+    KID!!!
+  _questionText: 
+  _children: []
+  _rect:
+    serializedVersion: 2
+    x: 789
+    y: 352
+    width: 200
+    height: 120
+  _onTriggerEnter: 
+  _onTriggerExit: Attack
+--- !u!114 &4508635113117480422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90ecf6047c05b4430a9a93771aa5ea19, type: 3}
+  m_Name: 24aca9da-bf08-422d-b754-183f26d70575
+  m_EditorClassIdentifier: 
+  _speaker: 1
+  _text: My mom has terrible fever!
+  _questionText: Would you mind helping her???
+  _children:
+  - 512b559b-6ae6-42fc-9a45-20ff01c8d659
+  - 8cd1049f-c84c-4c13-9c5e-f88d6ac08706
+  _rect:
+    serializedVersion: 2
+    x: 171
+    y: 452
+    width: 200
+    height: 100
+  _onTriggerEnter: 
+  _onTriggerExit: 
+--- !u!114 &5995508938878511447
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90ecf6047c05b4430a9a93771aa5ea19, type: 3}
+  m_Name: 8cd1049f-c84c-4c13-9c5e-f88d6ac08706
+  m_EditorClassIdentifier: 
+  _speaker: 0
+  _text: Sure, how?
+  _questionText: 
+  _children:
+  - 743bbff7-c7ae-4934-813a-2a59e1d740d7
+  _rect:
+    serializedVersion: 2
+    x: 475
+    y: 647
+    width: 200
+    height: 120
+  _onTriggerEnter: 
+  _onTriggerExit: 

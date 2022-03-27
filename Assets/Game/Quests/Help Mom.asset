@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d376356f3a86042309f091661b496808, type: 3}
+  m_Name: Help Mom
+  m_EditorClassIdentifier: 
+  _title: Help Little Girl Mom
+  _description: "My mom is really in a terrible fever! Please help as soon as possible!
+    She live in the North of the Goblin town. \n-Betty"
+  _timerInHours: 12
+  _objectives:
+  - Find her mom
+  - Get medicine beside the house
+  _rewards:
+  - + 500 Gold
+  - + 5 Betty Heart

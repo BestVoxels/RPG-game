@@ -18,14 +18,22 @@ namespace RPG.UI.Quests
 
 
         #region --Methods-- (Built In)
-        private void Start()
+        private void Awake()
         {
             _questList = GameObject.FindGameObjectWithTag("Player").GetComponent<QuestList>();
-
-            ClearQuestList();
-
-            BuildQuestList();
         }
+
+        private void OnEnable()
+        {
+            _questList.OnQuestListUpdated += UpdateQuestListUI;
+        }
+
+        private void Start()
+        {
+            UpdateQuestListUI();
+        }
+
+        // Can't Have OnDiable() to unsubscribe Since this one will be closed by default and with button
         #endregion
 
 
@@ -44,6 +52,17 @@ namespace RPG.UI.Quests
         {
             foreach (Transform eachChild in transform)
                 Destroy(eachChild.gameObject);
+        }
+        #endregion
+
+
+
+        #region --Methods-- (Subscriber)
+        private void UpdateQuestListUI()
+        {
+            ClearQuestList();
+
+            BuildQuestList();
         }
         #endregion
     }

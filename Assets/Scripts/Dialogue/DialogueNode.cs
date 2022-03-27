@@ -8,6 +8,7 @@ namespace RPG.Dialogue
     {
         #region --Fields-- (Inspector)
         [SerializeField] private DialogueSpeaker _speaker;
+        [TextArea]
         [SerializeField] private string _text;
         [SerializeField] private string _questionText;
         [SerializeField] private List<string> _children = new List<string>(); // IF has to initialize first otherwise will get null exception when try to access in GetAllChildren method

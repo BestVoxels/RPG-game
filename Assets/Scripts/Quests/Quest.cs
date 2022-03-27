@@ -8,6 +8,7 @@ namespace RPG.Quests
     {
         #region --Fields-- (Inspector)
         [SerializeField] private string _title;
+        [TextArea]
         [SerializeField] private string _description;
         [SerializeField] private int _timerInHours;
         [SerializeField] private string[] _objectives;

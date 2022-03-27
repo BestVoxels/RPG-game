@@ -195,6 +195,34 @@ CapsuleCollider:
   m_Height: 3
   m_Direction: 1
   m_Center: {x: 0, y: 1.5, z: 0}
+--- !u!114 &747133200128367175
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7206508865189981825}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91a78e599e44845a2a3026f7e77be0e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _actionString: GiveMomQuest
+  _onTriggerHappen:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8775130414735837217}
+        m_TargetAssemblyTypeName: RPG.Quests.QuestGiver, Assembly-CSharp
+        m_MethodName: GiveQuest
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1298076366201621555
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -273,8 +301,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _profileImage: {fileID: 21300000, guid: 9221a33849c62451f8c1384e7f22c9ba, type: 3}
-  _speakerName: Peasant Woman
-  _dialogue: {fileID: 11400000, guid: 0eba5a5ba2c7e414b8b28617201dc014, type: 2}
+  _speakerName: Betty
+  _dialogue: {fileID: 11400000, guid: e951ae69ffe574e6fb750dfdc5ec44ec, type: 2}
+--- !u!114 &8775130414735837217
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7206508865189981825}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b353afa0fc1f243f9a0376ce47536ee4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _questToGive: {fileID: 11400000, guid: 61b4ceafcf6d143da8ccabae4598c6cd, type: 2}
 --- !u!4 &7206508865189981829 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6947039788277725674, guid: 58df80d8498834bdc838433c906b5b40, type: 3}

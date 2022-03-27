@@ -154,7 +154,7 @@ namespace RPG.UI.Dialogue
 
 
 
-        #region --Methods-- (Subscriber) ~UnityEvent~
+        #region --Methods-- (Subscriber)
         private void Next()
         {
             _playerConversant.GetNextNode();

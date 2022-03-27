@@ -21,7 +21,7 @@ namespace RPG.Combat
 
 
 
-        #region --Methods-- (Custom PUBLIC)
+        #region --Methods-- (Subscriber) ~UnityEvent~
         public void Activate(bool status)
         {
             foreach (Fighter eachFighter in _fighters)

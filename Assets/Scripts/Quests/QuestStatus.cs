@@ -1,14 +1,12 @@
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace RPG.Quests
 {
-    [System.Serializable]
     public class QuestStatus
     {
-        #region --Fields-- (Inspector)
-        [SerializeField] private Quest _quest;
-        [SerializeField] private List<string> _completedObjectives;
+        #region --Fields-- (In Class)
+        private Quest _quest;
+        private List<string> _completedObjectives = new List<string>();
         #endregion
 
 
@@ -16,6 +14,15 @@ namespace RPG.Quests
         #region --Properties-- (With Backing Fields)
         public Quest Quest { get { return _quest; } }
         public int CompletedCount { get { return _completedObjectives.Count; } }
+        #endregion
+
+
+
+        #region --Constructors-- (PUBLIC)
+        public QuestStatus(Quest quest)
+        {
+            _quest = quest;
+        }
         #endregion
 
 
