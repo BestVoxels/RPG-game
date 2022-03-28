@@ -16,6 +16,9 @@ MonoBehaviour:
   _description: Go in the town and find a guard to talk to. Any guard would be fine!
   _timerInHours: 48
   _objectives:
-  - Go Talk To Any Guard
+  - referenceID: 1
+    description: Go talk to random guard
   _rewards:
-  - + 50 Gold
+  - rewardItem: {fileID: 11400000, guid: 3c8ae78be6d564981a72716a785c0662, type: 2}
+    number: 1
+    description: + 1 Shield

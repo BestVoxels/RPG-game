@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using RPG.Inventories;
 
 namespace RPG.Quests
 {
@@ -11,8 +12,8 @@ namespace RPG.Quests
         [TextArea]
         [SerializeField] private string _description;
         [SerializeField] private int _timerInHours;
-        [SerializeField] private List<string> _objectives = new List<string>();
-        [SerializeField] private List<string> _rewards = new List<string>();
+        [SerializeField] private List<Objective> _objectives = new List<Objective>();
+        [SerializeField] private List<Reward> _rewards = new List<Reward>();
         #endregion
 
 
@@ -21,8 +22,8 @@ namespace RPG.Quests
         public string Title { get { return _title; } }
         public string Description { get { return _description; } }
         public int TimerInHours { get { return _timerInHours; } }
-        public IEnumerable<string> Objectives { get { return _objectives; } }
-        public IEnumerable<string> Rewards { get { return _rewards; } }
+        public IEnumerable<Objective> Objectives { get { return _objectives; } }
+        public IEnumerable<Reward> Rewards { get { return _rewards; } }
         #endregion
 
 
@@ -37,7 +38,33 @@ namespace RPG.Quests
 
 
         #region --Methods-- (Custom PUBLIC)
-        public bool IsObjectiveExist(string objectiveToCheck) => _objectives.Contains(objectiveToCheck);
+        public bool IsObjectiveExist(string objectiveToCheck)
+        {
+            foreach (Objective eachObjective in Objectives)
+                if (eachObjective.referenceID == objectiveToCheck)
+                    return true;
+
+            return false;
+        }
+        #endregion
+
+
+
+        #region --Classes-- (Custom PUBLIC)
+        [System.Serializable]
+        public class Objective
+        {
+            public string referenceID;
+            public string description;
+        }
+
+        [System.Serializable]
+        public class Reward
+        {
+            public InventoryItem rewardItem;
+            public int number;
+            public string description;
+        }
         #endregion
     }
 }

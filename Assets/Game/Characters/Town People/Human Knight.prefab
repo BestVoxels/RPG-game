@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _questWithObjective: {fileID: 11400000, guid: 61b4ceafcf6d143da8ccabae4598c6cd, type: 2}
-  _objectiveToComplete: Get medicine beside the house
+  _objectiveToComplete: 2
 --- !u!1 &5021755788122737922
 GameObject:
   m_ObjectHideFlags: 0
@@ -91,7 +91,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _questWithObjective: {fileID: 11400000, guid: 61b4ceafcf6d143da8ccabae4598c6cd, type: 2}
-  _objectiveToComplete: Find her mom
+  _objectiveToComplete: 1
 --- !u!1001 &1279648412580859469
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -361,34 +361,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &8295320667325248695
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8190621187077453731}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91a78e599e44845a2a3026f7e77be0e3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _actionString: CompleteMomQuestGetMedicine
-  _onTriggerHappen:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 4924501886306631418}
-        m_TargetAssemblyTypeName: RPG.Quests.QuestCompleter, Assembly-CSharp
-        m_MethodName: CompleteQuestObjective
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &7448526118805178949
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -427,6 +399,34 @@ MonoBehaviour:
   _profileImage: {fileID: 21300000, guid: 88a1cbcfc07604b8bb6294fbbbcff649, type: 3}
   _speakerName: Human Knight
   _dialogue: {fileID: 11400000, guid: 0eba5a5ba2c7e414b8b28617201dc014, type: 2}
+--- !u!114 &8295320667325248695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8190621187077453731}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91a78e599e44845a2a3026f7e77be0e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _actionString: CompleteMomQuestGetMedicine
+  _onTriggerHappen:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4924501886306631418}
+        m_TargetAssemblyTypeName: RPG.Quests.QuestCompleter, Assembly-CSharp
+        m_MethodName: CompleteQuestObjective
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!4 &8190621187077453735 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6947039788277725674, guid: 58df80d8498834bdc838433c906b5b40, type: 3}

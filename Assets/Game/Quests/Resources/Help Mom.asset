@@ -17,8 +17,14 @@ MonoBehaviour:
     She live in the North of the Goblin town. \n-Betty"
   _timerInHours: 24
   _objectives:
-  - Find her mom
-  - Get medicine beside the house
+  - referenceID: 1
+    description: Find her mom
+  - referenceID: 2
+    description: Get Medicine for her mom
   _rewards:
-  - + 500 Gold
-  - + 5 Betty Heart
+  - rewardItem: {fileID: 11400000, guid: ac01bdfd42f574dbea8c177bbb9de907, type: 2}
+    number: 1
+    description: + 1 Healthy Hat
+  - rewardItem: {fileID: 11400000, guid: bf577a5d73ad9451d972141311f059d9, type: 2}
+    number: 1
+    description: + 1 Bow Blue

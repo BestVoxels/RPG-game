@@ -46,12 +46,12 @@ namespace RPG.UI.Quests
         {
             Instantiate(_objectiveHeaderTextPrefab, _objectiveTransform);
 
-            foreach (string eachObjective in questStatus.Quest.Objectives)
+            foreach (Quest.Objective eachObjective in questStatus.Quest.Objectives)
             {
-                GameObject objectivePrefab = questStatus.IsObjectiveCompleted(eachObjective) ? _objectiveCompletePrefab : _objectiveIncompletePrefab;
+                GameObject objectivePrefab = questStatus.IsObjectiveCompleted(eachObjective.referenceID) ? _objectiveCompletePrefab : _objectiveIncompletePrefab;
 
                 TMP_Text createdPrefabText = Instantiate(objectivePrefab, _objectiveTransform).GetComponentInChildren<TMP_Text>();
-                createdPrefabText.text = eachObjective;
+                createdPrefabText.text = eachObjective.description;
             }
         }
 
@@ -59,10 +59,10 @@ namespace RPG.UI.Quests
         {
             Instantiate(_rewardHeaderTextPrefab, _rewardTransform);
 
-            foreach (string eachText in questStatus.Quest.Rewards)
+            foreach (Quest.Reward eachReward in questStatus.Quest.Rewards)
             {
                 TMP_Text createdPrefabText = Instantiate(_rewardPrefab, _rewardTransform).GetComponentInChildren<TMP_Text>();
-                createdPrefabText.text = eachText;
+                createdPrefabText.text = eachReward.description;
             }
         }
 
