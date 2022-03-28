@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 using RPG.Saving;
+using RPG.Inventories;
 
 namespace RPG.Quests
 {
@@ -38,12 +39,19 @@ namespace RPG.Quests
             return true;
         }
 
-        public bool AddCompletedObjective(Quest questToAddObjective, string objective)
+        public bool AddCompletedObjective(Quest quest, string objective)
         {
-            if (!IsQuestExist(questToAddObjective)) return false;
+            if (!IsQuestExist(quest)) return false;
+            
+            QuestStatus questStatus = GetQuestStatus(quest);
+            if (questStatus.IsObjectiveCompleted(objective)) return false;
 
-            QuestStatus questStatus = GetQuestStatus(questToAddObjective);
             questStatus.AddCompletedObjective(objective);
+
+            if (questStatus.IsQuestCompleted())
+            {
+                GiveQuestReward(quest);
+            }
 
             OnQuestListUpdated?.Invoke();
 
@@ -66,6 +74,19 @@ namespace RPG.Quests
                     return eachQuestStatus;
 
             return null;
+        }
+
+        private void GiveQuestReward(Quest quest)
+        {
+            // For Each of the reward Add Directly to player inventory, IF FULL the drop down
+            foreach (Quest.Reward eachReward in quest.Rewards)
+            {
+                bool success = GetComponentInChildren<Inventory>().AddToFirstEmptySlot(eachReward.rewardItem, eachReward.number);
+                if (!success)
+                {
+                    GetComponentInChildren<ItemDropper>().DropItem(eachReward.rewardItem, eachReward.number);
+                }
+            }
         }
         #endregion
 

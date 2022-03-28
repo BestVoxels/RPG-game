@@ -49,11 +49,6 @@ namespace RPG.Quests
 
             _completedObjectives.Add(objectiveToAdd);
 
-            if (IsQuestCompleted())
-            {
-                UnityEngine.Debug.Log($"{Quest.Title} is Completed! GIVE OUT REWARD!");
-            }
-
             return true;
         }
 

@@ -500,14 +500,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27b7cdf455a854a9ba6b2bb298765e19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _questStatuses:
-  - _quest: {fileID: 11400000, guid: 1db6e382656b94159adc20a0b54f28fa, type: 2}
-    _completedObjectives:
-    - 0/4 Green Slime Slayed
-    - Talk to Us
-  - _quest: {fileID: 11400000, guid: e727e1a666bb74b4b921d05e2fd95e99, type: 2}
-    _completedObjectives:
-    - Go Talk To Any Guard
 --- !u!114 &7446641276788421481
 MonoBehaviour:
   m_ObjectHideFlags: 0

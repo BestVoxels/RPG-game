@@ -62,6 +62,7 @@ namespace RPG.Quests
         public class Reward
         {
             public InventoryItem rewardItem;
+            [Min(1)]
             public int number;
             public string description;
         }

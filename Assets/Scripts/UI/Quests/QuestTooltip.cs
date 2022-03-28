@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using RPG.Quests;
+using System.Linq;
 
 namespace RPG.UI.Quests
 {
@@ -57,6 +58,9 @@ namespace RPG.UI.Quests
 
         private void BuildRewardList(QuestStatus questStatus)
         {
+            if (questStatus.Quest.Rewards.Count() == 0)
+                return;
+
             Instantiate(_rewardHeaderTextPrefab, _rewardTransform);
 
             foreach (Quest.Reward eachReward in questStatus.Quest.Rewards)
