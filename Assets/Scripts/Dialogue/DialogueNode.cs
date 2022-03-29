@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using RPG.Core;
 using UnityEditor;
 using UnityEngine;
 
@@ -19,6 +20,10 @@ namespace RPG.Dialogue
 
         [SerializeField] private string _onTriggerEnter;
         [SerializeField] private string _onTriggerExit;
+
+        [Space]
+
+        [SerializeField] private Condition _condition;
         #endregion
 
 
@@ -135,7 +140,16 @@ namespace RPG.Dialogue
 
 
 
-        #region --Methods-- (Custom PUBLIC)
+        #region --Methods-- (Custom PUBLIC) ~Node Filtering~
+        public bool CheckCondition(IEnumerable<IPredicateEvaluator> evaluators)
+        {
+            return _condition.Check(evaluators);
+        }
+        #endregion
+
+
+
+        #region --Methods-- (Custom PUBLIC) ~Dialogue Editor Stuffs~
         public void AddChild(string childID)
         {
 #if UNITY_EDITOR

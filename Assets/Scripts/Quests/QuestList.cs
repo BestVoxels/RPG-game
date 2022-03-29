@@ -3,11 +3,19 @@ using System;
 using UnityEngine;
 using RPG.Saving;
 using RPG.Inventories;
+using RPG.Core;
 
 namespace RPG.Quests
 {
-    public class QuestList : MonoBehaviour, ISaveable
+    public class QuestList : MonoBehaviour, ISaveable, IPredicateEvaluator
     {
+        #region --Fields-- (Inspector)
+        [Header("Predicate Node Filter")]
+        [SerializeField] private string _predicateFilter;
+        #endregion
+
+
+
         #region --Events-- (Delegate as Action)
         public event Action OnQuestListUpdated;
         #endregion
@@ -115,6 +123,13 @@ namespace RPG.Quests
             }
 
             OnQuestListUpdated?.Invoke();
+        }
+
+        bool? IPredicateEvaluator.Evaluate(string predicate, string[] parameters)
+        {
+            if (predicate != _predicateFilter) return null;
+
+            return IsQuestExist(Quest.GetByName(parameters[0]));
         }
         #endregion
     }

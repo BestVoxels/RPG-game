@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System;
 using UnityEngine;
+using RPG.Core;
 
 namespace RPG.Dialogue
 {
@@ -22,7 +23,7 @@ namespace RPG.Dialogue
 
 
 
-        #region --Methods-- (Custom PUBLIC)
+        #region --Methods-- (Custom PUBLIC) ~dealing with nodes, dialogue stuff~
         public void StartDialogue(AIConversant newAIConversant, Dialogue newDialogue)
         {
             _aiConversant = newAIConversant;
@@ -70,7 +71,7 @@ namespace RPG.Dialogue
 
         public IEnumerable<DialogueNode> GetChoices()
         {
-            DialogueNode[] playerNode = _currentDialogue.GetPlayerChildren(_previousNode).ToArray();
+            DialogueNode[] playerNode = FilterOnCondition(_currentDialogue.GetPlayerChildren(_previousNode)).ToArray();
 
             foreach (DialogueNode eachNode in playerNode)
             {
@@ -98,7 +99,7 @@ namespace RPG.Dialogue
             }
 
             // Randomly get Node from All Children
-            DialogueNode[] allNode = _currentDialogue.GetAllChildren(_currentNode).ToArray();
+            DialogueNode[] allNode = FilterOnCondition(_currentDialogue.GetAllChildren(_currentNode)).ToArray();
             DialogueNode randChild = allNode[UnityEngine.Random.Range(0, allNode.Length)];
 
             TriggerExitAction();
@@ -114,7 +115,7 @@ namespace RPG.Dialogue
 
         public bool HasNext()
         {
-            return _currentDialogue.GetAllChildren(_currentNode).ToArray().Length > 0;
+            return FilterOnCondition(_currentDialogue.GetAllChildren(_currentNode)).Count() > 0;
         }
 
         public bool IsActive()
@@ -126,14 +127,38 @@ namespace RPG.Dialogue
         {
             return _currentNode.Speaker == DialogueSpeaker.Player;
         }
+        #endregion
 
+
+
+        #region --Methods-- (Custom PUBLIC) ~AIConversant Getter~
         public string GetAISpeakerName() => _aiConversant.SpeakerName;
         public Sprite GetAIProfileImage() => _aiConversant.ProfileImage;
         #endregion
 
 
 
-        #region --Methods-- (Custom PRIVATE)
+        #region --Methods-- (Custom PRIVATE) ~Node Filtering~
+        private IEnumerable<DialogueNode> FilterOnCondition(IEnumerable<DialogueNode> inputNodes)
+        {
+            foreach (DialogueNode eachNode in inputNodes)
+            {
+                if (eachNode.CheckCondition(GetEvaluators()))
+                {
+                    yield return eachNode;
+                }
+            }
+        }
+
+        private IEnumerable<IPredicateEvaluator> GetEvaluators()
+        {
+            return GetComponentsInChildren<IPredicateEvaluator>();
+        }
+        #endregion
+
+
+
+        #region --Methods-- (Custom PRIVATE) ~Trigger Action Stuff~
         // When Calling Above, some need to check IF currentNode is PlayerNode CUZ we don't want to trigger action right away when PlayerNode choice is not yet picked OR when exit
         // the current node will be one of player choice when get randomed, so only trigger enter normal node right away AND trigger exit when leave the current node.
         private void TriggerEnterAction()
