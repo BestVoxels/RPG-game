@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using RPG.Saving;
+using RPG.Core;
 
 namespace RPG.Inventories
 {
@@ -10,7 +11,7 @@ namespace RPG.Inventories
     ///
     /// This component should be placed on the GameObject tagged "Player".
     /// </summary>
-    public class Inventory : MonoBehaviour, ISaveable
+    public class Inventory : MonoBehaviour, ISaveable, IPredicateEvaluator
     {
         #region --Fields-- (Inspector)
         [Tooltip("Allowed size")]
@@ -149,7 +150,7 @@ namespace RPG.Inventories
         {
             if (_slots[slot].item != null)
             {
-                return AddToFirstEmptySlot(item, number); ;
+                return AddToFirstEmptySlot(item, number);
             }
 
             var i = FindStack(item);
@@ -246,6 +247,17 @@ namespace RPG.Inventories
                 _slots[i].number = slotStrings[i].number;
             }
             OnInventoryUpdated?.Invoke();
+        }
+
+        bool? IPredicateEvaluator.Evaluate(string methodName, string[] parameters)
+        {
+            switch (methodName)
+            {
+                case "HasItem":
+                    return HasItem(InventoryItem.GetFromID(parameters[0]));
+            }
+
+            return null;
         }
         #endregion
 

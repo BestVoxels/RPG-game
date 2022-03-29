@@ -29,7 +29,61 @@ MonoBehaviour:
   _onTriggerEnter: 
   _onTriggerExit: GiveMomQuest
   _condition:
-    _predicate: 
+    _methodName: 
+    _parameters: []
+--- !u!114 &-8007926764960691196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90ecf6047c05b4430a9a93771aa5ea19, type: 3}
+  m_Name: 88c6dc0a-d99e-41c0-a0dd-38231711f7a3
+  m_EditorClassIdentifier: 
+  _speaker: 1
+  _text: Opps, sorry bad memory
+  _questionText: 
+  _children: []
+  _rect:
+    serializedVersion: 2
+    x: 786
+    y: 972
+    width: 200
+    height: 120
+  _onTriggerEnter: 
+  _onTriggerExit: 
+  _condition:
+    _methodName: 
+    _parameters: []
+--- !u!114 &-7637737584717590706
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90ecf6047c05b4430a9a93771aa5ea19, type: 3}
+  m_Name: 614b649d-8627-40c1-bdb9-ef09f72f5b2b
+  m_EditorClassIdentifier: 
+  _speaker: 1
+  _text: That's Wonderful!
+  _questionText: 
+  _children: []
+  _rect:
+    serializedVersion: 2
+    x: 778
+    y: 1276
+    width: 200
+    height: 120
+  _onTriggerEnter: 
+  _onTriggerExit: 
+  _condition:
+    _methodName: 
     _parameters: []
 --- !u!114 &-4305928430383020936
 MonoBehaviour:
@@ -57,7 +111,7 @@ MonoBehaviour:
   _onTriggerEnter: 
   _onTriggerExit: 
   _condition:
-    _predicate: 
+    _methodName: 
     _parameters: []
 --- !u!114 &-1921428655648202858
 MonoBehaviour:
@@ -74,17 +128,18 @@ MonoBehaviour:
   _speaker: 0
   _text: I'm already on the case...
   _questionText: 
-  _children: []
+  _children:
+  - 88c6dc0a-d99e-41c0-a0dd-38231711f7a3
   _rect:
     serializedVersion: 2
-    x: 477
-    y: 976
+    x: 469
+    y: 970
     width: 200
     height: 120
   _onTriggerEnter: 
   _onTriggerExit: 
   _condition:
-    _predicate: IsQuestExist
+    _methodName: HasQuest
     _parameters:
     - Help Mom
 --- !u!114 &11400000
@@ -112,6 +167,40 @@ MonoBehaviour:
   - {fileID: 2875053274715746522}
   - {fileID: -8697448208059011366}
   - {fileID: -1921428655648202858}
+  - {fileID: -8007926764960691196}
+  - {fileID: 1378140779234921168}
+  - {fileID: -7637737584717590706}
+  - {fileID: 7731780814327826773}
+  - {fileID: 4085365765669361790}
+--- !u!114 &1378140779234921168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90ecf6047c05b4430a9a93771aa5ea19, type: 3}
+  m_Name: 071dd0af-7d1c-4b58-b235-c3dfd8825af0
+  m_EditorClassIdentifier: 
+  _speaker: 0
+  _text: I have Healthy Hat!
+  _questionText: 
+  _children:
+  - 614b649d-8627-40c1-bdb9-ef09f72f5b2b
+  _rect:
+    serializedVersion: 2
+    x: 464
+    y: 1277
+    width: 200
+    height: 120
+  _onTriggerEnter: 
+  _onTriggerExit: 
+  _condition:
+    _methodName: HasItem
+    _parameters:
+    - f52bc728f5144-435a-a4bf-440f52bc728f
 --- !u!114 &2875053274715746522
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -138,7 +227,34 @@ MonoBehaviour:
   _onTriggerEnter: 
   _onTriggerExit: Attack
   _condition:
-    _predicate: 
+    _methodName: 
+    _parameters: []
+--- !u!114 &4085365765669361790
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90ecf6047c05b4430a9a93771aa5ea19, type: 3}
+  m_Name: e3a4e3cc-820a-4424-9802-82aa957b0553
+  m_EditorClassIdentifier: 
+  _speaker: 1
+  _text: WOW Thank You So Much!!!
+  _questionText: 
+  _children: []
+  _rect:
+    serializedVersion: 2
+    x: 772
+    y: 1588
+    width: 200
+    height: 120
+  _onTriggerEnter: 
+  _onTriggerExit: 
+  _condition:
+    _methodName: 
     _parameters: []
 --- !u!114 &4508635113117480422
 MonoBehaviour:
@@ -159,6 +275,8 @@ MonoBehaviour:
   - 512b559b-6ae6-42fc-9a45-20ff01c8d659
   - 8cd1049f-c84c-4c13-9c5e-f88d6ac08706
   - a8daa53b-5d1b-4ae1-ad66-43ddefb5cdbb
+  - 071dd0af-7d1c-4b58-b235-c3dfd8825af0
+  - 016a3f34-da61-4fc6-84b3-9c09dce1f2ad
   _rect:
     serializedVersion: 2
     x: 171
@@ -168,7 +286,7 @@ MonoBehaviour:
   _onTriggerEnter: 
   _onTriggerExit: 
   _condition:
-    _predicate: 
+    _methodName: 
     _parameters: []
 --- !u!114 &5995508938878511447
 MonoBehaviour:
@@ -196,5 +314,34 @@ MonoBehaviour:
   _onTriggerEnter: 
   _onTriggerExit: 
   _condition:
-    _predicate: 
+    _methodName: 
     _parameters: []
+--- !u!114 &7731780814327826773
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90ecf6047c05b4430a9a93771aa5ea19, type: 3}
+  m_Name: 016a3f34-da61-4fc6-84b3-9c09dce1f2ad
+  m_EditorClassIdentifier: 
+  _speaker: 0
+  _text: I have completed the quest!!!
+  _questionText: 
+  _children:
+  - e3a4e3cc-820a-4424-9802-82aa957b0553
+  _rect:
+    serializedVersion: 2
+    x: 463
+    y: 1585
+    width: 200
+    height: 120
+  _onTriggerEnter: 
+  _onTriggerExit: 
+  _condition:
+    _methodName: HasCompletedQuest
+    _parameters:
+    - Help Mom

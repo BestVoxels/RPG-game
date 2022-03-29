@@ -10,8 +10,10 @@ namespace RPG.Quests
     public class QuestList : MonoBehaviour, ISaveable, IPredicateEvaluator
     {
         #region --Fields-- (Inspector)
-        [Header("Predicate Node Filter")]
-        [SerializeField] private string _predicateFilter;
+        //[Header("Method Name Filter")]
+        //[Tooltip("This String will be compared with String put in Dialogue Node also with parameter value AND if it matches then that Dialogue Node can be included")]
+        //[SerializeField] private string _isQuestExistFilter = "IsQuestExist";
+        //[SerializeField] private string _isQuestCompletedFilter = "IsQuestCompleted";
         #endregion
 
 
@@ -52,6 +54,8 @@ namespace RPG.Quests
             if (!IsQuestExist(quest)) return false;
             
             QuestStatus questStatus = GetQuestStatus(quest);
+            if (questStatus == null) return false;
+
             if (questStatus.IsObjectiveCompleted(objective)) return false;
 
             questStatus.AddCompletedObjective(objective);
@@ -125,11 +129,21 @@ namespace RPG.Quests
             OnQuestListUpdated?.Invoke();
         }
 
-        bool? IPredicateEvaluator.Evaluate(string predicate, string[] parameters)
+        bool? IPredicateEvaluator.Evaluate(string methodName, string[] parameters)
         {
-            if (predicate != _predicateFilter) return null;
+            switch (methodName)
+            {
+                case "HasQuest":
+                    return IsQuestExist(Quest.GetByName(parameters[0]));
 
-            return IsQuestExist(Quest.GetByName(parameters[0]));
+                case "HasCompletedQuest":
+                    QuestStatus questStatus = GetQuestStatus(Quest.GetByName(parameters[0]));
+                    if (questStatus == null) return false;
+
+                    return questStatus.IsQuestCompleted();
+            }
+
+            return null;
         }
         #endregion
     }

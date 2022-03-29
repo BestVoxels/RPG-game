@@ -30,6 +30,8 @@ namespace RPG.Inventories
         public void DropItem(InventoryItem item, int number)
         {
             SpawnPickup(item, GetDropLocation(), number);
+
+            // TODO ADD CHECK CONDITION HERE IF NOT STACKABLE LOOP THROUGH number and SpawnPickup() only 1
         }
 
         /// <summary>
