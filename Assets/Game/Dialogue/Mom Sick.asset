@@ -29,8 +29,7 @@ MonoBehaviour:
   _onTriggerEnter: 
   _onTriggerExit: GiveMomQuest
   _condition:
-    _methodName: 
-    _parameters: []
+    _and: []
 --- !u!114 &-8007926764960691196
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -56,8 +55,7 @@ MonoBehaviour:
   _onTriggerEnter: 
   _onTriggerExit: 
   _condition:
-    _methodName: 
-    _parameters: []
+    _and: []
 --- !u!114 &-7637737584717590706
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -71,20 +69,19 @@ MonoBehaviour:
   m_Name: 614b649d-8627-40c1-bdb9-ef09f72f5b2b
   m_EditorClassIdentifier: 
   _speaker: 1
-  _text: That's Wonderful!
+  _text: That's Great... but why tell me that...
   _questionText: 
   _children: []
   _rect:
     serializedVersion: 2
     x: 778
-    y: 1276
+    y: 1277
     width: 200
     height: 120
   _onTriggerEnter: 
   _onTriggerExit: 
   _condition:
-    _methodName: 
-    _parameters: []
+    _and: []
 --- !u!114 &-4305928430383020936
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -111,8 +108,7 @@ MonoBehaviour:
   _onTriggerEnter: 
   _onTriggerExit: 
   _condition:
-    _methodName: 
-    _parameters: []
+    _and: []
 --- !u!114 &-1921428655648202858
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -139,9 +135,12 @@ MonoBehaviour:
   _onTriggerEnter: 
   _onTriggerExit: 
   _condition:
-    _methodName: HasQuest
-    _parameters:
-    - Help Mom
+    _and:
+    - _or:
+      - _methodName: HasQuest
+        _parameters:
+        - Help Mom
+        _negate: 0
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -155,7 +154,7 @@ MonoBehaviour:
   m_Name: Mom Sick
   m_EditorClassIdentifier: 
   _isShowedNodesAction: 1
-  _isShowedQuestionTextOnAISpeaker: 1
+  _isShowedQuestionTextOnAISpeaker: 0
   _normalNodesSize: {x: 200, y: 120}
   _showedNodesActionSize: {x: 200, y: 250}
   _showedQuestionExtraHeightOnAI: 50
@@ -185,7 +184,7 @@ MonoBehaviour:
   m_Name: 071dd0af-7d1c-4b58-b235-c3dfd8825af0
   m_EditorClassIdentifier: 
   _speaker: 0
-  _text: I have Healthy Hat!
+  _text: I have Healthy Hat and Shield!
   _questionText: 
   _children:
   - 614b649d-8627-40c1-bdb9-ef09f72f5b2b
@@ -198,9 +197,17 @@ MonoBehaviour:
   _onTriggerEnter: 
   _onTriggerExit: 
   _condition:
-    _methodName: HasItem
-    _parameters:
-    - f52bc728f5144-435a-a4bf-440f52bc728f
+    _and:
+    - _or:
+      - _methodName: HasItem
+        _parameters:
+        - f52bc728f5144-435a-a4bf-440f52bc728f
+        _negate: 0
+    - _or:
+      - _methodName: HasItem
+        _parameters:
+        - bfa18803-0973-4143-b362-11b5f039ea7c
+        _negate: 0
 --- !u!114 &2875053274715746522
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -227,8 +234,7 @@ MonoBehaviour:
   _onTriggerEnter: 
   _onTriggerExit: Attack
   _condition:
-    _methodName: 
-    _parameters: []
+    _and: []
 --- !u!114 &4085365765669361790
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -254,8 +260,7 @@ MonoBehaviour:
   _onTriggerEnter: 
   _onTriggerExit: 
   _condition:
-    _methodName: 
-    _parameters: []
+    _and: []
 --- !u!114 &4508635113117480422
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -286,8 +291,7 @@ MonoBehaviour:
   _onTriggerEnter: 
   _onTriggerExit: 
   _condition:
-    _methodName: 
-    _parameters: []
+    _and: []
 --- !u!114 &5995508938878511447
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -314,8 +318,12 @@ MonoBehaviour:
   _onTriggerEnter: 
   _onTriggerExit: 
   _condition:
-    _methodName: 
-    _parameters: []
+    _and:
+    - _or:
+      - _methodName: HasQuest
+        _parameters:
+        - Help Mom
+        _negate: 1
 --- !u!114 &7731780814327826773
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -342,6 +350,9 @@ MonoBehaviour:
   _onTriggerEnter: 
   _onTriggerExit: 
   _condition:
-    _methodName: HasCompletedQuest
-    _parameters:
-    - Help Mom
+    _and:
+    - _or:
+      - _methodName: HasCompletedQuest
+        _parameters:
+        - Help Mom
+        _negate: 0
