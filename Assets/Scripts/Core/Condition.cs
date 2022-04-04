@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using RPG.Inventories;
 
 namespace RPG.Core
 {
@@ -27,12 +28,80 @@ namespace RPG.Core
 
 
 
+        #region --Methods-- (Custom PUBLIC) ~for Showing Condition in Editor~
+        public bool HasCondition() => _and.Length > 0;
+
+        public string GetConditionText()
+        {
+            if (!HasCondition()) return "No Condition";
+
+            string result = "";
+
+            for (int a = 0; a < _and.Length; a++)
+            {
+                Disjunction AND = _and[a];
+
+                if (AND.Or.Length >= 2)
+                    result += "(";
+                for (int b = 0; b < AND.Or.Length; b++)
+                {
+                    Predicate OR = AND.Or[b];
+
+                    // ADD '!'
+                    if (OR.Negate)
+                        result += "!";
+
+                    // ADD 'MethodName'
+                    result += OR.MethodName;
+
+                    // ADD each 'Parameters'
+                    result += "(";
+                    for (int c = 0; c < OR.Parameters.Length; c++)
+                    {
+                        if (OR.MethodName == PredicateName.HasItem) // Show ItemName instead of item ID
+                            result += InventoryItem.GetFromID(OR.Parameters[c]);
+                        else
+                            result += OR.Parameters[c];
+
+                        if (c < OR.Parameters.Length - 1) // Add ',' if this is Not Last element
+                            result += ", ";
+                    }
+                    result += ")";
+
+
+                    // ADD '||' if this is Not Last element
+                    if (b < AND.Or.Length - 1)
+                    {
+                        result += "  ||  ";
+                    }
+                }
+                if (AND.Or.Length >= 2)
+                    result += ")";
+
+                // ADD '&&' if this is Not Last element
+                if (a < _and.Length - 1)
+                {
+                    result += "\n  &&  \n";
+                }
+            }
+            return result;
+        }
+        #endregion
+
+
+
         #region --Classes-- (Custom PRIVATE)
         [System.Serializable]
         private class Disjunction
         {
             #region --Fields-- (Inspector)
             [SerializeField] private Predicate[] _or;
+            #endregion
+
+
+
+            #region --Properties-- (With Backing Fields)
+            public Predicate[] Or { get { return _or; } }
             #endregion
 
 
@@ -58,6 +127,14 @@ namespace RPG.Core
             [SerializeField] private PredicateName _methodName;
             [SerializeField] private string[] _parameters;
             [SerializeField] private bool _negate = false;
+            #endregion
+
+
+
+            #region --Properties-- (With Backing Fields)
+            public PredicateName MethodName { get { return _methodName; } }
+            public string[] Parameters { get { return _parameters; } }
+            public bool Negate { get { return _negate; } }
             #endregion
 
 

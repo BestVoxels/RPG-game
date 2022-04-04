@@ -136,6 +136,16 @@ namespace RPG.Dialogue
                 }
             }
         }
+
+        public bool HasCondition
+        {
+            get { return _condition.HasCondition(); }
+        }
+
+        public string GetConditionText
+        {
+            get { return _condition.GetConditionText(); }
+        }
         #endregion
 
 

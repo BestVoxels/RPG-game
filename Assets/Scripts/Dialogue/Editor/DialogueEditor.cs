@@ -206,6 +206,11 @@ namespace RPG.Dialogue.Editor
                     break;
             }
 
+            if (node.HasCondition)
+            {
+                nodeRect.height += _selectedDialogue.ShowedConditionExtraHeight;
+            }
+
             GUILayout.BeginArea(nodeRect, style);
 
             // Create Enum DropDown Selection
@@ -227,13 +232,25 @@ namespace RPG.Dialogue.Editor
                     break;
             }
 
+            // Create OnTriggerEnter & OnTriggerExit TextArea
             if (_selectedDialogue.IsShowedNodesAction)
             {
-                // Create OnTriggerEnter & OnTriggerExit TextArea
                 EditorGUILayout.LabelField("ENTER Node Action");
                 node.OnTriggerEnter = EditorGUILayout.TextArea($"{node.OnTriggerEnter}", EditorStyles.textArea, GUILayout.ExpandHeight(true));
                 EditorGUILayout.LabelField("EXIT Node Action");
                 node.OnTriggerExit = EditorGUILayout.TextArea($"{node.OnTriggerExit}", EditorStyles.textArea, GUILayout.ExpandHeight(true));
+            }
+
+            // Create Condition TextArea
+            if (node.HasCondition)
+            {
+                GUIStyle conditionStyle = new GUIStyle();
+                conditionStyle.normal.textColor = Color.yellow;
+                conditionStyle.fontStyle = FontStyle.Bold;
+                conditionStyle.wordWrap = true;
+
+                EditorGUILayout.LabelField("NODE CONDITION", conditionStyle);
+                EditorGUILayout.LabelField(node.GetConditionText, conditionStyle);
             }
 
             GUILayout.BeginHorizontal();

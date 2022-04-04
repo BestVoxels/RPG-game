@@ -21,6 +21,8 @@ namespace RPG.Dialogue
         [Space]
         [SerializeField] private float _showedQuestionExtraHeightOnAI = 50f;
         [Space]
+        [SerializeField] private float _showedConditionExtraHeight = 75;
+        [Space]
         [SerializeField] private Vector2 _newNodeOffset = new Vector2(250, 0); // No Need to create Public Properties cuz not use in DialogueEditor
 
         [Space]
@@ -45,6 +47,7 @@ namespace RPG.Dialogue
         public Vector2 NormalNodesSize { get { return _normalNodesSize; } }
         public Vector2 ShowedNodesActionSize { get { return _showedNodesActionSize; } }
         public float ShowedQuestionExtraHeightOnAI { get { return _showedQuestionExtraHeightOnAI; } }
+        public float ShowedConditionExtraHeight { get { return _showedConditionExtraHeight; } }
 
         public IEnumerable<DialogueNode> Nodes { get { return _nodes; } }
         #endregion

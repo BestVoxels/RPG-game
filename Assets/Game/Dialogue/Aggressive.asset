@@ -153,6 +153,7 @@ MonoBehaviour:
   _normalNodesSize: {x: 200, y: 120}
   _showedNodesActionSize: {x: 200, y: 250}
   _showedQuestionExtraHeightOnAI: 50
+  _showedConditionExtraHeight: 75
   _newNodeOffset: {x: 250, y: 0}
   _nodes:
   - {fileID: 4246236300585813708}
