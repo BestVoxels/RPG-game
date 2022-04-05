@@ -2,8 +2,9 @@ namespace RPG.Core
 {
     public enum PredicateName
     {
-        HasCompletedQuest,
         HasQuest,
+        HasCompletedObjective,
+        HasCompletedQuest,
         HasItem,
         HasGaveReward,
     }
