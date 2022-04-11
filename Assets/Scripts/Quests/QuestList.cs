@@ -8,15 +8,6 @@ namespace RPG.Quests
 {
     public class QuestList : MonoBehaviour, ISaveable, IPredicateEvaluator
     {
-        #region --Fields-- (Inspector)
-        //[Header("Method Name Filter")]
-        //[Tooltip("This String will be compared with String put in Dialogue Node also with parameter value AND if it matches then that Dialogue Node can be included")]
-        //[SerializeField] private string _isQuestExistFilter = "IsQuestExist";
-        //[SerializeField] private string _isQuestCompletedFilter = "IsQuestCompleted";
-        #endregion
-
-
-
         #region --Events-- (Delegate as Action)
         public event Action OnQuestListUpdated;
         #endregion

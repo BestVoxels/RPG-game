@@ -52,6 +52,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _titleText: {fileID: 4216216153059855456}
   _quitButton: {fileID: 9069655839965007947}
+  _rowPrefab: {fileID: 45736150991853833, guid: 3083a352da94148a5820c7e3e1e91ffd, type: 3}
+  _spawnParent: {fileID: 690274056286608878}
 --- !u!1001 &338915962915198878
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2261,6 +2263,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 755577dd1f8e44e0ea2529e9a9481088, type: 3}
+--- !u!224 &690274056286608878 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 945838235213662832, guid: 755577dd1f8e44e0ea2529e9a9481088, type: 3}
+  m_PrefabInstance: {fileID: 338915962915198878}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &3013261687376752090 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3271112856655346244, guid: 755577dd1f8e44e0ea2529e9a9481088, type: 3}

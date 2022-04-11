@@ -21,19 +21,14 @@ namespace RPG.UI.Quests
         private void Awake()
         {
             _questList = GameObject.FindGameObjectWithTag("Player").GetComponent<QuestList>();
-        }
 
-        private void OnEnable()
-        {
-            _questList.OnQuestListUpdated += UpdateQuestListUI;
+            _questList.OnQuestListUpdated += UpdateQuestListUI; // Can't do with OnEnable() cuz this will keep adding more and more And Since we can't use OnDisable() to unsubscribe Since this one will be closed by default and with button
         }
 
         private void Start()
         {
             UpdateQuestListUI();
         }
-
-        // Can't Have OnDiable() to unsubscribe Since this one will be closed by default and with button
         #endregion
 
 

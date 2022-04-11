@@ -13,6 +13,10 @@ namespace RPG.UI.Shops
 
         [Header("Panel Stuffs")]
         [SerializeField] private Button _quitButton;
+
+        [Header("Spawn Stuffs")]
+        [SerializeField] private RowUI _rowPrefab;
+        [SerializeField] private Transform _spawnParent;
         #endregion
 
 
@@ -29,33 +33,64 @@ namespace RPG.UI.Shops
         {
             _shopper = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<Shopper>();
 
-            _quitButton.onClick.AddListener(Quit);
-        }
+            _shopper.OnActiveShopChanged += RefreshShopUI; // Can't do with OnEnable() cuz this will keep adding more and more And Since we can't use OnDisable() to unsubscribe Since this one will be closed by default and with button
 
-        private void OnEnable()
-        {
-            _shopper.OnActiveShopChanged += UpdateShopUI;
+            _quitButton.onClick.AddListener(Quit);
         }
 
         private void Start()
         {
-            UpdateShopUI();
+            RefreshShopUI();
+        }
+        #endregion
+
+
+
+        #region --Methods-- (Custom PRIVATE) ~ShopUIPanel~
+        private void UpdateShopUIPanel()
+        {
+            gameObject.SetActive(_currentShop != null);
+        }
+        #endregion
+
+
+
+        #region --Methods-- (Custom PRIVATE) ~ShopItemUI~
+        private void RefreshShopItem()
+        {
+            ClearShopItemList();
+
+            BuildShopItemList();
         }
 
-        // Can't Have OnDiable() to unsubscribe Since this one will be closed by default and with button
+        private void BuildShopItemList()
+        {
+            foreach (ShopItem eachItem in _currentShop.GetFilteredItems())
+            {
+                RowUI createdPrefab = Instantiate(_rowPrefab, _spawnParent);
+                //createdPrefab.Setup(eachItem);
+            }
+        }
+
+        private void ClearShopItemList()
+        {
+            foreach (Transform eachChild in _spawnParent)
+                Destroy(eachChild.gameObject);
+        }
         #endregion
 
 
 
         #region --Methods-- (Subscriber)
-        private void UpdateShopUI()
+        private void RefreshShopUI()
         {
             _currentShop = _shopper.GetActiveShop();
-            gameObject.SetActive(_currentShop != null);
+            UpdateShopUIPanel();
 
             if (_currentShop == null) return;
-
             _titleText.text = _currentShop.ShopTitleName;
+            
+            RefreshShopItem();
         }
 
         private void Quit()

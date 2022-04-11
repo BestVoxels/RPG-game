@@ -60,7 +60,9 @@ namespace RPG.Shops
         #region --Methods-- (Custom PUBLIC)
         public IEnumerable<ShopItem> GetFilteredItems()
         {
-            return null;
+            yield return new ShopItem(InventoryItem.GetFromID("f52bc728f5144-435a-a4bf-440f52bc728f"), 10, 59f, 0);
+            yield return new ShopItem(InventoryItem.GetFromID("643aa476-f955-47fd-9edf-0b39f6c1fc28"), 10, 159f, 0);
+            //yield return new ShopItem(InventoryItem.GetFromID("960b28d1-f08f-4c27-86a2-78d1212af28e"), 10, 99f, 0);
         }
 
         public void SelectFilter(ItemCategory itemCategory)
@@ -122,18 +124,6 @@ namespace RPG.Shops
             }
 
             return true;
-        }
-        #endregion
-
-
-
-        #region --Classes-- (Custom PUBLIC)
-        public class ShopItem
-        {
-            public InventoryItem item;
-            public int availability;
-            public float price;
-            public int quantityInTransaction;
         }
         #endregion
     }
