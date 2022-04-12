@@ -65,10 +65,10 @@ namespace RPG.UI.Shops
 
         private void BuildShopItemList()
         {
-            foreach (ShopItem eachItem in _currentShop.GetFilteredItems())
+            foreach (ShopItem eachShopItem in _currentShop.GetFilteredItems())
             {
                 RowUI createdPrefab = Instantiate(_rowPrefab, _spawnParent);
-                //createdPrefab.Setup(eachItem);
+                createdPrefab.Setup(eachShopItem);
             }
         }
 

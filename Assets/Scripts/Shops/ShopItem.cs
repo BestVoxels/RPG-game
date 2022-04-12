@@ -1,23 +1,36 @@
+using UnityEngine;
 using RPG.Inventories;
 
 namespace RPG.Shops
 {
     public class ShopItem
     {
-        public InventoryItem item;
-        public int availability;
-        public float price;
-        public int quantityInTransaction;
+        #region --Fields-- (In Class)
+        private InventoryItem _item;
+        private int _availability;
+        private float _price;
+        private int _quantityInTransaction;
+        #endregion
+
+
+
+        #region --Properties-- (With Backing Fields)
+        public string Name { get { return _item.GetDisplayName(); } }
+        public Sprite Icon { get { return _item.GetIcon(); } }
+        public int Availability { get { return _availability; } }
+        public float Price { get { return _price; } }
+        public int QuantityInTransaction { get { return _quantityInTransaction; } }
+        #endregion
 
 
 
         #region --Constructors-- (PUBLIC)
         public ShopItem(InventoryItem item, int availability, float price, int quantityInTransaction)
         {
-            this.item = item;
-            this.availability = availability;
-            this.price = price;
-            this.quantityInTransaction = quantityInTransaction;
+            _item = item;
+            _availability = availability;
+            _price = price;
+            _quantityInTransaction = quantityInTransaction;
         }
         #endregion
     }
