@@ -15,6 +15,7 @@ namespace RPG.Shops
 
 
         #region --Properties-- (With Backing Fields)
+        public InventoryItem Item { get { return _item; } }
         public string Name { get { return _item.GetDisplayName(); } }
         public Sprite Icon { get { return _item.GetIcon(); } }
         public int Availability { get { return _availability; } }

@@ -68,7 +68,7 @@ namespace RPG.UI.Shops
             foreach (ShopItem eachShopItem in _currentShop.GetFilteredItems())
             {
                 RowUI createdPrefab = Instantiate(_rowPrefab, _spawnParent);
-                createdPrefab.Setup(eachShopItem);
+                createdPrefab.Setup(_currentShop, eachShopItem);
             }
         }
 

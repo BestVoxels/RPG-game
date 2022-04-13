@@ -104,7 +104,7 @@ namespace RPG.Shops
 
         public void AddToTransaction(InventoryItem item, int quantity)
         {
-
+            print($"{item.GetDisplayName()} : {quantity}");
         }
         #endregion
 
