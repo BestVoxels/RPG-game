@@ -8,7 +8,7 @@ namespace RPG.Shops
         #region --Fields-- (In Class)
         private InventoryItem _item;
         private int _availability;
-        private float _price;
+        private int _price;
         private int _quantityInTransaction;
         #endregion
 
@@ -18,14 +18,14 @@ namespace RPG.Shops
         public string Name { get { return _item.GetDisplayName(); } }
         public Sprite Icon { get { return _item.GetIcon(); } }
         public int Availability { get { return _availability; } }
-        public float Price { get { return _price; } }
+        public int Price { get { return _price; } }
         public int QuantityInTransaction { get { return _quantityInTransaction; } }
         #endregion
 
 
 
         #region --Constructors-- (PUBLIC)
-        public ShopItem(InventoryItem item, int availability, float price, int quantityInTransaction)
+        public ShopItem(InventoryItem item, int availability, int price, int quantityInTransaction)
         {
             _item = item;
             _availability = availability;

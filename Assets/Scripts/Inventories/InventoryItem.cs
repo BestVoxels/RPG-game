@@ -27,6 +27,9 @@ namespace RPG.Inventories
         [SerializeField] private Pickup _pickup = null;
         [Tooltip("If true, multiple items of this type can be stacked in the same inventory slot.")]
         [SerializeField] private bool _stackable = false;
+        [Tooltip("Default Price of this item when put as stock in shop system (each shop can have different discount percentage). Price Limitation is due to row UI width limit (can be changed)")]
+        [Range(0, 999999999)]
+        [SerializeField] private int _price = 0;
         #endregion
 
 
@@ -106,6 +109,11 @@ namespace RPG.Inventories
         public string GetDescription()
         {
             return _description;
+        }
+
+        public int GetPrice()
+        {
+            return _price;
         }
         #endregion
 

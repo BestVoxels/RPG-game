@@ -12,6 +12,7 @@ namespace RPG.Shops
     {
         #region --Fields-- (Inspector)
         [SerializeField] private string _shopTitleName;
+        [SerializeField] private StockItemConfig[] _stockItems;
         #endregion
 
 
@@ -60,9 +61,10 @@ namespace RPG.Shops
         #region --Methods-- (Custom PUBLIC)
         public IEnumerable<ShopItem> GetFilteredItems()
         {
-            yield return new ShopItem(InventoryItem.GetFromID("f52bc728f5144-435a-a4bf-440f52bc728f"), 10, 59f, 0);
-            yield return new ShopItem(InventoryItem.GetFromID("643aa476-f955-47fd-9edf-0b39f6c1fc28"), 10, 159f, 0);
-            //yield return new ShopItem(InventoryItem.GetFromID("960b28d1-f08f-4c27-86a2-78d1212af28e"), 10, 99f, 0);
+            foreach (StockItemConfig eachStock in _stockItems)
+            {
+                yield return new ShopItem(eachStock.item, eachStock.initialStock, GetShopItemPrice(eachStock), 0);
+            }
         }
 
         public void SelectFilter(ItemCategory itemCategory)
@@ -108,6 +110,18 @@ namespace RPG.Shops
 
 
 
+        #region --Methods-- (Custom PRIVATE)
+        private int GetShopItemPrice(StockItemConfig stockItem)
+        {
+            int defaultPrice = stockItem.item.GetPrice();
+            float discountAmount = (defaultPrice / 100f) * (-stockItem.buyingDiscountPercentage); // negate so that positive percentage mean deduct out of defaultPrice & negative percentage mean add on to defaultPrice
+            
+            return (int)Math.Round(defaultPrice + discountAmount, MidpointRounding.AwayFromZero); //2.5 will be 3
+        }
+        #endregion
+
+
+
         #region --Methods-- (Interface)
         CursorType IRaycastable.GetCursorType()
         {
@@ -124,6 +138,20 @@ namespace RPG.Shops
             }
 
             return true;
+        }
+        #endregion
+
+
+
+        #region --Classes-- (Custom PRIVATE)
+        [System.Serializable]
+        private class StockItemConfig
+        {
+            public InventoryItem item;
+            public int initialStock;
+            [Tooltip("Negative Value Mean on top on the product price, make it more expensive. Positive make it cheaper.")]
+            [Range(-100f,100f)]
+            public float buyingDiscountPercentage;
         }
         #endregion
     }

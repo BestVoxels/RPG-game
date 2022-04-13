@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using RPG.Shops;
+using System.Globalization;
 
 namespace RPG.UI.Shops
 {
@@ -24,7 +25,11 @@ namespace RPG.UI.Shops
             _iconImage.overrideSprite = shopItem.Icon;
             _nameText.text = shopItem.Name;
             _availabilityText.text = $"{shopItem.Availability}";
-            _priceText.text = $"{shopItem.Price:N0}";
+
+            var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
+            nfi.NumberGroupSeparator = " ";
+            _priceText.text = shopItem.Price.ToString("#,0", nfi);
+
             _quantityText.text = $"{shopItem.QuantityInTransaction}";
         }
         #endregion

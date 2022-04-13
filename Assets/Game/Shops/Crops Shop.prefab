@@ -46,6 +46,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _shopTitleName: Emily's Shop
+  _stockItems:
+  - item: {fileID: 11400000, guid: 0a1e4d8c911b24570bb0185bf2df361d, type: 2}
+    initialStock: 5
+    buyingDiscountPercentage: -1.5
+  - item: {fileID: 11400000, guid: 3c8ae78be6d564981a72716a785c0662, type: 2}
+    initialStock: 5
+    buyingDiscountPercentage: 7.15
 --- !u!136 &1930591841519179197
 CapsuleCollider:
   m_ObjectHideFlags: 0
