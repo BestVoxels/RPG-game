@@ -76,6 +76,11 @@ namespace RPG.Shops
         #region --Methods-- (Custom PUBLIC)
         public IEnumerable<ShopItem> GetFilteredItems()
         {
+            return GetAllItems();
+        }
+
+        public IEnumerable<ShopItem> GetAllItems()
+        {
             foreach (StockItemConfig eachStock in _stockItems)
             {
                 // IF item does NOT exist this won't throw error and quantity = 0, IF exist quantity = item's value
@@ -137,9 +142,19 @@ namespace RPG.Shops
             // TODO : Debting or Crediting player moneys
         }
 
-        public float GetTransactionTotal()
+        public int GetTransactionTotal()
         {
-            return 0f;
+            int totalPrice = 0;
+
+            foreach (StockItemConfig eachStock in _stockItems)
+            {
+                if (!_transaction.ContainsKey(eachStock.inventoryItem)) continue;
+
+                int quantityInTransaction = _transaction[eachStock.inventoryItem];
+                totalPrice += quantityInTransaction * GetShopItemPrice(eachStock);
+            }
+
+            return totalPrice;
         }
 
         public void AddToTransaction(InventoryItem item, int quantity)

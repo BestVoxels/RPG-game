@@ -1,4 +1,5 @@
 using TMPro;
+using System.Globalization;
 using UnityEngine;
 using UnityEngine.UI;
 using RPG.Shops;
@@ -10,6 +11,7 @@ namespace RPG.UI.Shops
         #region --Fields-- (Inspector)
         [Header("Text Stuffs")]
         [SerializeField] private TMP_Text _titleText;
+        [SerializeField] private TMP_Text _totalPriceText;
 
         [Header("Panel Stuffs")]
         [SerializeField] private Button _quitButton;
@@ -99,6 +101,10 @@ namespace RPG.UI.Shops
             ClearShopItemList();
 
             BuildShopItemList();
+
+            var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
+            nfi.NumberGroupSeparator = " ";
+            _totalPriceText.text = _currentShop.GetTransactionTotal().ToString("#,0", nfi);
         }
 
         private void Quit()
