@@ -1,9 +1,16 @@
+using System;
 using UnityEngine;
 
 namespace RPG.Economy
 {
     public class Coin : MonoBehaviour
     {
+        #region --Events-- (Delegate as Action)
+        public event Action OnCoinPointsUpdated;
+        #endregion
+
+
+
         #region --Fields-- (Inspector)
         [Min(0)]
         [SerializeField] private int _starterCoinPoints = 500;
@@ -32,6 +39,8 @@ namespace RPG.Economy
             CoinPoints += amount;
 
             //CoinPoints = Mathf.Clamp(CoinPoints, 0, CoinPoints);
+
+            OnCoinPointsUpdated?.Invoke();
         }
         #endregion
     }
