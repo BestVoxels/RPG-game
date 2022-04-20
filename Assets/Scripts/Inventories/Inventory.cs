@@ -56,6 +56,25 @@ namespace RPG.Inventories
         }
 
         /// <summary>
+        /// Get empty slot amount.
+        /// </summary>
+        /// <returns>0 if no slots are empty.</returns>
+        public int GetEmptySlotAmount()
+        {
+            int amount = 0;
+
+            for (int i = 0; i < _slots.Length; i++)
+            {
+                if (_slots[i].item == null)
+                {
+                    amount++;
+                }
+            }
+
+            return amount;
+        }
+
+        /// <summary>
         /// Could this item fit anywhere in the inventory?
         /// </summary>
         public bool HasSpaceFor(InventoryItem item)
@@ -68,16 +87,29 @@ namespace RPG.Inventories
         /// </summary>
         public bool HasSpaceFor(IEnumerable<InventoryItem> items)
         {
-            int count = 0;
+            int emptySlotsAmount = GetEmptySlotAmount();
+            List<InventoryItem> AddedStackable = new List<InventoryItem>();
 
-            foreach (InventoryItem each in items)
+            foreach (InventoryItem eachItem in items)
             {
-                count++;
+                // STACKABLE
+                if (eachItem.IsStackable())
+                {
+                    // use FindStack to check that inside PlayerInventory DOESN'T has this stack item
+                    if (!AddedStackable.Contains(eachItem) && HasItem(eachItem))
+                    {
+                        emptySlotsAmount--;
+                        AddedStackable.Add(eachItem);
+                    }
+                }
+                // NOT STACKABLE
+                else
+                {
+                    emptySlotsAmount--;
+                }
             }
 
-            return count <= _inventorySize;
-
-            // Use HasSpaceFor(item) then if return -1 then return false, return true at the end
+            return emptySlotsAmount >= 0;
         }
 
         /// <summary>
