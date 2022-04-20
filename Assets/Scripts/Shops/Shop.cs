@@ -12,6 +12,7 @@ namespace RPG.Shops
     public class Shop : MonoBehaviour, IRaycastable
     {
         #region --Fields-- (Inspector)
+        [SerializeField] private ShopMode _shopMode = ShopMode.Seller;
         [SerializeField] private string _shopTitleName;
         [SerializeField] private StockItemConfig[] _stockItems;
         #endregion
@@ -41,6 +42,19 @@ namespace RPG.Shops
 
         #region --Properties-- (With Backing Fields)
         public string ShopTitleName { get { return _shopTitleName; } }
+
+        public ShopMode ShopMode
+        {
+            get
+            {
+                return _shopMode;
+            }
+            set
+            {
+                _shopMode = value;
+                OnShopItemChanged?.Invoke();
+            }
+        }
         #endregion
 
 
@@ -77,7 +91,7 @@ namespace RPG.Shops
 
 
 
-        #region --Methods-- (Custom PUBLIC)
+        #region --Methods-- (Custom PUBLIC) ~Shop Items Filtering~
         public IEnumerable<ShopItem> GetFilteredItems()
         {
             return GetAllItems();
@@ -103,17 +117,11 @@ namespace RPG.Shops
         {
             return ItemCategory.None;
         }
+        #endregion
 
-        public void SelectShopMode(bool isBuying)
-        {
 
-        }
 
-        public bool IsBuyingMode()
-        {
-            return true;
-        }
-
+        #region --Methods-- (Custom PUBLIC) ~Shop Transaction~
         public bool CanTransact()
         {
             if (IsTransactionEmpty()) return false;
@@ -214,8 +222,19 @@ namespace RPG.Shops
         #region --Methods-- (Custom PRIVATE)
         private int GetShopItemPrice(StockItemConfig stockItem)
         {
+            float discountPercentage = 0f;
+            switch (ShopMode)
+            {
+                case ShopMode.Seller:
+                    discountPercentage = stockItem.buyingDiscountPercentage;
+                    break;
+                case ShopMode.Buyer:
+                    discountPercentage = stockItem.sellingDiscountPercentage;
+                    break;
+            }
+
             int defaultPrice = stockItem.inventoryItem.GetPrice();
-            float discountAmount = (defaultPrice / 100f) * (-stockItem.buyingDiscountPercentage); // negate so that positive percentage mean deduct out of defaultPrice & negative percentage mean add on to defaultPrice
+            float discountAmount = (defaultPrice / 100f) * (-discountPercentage); // negate so that positive percentage mean deduct out of defaultPrice & negative percentage mean add on to defaultPrice
             
             return (int)Math.Round(defaultPrice + discountAmount, MidpointRounding.AwayFromZero); //2.5 will be 3
         }
@@ -273,9 +292,12 @@ namespace RPG.Shops
             public InventoryItem inventoryItem;
             [Range(0, MaxQuantity)]
             public int initialStock;
-            [Tooltip("Negative Value Mean on top on the product price, make it more expensive. Positive make it cheaper.")]
+            [Tooltip("Player Get Discount when BUY from Shop, Positive -> LOWER default price / Negative -> HIGHER default price")]
             [Range(-100f,100f)]
             public float buyingDiscountPercentage;
+            [Tooltip("Player Get Discount when SELL to Shop, Positive -> LOWER default price / Negative -> HIGHER default price")]
+            [Range(-100f, 100f)]
+            public float sellingDiscountPercentage;
         }
         #endregion
     }

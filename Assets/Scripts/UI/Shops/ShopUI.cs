@@ -13,10 +13,15 @@ namespace RPG.UI.Shops
         [SerializeField] private TMP_Text _titleText;
         [SerializeField] private TMP_Text _totalPriceText;
         [SerializeField] private Color _notSufficientFundsColorTotalPrice;
+        [SerializeField] private TMP_Text _switchShopModeText;
+        [SerializeField] private string _sellerText = "Switch to Sell";
+        [SerializeField] private string _buyerText = "Switch to Buy";
+        [SerializeField] private TMP_Text _confirmText;
 
         [Header("Panel Stuffs")]
         [SerializeField] private Button _quitButton;
         [SerializeField] private Button _confirmTransactionButton;
+        [SerializeField] private Button _switchShopModeButton;
 
         [Header("Spawn Stuffs")]
         [SerializeField] private RowUI _rowPrefab;
@@ -44,6 +49,7 @@ namespace RPG.UI.Shops
 
             _quitButton.onClick.AddListener(Quit);
             _confirmTransactionButton.onClick.AddListener(ConfirmTransaction);
+            _switchShopModeButton.onClick.AddListener(SwitchShopMode);
 
             _totalPriceOriginalColor = _totalPriceText.color;
         }
@@ -94,6 +100,24 @@ namespace RPG.UI.Shops
         {
             _confirmTransactionButton.interactable = _currentShop.CanTransact();
         }
+
+        private void UpdateSwitchShopModeText()
+        {
+            if (_currentShop == null) return;
+
+            switch (_currentShop.ShopMode)
+            {
+                case ShopMode.Seller:
+                    _switchShopModeText.text = _sellerText;
+                    _confirmText.text = "Buy";
+                    break;
+
+                case ShopMode.Buyer:
+                    _switchShopModeText.text = _buyerText;
+                    _confirmText.text = "Sell";
+                    break;
+            }
+        }
         #endregion
 
 
@@ -123,6 +147,8 @@ namespace RPG.UI.Shops
 
             UpdateTotalPriceText();
             UpdateConfirmButtonState();
+
+            UpdateSwitchShopModeText();
         }
 
         private void Quit()
@@ -135,6 +161,22 @@ namespace RPG.UI.Shops
             if (_currentShop == null) return;
 
             _currentShop.ConfirmTransaction();
+        }
+
+        private void SwitchShopMode()
+        {
+            if (_currentShop == null) return;
+
+            switch (_currentShop.ShopMode)
+            {
+                case ShopMode.Seller:
+                    _currentShop.ShopMode = ShopMode.Buyer;
+                    break;
+
+                case ShopMode.Buyer:
+                    _currentShop.ShopMode = ShopMode.Seller;
+                    break;
+            }
         }
         #endregion
     }

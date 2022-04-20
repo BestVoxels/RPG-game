@@ -45,20 +45,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1bc46283c1034f8d837500e2e3e851d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _shopMode: 0
   _shopTitleName: Jimbo's Shop
   _stockItems:
   - inventoryItem: {fileID: 11400000, guid: 0a1e4d8c911b24570bb0185bf2df361d, type: 2}
     initialStock: 20
     buyingDiscountPercentage: 1.5
+    sellingDiscountPercentage: 50
   - inventoryItem: {fileID: 11400000, guid: 576ad7dee68df4321b50ffe16da86008, type: 2}
     initialStock: 20
     buyingDiscountPercentage: 2.5
+    sellingDiscountPercentage: 50
   - inventoryItem: {fileID: 11400000, guid: 3c8ae78be6d564981a72716a785c0662, type: 2}
     initialStock: 20
     buyingDiscountPercentage: 0
+    sellingDiscountPercentage: 10
   - inventoryItem: {fileID: 11400000, guid: ac01bdfd42f574dbea8c177bbb9de907, type: 2}
     initialStock: 20
     buyingDiscountPercentage: 0
+    sellingDiscountPercentage: 10
 --- !u!136 &1749949207260801565
 CapsuleCollider:
   m_ObjectHideFlags: 0
