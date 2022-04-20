@@ -95,8 +95,8 @@ namespace RPG.Inventories
                 // STACKABLE
                 if (eachItem.IsStackable())
                 {
-                    // use FindStack to check that inside PlayerInventory DOESN'T has this stack item
-                    if (!AddedStackable.Contains(eachItem) && HasItem(eachItem))
+                    // use HasItem to check that inside PlayerInventory DOESN'T has this stack item
+                    if (!AddedStackable.Contains(eachItem) && !HasItem(eachItem))
                     {
                         emptySlotsAmount--;
                         AddedStackable.Add(eachItem);
