@@ -34,7 +34,7 @@ namespace RPG.Economy
 
 
         #region --Methods-- (Custom PUBLIC)
-        public void AddCoinPoints(int amount)
+        public void UpdateCoinPoints(int amount)
         {
             CoinPoints += amount;
 

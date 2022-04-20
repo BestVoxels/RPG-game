@@ -11,6 +11,15 @@ namespace RPG.Shops
 {
     public class Shop : MonoBehaviour, IRaycastable
     {
+        /*
+        --NOTE--
+        Question Idea : Selling Items that are NOT in _stockItems
+        Solution : simply create new stockItem for Selling instead and we can use that for selling
+
+        Question Idea : Selling Items that are based on Player's Inventory
+        Solution : create new StockItemConfig List from player inventory and display that list in selling mode
+         */
+
         #region --Fields-- (Inspector)
         [SerializeField] private ShopMode _shopMode = ShopMode.Seller;
         [SerializeField] private string _shopTitleName;
