@@ -93,7 +93,16 @@ namespace RPG.UI.Shops
             nfi.NumberGroupSeparator = " ";
             _totalPriceText.text = _currentShop.GetTransactionTotal().ToString("#,0", nfi);
 
-            _totalPriceText.color = _currentShop.HasSufficientFunds() ? _totalPriceOriginalColor : _notSufficientFundsColorTotalPrice;
+            switch (_currentShop.ShopMode)
+            {
+                case ShopMode.Seller:
+                    _totalPriceText.color = _currentShop.IsShopperHasSufficientFunds() ? _totalPriceOriginalColor : _notSufficientFundsColorTotalPrice;
+                    break;
+
+                case ShopMode.Buyer:
+                    _totalPriceText.color = _totalPriceOriginalColor;
+                    break;
+            }
         }
 
         private void UpdateConfirmButtonState()
@@ -103,8 +112,6 @@ namespace RPG.UI.Shops
 
         private void UpdateSwitchShopModeText()
         {
-            if (_currentShop == null) return;
-
             switch (_currentShop.ShopMode)
             {
                 case ShopMode.Seller:

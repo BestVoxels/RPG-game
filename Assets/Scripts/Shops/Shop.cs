@@ -92,6 +92,7 @@ namespace RPG.Shops
             {
                 if (CurrentShopper == null) return;
 
+                _transaction.Clear();
                 CurrentShopper.SetActiveShop(this);
                 _actionScheduler.StopCurrentAction();
 
@@ -136,15 +137,19 @@ namespace RPG.Shops
         public bool CanTransact()
         {
             if (IsTransactionEmpty()) return false;
-            if (!HasSufficientFunds()) return false;
-            if (!HasInventorySpace()) return false;
+
+            if (ShopMode == ShopMode.Seller)
+            {
+                if (!IsShopperHasSufficientFunds()) return false;
+                if (!IsShopperHasInventorySpace()) return false;
+            }
 
             return true;
         }
 
         public bool IsTransactionEmpty() => _transaction.Count == 0;
 
-        public bool HasSufficientFunds()
+        public bool IsShopperHasSufficientFunds()
         {
             Coin shopperCoin = CurrentShopper.transform.root.GetComponentInChildren<Coin>();
             if (shopperCoin == null) return false;
@@ -152,7 +157,7 @@ namespace RPG.Shops
             return shopperCoin.CoinPoints >= GetTransactionTotal();
         }
 
-        public bool HasInventorySpace()
+        public bool IsShopperHasInventorySpace()
         {
             Inventory shopperInventory = CurrentShopper.transform.root.GetComponentInChildren<Inventory>();
             if (shopperInventory == null) return false;
@@ -177,18 +182,16 @@ namespace RPG.Shops
             Coin shopperCoin = CurrentShopper.transform.root.GetComponentInChildren<Coin>();
             if (shopperInventory == null || shopperCoin == null) return;
 
-            foreach (ShopItem eachShopItem in GetAllItems())
+            foreach (ShopItem shopItem in GetAllItems())
             {
-                for (int i = 0; i < eachShopItem.QuantityInTransaction; i++)
+                switch (ShopMode)
                 {
-                    if (shopperCoin.CoinPoints < eachShopItem.Price) break; // exit early when don't have enough money
-
-                    bool success = shopperInventory.AddToFirstEmptySlot(eachShopItem.InventoryItem, 1);
-                    if (!success) break; // exit early when slot full
-
-                    AddToTransaction(eachShopItem.InventoryItem, -1);
-                    shopperCoin.AddCoinPoints(-eachShopItem.Price);
-                    _availableQuantity[eachShopItem.InventoryItem] -= 1;
+                    case ShopMode.Seller:
+                        BuyItemRepeatedly(shopperInventory, shopperCoin, shopItem.InventoryItem, shopItem.QuantityInTransaction, shopItem.Price);
+                        break;
+                    case ShopMode.Buyer:
+                        SellItemRepeatedly(shopperInventory, shopperCoin, shopItem.InventoryItem, shopItem.QuantityInTransaction, shopItem.Price);
+                        break;
                 }
             }
 
@@ -210,7 +213,7 @@ namespace RPG.Shops
             return totalPrice;
         }
 
-        public void AddToTransaction(InventoryItem item, int quantity)
+        public void UpdateTransaction(InventoryItem item, int quantity)
         {
             // Add to Transaction if it doesn't yet exist
             if (!_transaction.ContainsKey(item))
@@ -286,6 +289,34 @@ namespace RPG.Shops
             {
                 if (!_availableQuantity.ContainsKey(eachStock.inventoryItem))
                     _availableQuantity.Add(eachStock.inventoryItem, eachStock.initialStock);
+            }
+        }
+
+        private void BuyItemRepeatedly(Inventory shopperInventory, Coin shopperCoin, InventoryItem inventoryItem, int quantity, int price)
+        {
+            for (int i = 0; i < quantity; i++)
+            {
+                if (shopperCoin.CoinPoints < price) return; // exit early when don't have enough money
+
+                bool success = shopperInventory.AddToFirstEmptySlot(inventoryItem, 1);
+                if (!success) return; // exit early when slot full
+
+                UpdateTransaction(inventoryItem, -1);
+                shopperCoin.UpdateCoinPoints(-price);
+                _availableQuantity[inventoryItem] -= 1;
+            }
+        }
+
+        private void SellItemRepeatedly(Inventory shopperInventory, Coin shopperCoin, InventoryItem inventoryItem, int quantity, int price)
+        {
+            for (int i = 0; i < quantity; i++)
+            {
+                bool success = shopperInventory.RemoveFirstMatchItemFromSlot(inventoryItem, 1);
+                if (!success) return; // exit early when slot full
+
+                UpdateTransaction(inventoryItem, -1);
+                shopperCoin.UpdateCoinPoints(price);
+                _availableQuantity[inventoryItem] += 1;
             }
         }
         #endregion

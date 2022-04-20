@@ -142,6 +142,25 @@ namespace RPG.Inventories
         }
 
         /// <summary>
+        /// Attempt to remove the items from the first matches item slot.
+        /// </summary>
+        /// <param name="item">The item to remove.</param>
+        /// <param name="number">The number to remove.</param>
+        /// <returns>Whether or not the item could be removed.</returns>
+        public bool RemoveFirstMatchItemFromSlot(InventoryItem item, int number)
+        {
+            int i = FindFirstMatchItemSlot(item);
+
+            if (i < 0)
+            {
+                return false;
+            }
+
+            RemoveFromSlot(i, number);
+            return true;
+        }
+
+        /// <summary>
         /// Is there an instance of the item in the inventory?
         /// </summary>
         public bool HasItem(InventoryItem item)
@@ -281,6 +300,15 @@ namespace RPG.Inventories
                 return -1;
             }
 
+            return FindFirstMatchItemSlot(item);
+        }
+
+        /// <summary>
+        /// Find first slot that matches the given item.
+        /// </summary>
+        /// <returns>-1 if item not found in any slot.</returns>
+        private int FindFirstMatchItemSlot(InventoryItem item)
+        {
             for (int i = 0; i < _slots.Length; i++)
             {
                 if (object.ReferenceEquals(_slots[i].item, item))
