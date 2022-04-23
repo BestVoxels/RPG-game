@@ -6,6 +6,7 @@ using RPG.Control;
 using RPG.Core;
 using RPG.Movement;
 using RPG.Economy;
+using RPG.Stats;
 
 namespace RPG.Shops
 {
@@ -130,8 +131,11 @@ namespace RPG.Shops
 
         public IEnumerable<ShopItem> GetAllItems()
         {
+            int shopperLevel = GetShopperLevel();
             foreach (StockItemConfig eachStock in _stockItems)
             {
+                if (shopperLevel < eachStock.levelToUnlock) continue;
+
                 // IF item does NOT exist this won't throw error and quantity = 0, IF exist quantity = item's value
                 _transaction.TryGetValue(eachStock.inventoryItem, out int quantityInTransaction);
 
@@ -332,6 +336,18 @@ namespace RPG.Shops
 
 
 
+        #region --Methods-- (Custom PRIVATE)
+        private int GetShopperLevel()
+        {
+            BaseStats baseStats = CurrentShopper.transform.root.GetComponentInChildren<BaseStats>();
+            if (baseStats == null) return 0;
+
+            return baseStats.GetLevel();
+        }
+        #endregion
+
+
+
         #region --Methods-- (Interface)
         CursorType IRaycastable.GetCursorType()
         {
@@ -366,6 +382,8 @@ namespace RPG.Shops
             [Tooltip("Player Get Discount when SELL to Shop, Positive -> LOWER default price / Negative -> HIGHER default price")]
             [Range(-100f, 100f)]
             public float sellingDiscountPercentage;
+            [Tooltip("Level for this item to available for sales in shop.")]
+            public int levelToUnlock = 0;
         }
         #endregion
     }

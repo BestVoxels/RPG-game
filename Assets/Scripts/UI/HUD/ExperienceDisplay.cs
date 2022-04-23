@@ -1,3 +1,4 @@
+using System.Globalization;
 using UnityEngine;
 using TMPro;
 using RPG.Stats;
@@ -47,7 +48,9 @@ namespace RPG.UI.HUD
         #region --Methods-- (Subscriber)
         private void UpdateExperienceDisplay()
         {
-            _experienceText.text = $"{_experience.ExperiencePoints}";
+            var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
+            nfi.NumberGroupSeparator = " ";
+            _experienceText.text = _experience.ExperiencePoints.ToString("#,0", nfi);
         }
         #endregion
     }

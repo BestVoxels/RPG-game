@@ -19,6 +19,17 @@ namespace RPG.Stats
 
 
 
+        #region --Methods-- (Built In)
+        // ****TEMP**** CHEAT KEY
+        private void Update()
+        {
+            if (Input.GetKey(KeyCode.E))
+                GainExperience(Time.deltaTime * 500f);
+        }
+        #endregion
+
+
+
         #region --Methods-- (Custom PUBLIC)
         public void GainExperience(float experience)
         {
