@@ -22,6 +22,7 @@ namespace RPG.Shops
 
         #region --Fields-- (Inspector)
         [SerializeField] private ShopMode _shopMode = ShopMode.Seller;
+        [SerializeField] private ItemCategory _itemFilter = ItemCategory.None;
         [SerializeField] private string _shopTitleName;
         [SerializeField] private StockItemConfig[] _stockItems;
         #endregion
@@ -39,8 +40,6 @@ namespace RPG.Shops
 
         private Dictionary<InventoryItem, int> _transaction = new Dictionary<InventoryItem, int>();
         private Dictionary<InventoryItem, int> _availableQuantity = new Dictionary<InventoryItem, int>();
-
-        private ItemCategory _currentFilter = ItemCategory.None;
         #endregion
 
 
@@ -69,16 +68,16 @@ namespace RPG.Shops
             }
         }
 
-        public ItemCategory CurrentFilter
+        public ItemCategory ItemFilter
         {
             get
             {
-                return _currentFilter;
+                return _itemFilter;
             }
             set
             {
-                _currentFilter = value;
-                print($"{_currentFilter} / Shop : {gameObject.transform.parent.name} / Root : {gameObject.transform.root.name}");
+                _itemFilter = value;
+                print($"{_itemFilter} / Shop : {gameObject.transform.parent.name} / Root : {gameObject.transform.root.name}");
                 OnShopItemChanged?.Invoke();
             }
         }

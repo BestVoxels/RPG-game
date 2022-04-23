@@ -130,11 +130,19 @@ namespace RPG.UI.Shops
 
 
         #region --Methods-- (Custom PRIVATE) ~FilterButtons~
-        private void SetupFilterButtonUI()
+        private void SetupFilterButtonsUI()
         {
             foreach (FilterButtonUI button in GetComponentsInChildren<FilterButtonUI>())
             {
                 button.SetShop(_currentShop);
+            }
+        }
+
+        private void UpdateFilterButtonsUI()
+        {
+            foreach (FilterButtonUI button in GetComponentsInChildren<FilterButtonUI>())
+            {
+                button.UpdateActiveState();
             }
         }
         #endregion
@@ -150,7 +158,7 @@ namespace RPG.UI.Shops
             _currentShop = _shopper.GetActiveShop();
 
             UpdateShopUIPanel();
-            SetupFilterButtonUI(); // Setup here cuz currentShop will also be null (anything fine)
+            SetupFilterButtonsUI(); // Setup here cuz currentShop will also be null (anything fine)
 
             if (_currentShop == null) return;
             _currentShop.OnShopItemChanged += RefreshShopItemUI; // Subscribe on currently added shop
@@ -169,6 +177,8 @@ namespace RPG.UI.Shops
             UpdateConfirmButtonState();
 
             UpdateSwitchShopModeText();
+
+            UpdateFilterButtonsUI();
         }
 
         private void Quit()

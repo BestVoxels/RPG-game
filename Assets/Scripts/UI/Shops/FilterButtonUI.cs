@@ -20,6 +20,12 @@ namespace RPG.UI.Shops
 
 
 
+        #region --Properties-- (With Backing Fields)
+        public ItemCategory ItemCategory { get { return _itemCategory; } }
+        #endregion
+
+
+
         #region --Methods-- (Built In)
         private void Awake()
         {
@@ -35,6 +41,13 @@ namespace RPG.UI.Shops
         {
             _currentShop = shop;
         }
+
+        public void UpdateActiveState()
+        {
+            if (_currentShop == null) return;
+
+            _button.interactable = !(_currentShop.ItemFilter == _itemCategory);
+        }
         #endregion
 
 
@@ -44,7 +57,7 @@ namespace RPG.UI.Shops
         {
             if (_currentShop == null) return;
 
-            _currentShop.CurrentFilter = _itemCategory;
+            _currentShop.ItemFilter = _itemCategory;
         }
         #endregion
     }
