@@ -21,6 +21,7 @@ MonoBehaviour:
   _pickup: {fileID: 5895303352902229890, guid: 632357b0906104c6483a866e6e8043ef, type: 3}
   _stackable: 1
   _price: 500
+  _category: 1
   _allowedEquipLocation: 0
   _additiveModifiers:
   - statType: 0

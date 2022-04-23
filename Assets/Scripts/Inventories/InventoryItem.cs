@@ -30,6 +30,7 @@ namespace RPG.Inventories
         [Tooltip("Default Price of this item when put as stock in shop system (each shop can have different discount percentage). Price Limitation is due to row UI width limit (can be changed)")]
         [Range(0, 999999999)]
         [SerializeField] private int _price = 0;
+        [SerializeField] private ItemCategory _category = ItemCategory.None;
         #endregion
 
 
@@ -114,6 +115,11 @@ namespace RPG.Inventories
         public int GetPrice()
         {
             return _price;
+        }
+
+        public ItemCategory GetCategory()
+        {
+            return _category;
         }
         #endregion
 

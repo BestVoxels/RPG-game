@@ -77,7 +77,7 @@ namespace RPG.Shops
             set
             {
                 _itemFilter = value;
-                print($"{_itemFilter} / Shop : {gameObject.transform.parent.name} / Root : {gameObject.transform.root.name}");
+                
                 OnShopItemChanged?.Invoke();
             }
         }
@@ -121,7 +121,11 @@ namespace RPG.Shops
         #region --Methods-- (Custom PUBLIC) ~Shop Items Filtering~
         public IEnumerable<ShopItem> GetFilteredItems()
         {
-            return GetAllItems();
+            foreach (ShopItem shopItem in GetAllItems())
+            {
+                if (ItemFilter == ItemCategory.None || ItemFilter == shopItem.InventoryItem.GetCategory())
+                    yield return shopItem;
+            }
         }
 
         public IEnumerable<ShopItem> GetAllItems()
