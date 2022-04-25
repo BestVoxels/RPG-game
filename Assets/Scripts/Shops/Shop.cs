@@ -7,10 +7,11 @@ using RPG.Core;
 using RPG.Movement;
 using RPG.Economy;
 using RPG.Stats;
+using RPG.Saving;
 
 namespace RPG.Shops
 {
-    public class Shop : MonoBehaviour, IRaycastable
+    public class Shop : MonoBehaviour, IRaycastable, ISaveable
     {
         /*
         --NOTE--
@@ -376,6 +377,29 @@ namespace RPG.Shops
             }
 
             return true;
+        }
+
+        object ISaveable.CaptureState()
+        {
+            Dictionary<string, int> state = new Dictionary<string, int>();
+
+            foreach (KeyValuePair<InventoryItem, int> each in _quantitySold)
+            {
+                state.Add(each.Key.GetItemID(), each.Value);
+            }
+
+            return state;
+        }
+
+        void ISaveable.RestoreState(object state)
+        {
+            Dictionary<string, int> savedState = (Dictionary<string, int>)state;
+
+            _quantitySold.Clear();
+            foreach (KeyValuePair<string, int> each in savedState)
+            {
+                _quantitySold.Add(InventoryItem.GetFromID(each.Key), each.Value);
+            }
         }
         #endregion
 

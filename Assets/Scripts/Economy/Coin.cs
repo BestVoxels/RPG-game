@@ -1,9 +1,10 @@
 using System;
 using UnityEngine;
+using RPG.Saving;
 
 namespace RPG.Economy
 {
-    public class Coin : MonoBehaviour
+    public class Coin : MonoBehaviour, ISaveable
     {
         #region --Events-- (Delegate as Action)
         public event Action OnCoinPointsUpdated;
@@ -39,6 +40,22 @@ namespace RPG.Economy
             CoinPoints += amount;
 
             //CoinPoints = Mathf.Clamp(CoinPoints, 0, CoinPoints);
+
+            OnCoinPointsUpdated?.Invoke();
+        }
+        #endregion
+
+
+
+        #region --Methods-- (Interface)
+        object ISaveable.CaptureState()
+        {
+            return CoinPoints;
+        }
+
+        void ISaveable.RestoreState(object state)
+        {
+            CoinPoints = (int)state;
 
             OnCoinPointsUpdated?.Invoke();
         }

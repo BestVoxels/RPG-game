@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1930591841519179195}
+  - component: {fileID: 7578279402062810388}
   - component: {fileID: 1930591841519179194}
   - component: {fileID: 1930591841519179197}
   m_Layer: 0
@@ -33,6 +34,19 @@ Transform:
   m_Father: {fileID: 1930591841625821418}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7578279402062810388
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1930591841519179192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ea9374b509b70f4bba37e4a2ca8cf00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uniqueIdentifier: 56dba47f-fcc2-4867-bb96-01c06cbabe11
 --- !u!114 &1930591841519179194
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50,15 +64,15 @@ MonoBehaviour:
   _shopTitleName: Emily's Shop
   _stockItems:
   - inventoryItem: {fileID: 11400000, guid: 0a1e4d8c911b24570bb0185bf2df361d, type: 2}
-    initialStock: 10
-    buyingDiscountPercentage: -1.5
-    sellingDiscountPercentage: 25
-    levelToUnlock: 2
+    initialStock: 5
+    buyingDiscountPercentage: -5
+    sellingDiscountPercentage: 5
+    levelToUnlock: 3
   - inventoryItem: {fileID: 11400000, guid: ac01bdfd42f574dbea8c177bbb9de907, type: 2}
-    initialStock: 10
-    buyingDiscountPercentage: 7.15
-    sellingDiscountPercentage: 25
-    levelToUnlock: 0
+    initialStock: 5
+    buyingDiscountPercentage: 0
+    sellingDiscountPercentage: 50
+    levelToUnlock: 1
 --- !u!136 &1930591841519179197
 CapsuleCollider:
   m_ObjectHideFlags: 0
