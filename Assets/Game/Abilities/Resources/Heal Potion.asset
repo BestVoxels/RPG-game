@@ -17,7 +17,7 @@ MonoBehaviour:
   _description: Ancient Liquid made from dragon heart, really great for healing living
     things...
   _icon: {fileID: 21300000, guid: 00d24408568984f129b7023cb677c0cd, type: 3}
-  _pickup: {fileID: 5895303352902229890, guid: 632357b0906104c6483a866e6e8043ef, type: 3}
+  _pickup: {fileID: 5895303352902229890, guid: 19742a3526cda4a808b4a1dba8aceb1f, type: 3}
   _stackable: 1
   _price: 100
   _category: 3
