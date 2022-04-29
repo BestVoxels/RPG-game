@@ -2,11 +2,11 @@ using UnityEngine;
 
 namespace RPG.Abilities.Targeting
 {
-    [CreateAssetMenu(fileName = "Untitled Targeting", menuName = "RPG/Game Item/Targeting/New Targeting (TargetingStrategy)", order = 125)]
+    [CreateAssetMenu(fileName = "Untitled Demo Targeting", menuName = "RPG/Game Item/Targeting/New Demo", order = 125)]
     public class DemoTargeting : TargetingStrategy
     {
         #region --Methods-- (Override)
-        public override void StartTargeting()
+        public override void StartTargeting(GameObject user)
         {
             Debug.Log("Demo Targeting Started");
         }

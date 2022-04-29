@@ -22,3 +22,4 @@ MonoBehaviour:
   _price: 100
   _category: 3
   _consumable: 1
+  _targetingStrategy: {fileID: 11400000, guid: 572dfe8c58614493884399a947745211, type: 2}

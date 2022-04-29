@@ -17,7 +17,7 @@ namespace RPG.Abilities
         {
             if (_targetingStrategy == null) return;
 
-            _targetingStrategy.StartTargeting();
+            _targetingStrategy.StartTargeting(user);
         }
         #endregion
     }
