@@ -61,7 +61,7 @@ namespace RPG.Dialogue
         bool IRaycastable.HandleRaycast(PlayerController playerController)
         {
             if (!enabled || GetComponent<Health>().IsDead) return false;
-
+            
             if (Input.GetMouseButtonDown(0))
             {
                 playerController.GetComponent<Mover>().StartMoveAction(transform.position, 1f);

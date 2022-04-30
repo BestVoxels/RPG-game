@@ -34,6 +34,7 @@ namespace RPG.Control
         private ActionStore _actionStore;
 
         private bool _isDraggingUI = false;
+        private CursorType _currentCursorType = CursorType.None;
         #endregion
 
 
@@ -63,6 +64,12 @@ namespace RPG.Control
 
             SetCursor(CursorType.None);
         }
+        #endregion
+
+
+
+        #region --Methods-- (Custom PUBLIC)
+        public void ResetCursorType() => _currentCursorType = CursorType.None;
         #endregion
 
 
@@ -183,6 +190,9 @@ namespace RPG.Control
         #region --Methods-- (Custom PRIVATE) ~Cursor Stuff~
         private void SetCursor(CursorType cursorType)
         {
+            if (_currentCursorType == cursorType) return;
+            _currentCursorType = cursorType;
+
             CursorMapping mapping = GetCursorMapping(cursorType);
             Cursor.SetCursor(mapping.texture, mapping.hotspot, CursorMode.Auto);
         }

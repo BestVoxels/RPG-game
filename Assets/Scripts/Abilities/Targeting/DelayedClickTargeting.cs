@@ -28,6 +28,7 @@ namespace RPG.Abilities.Targeting
                     // This will return as clicked for couple of frames, so wait until mouse is up.
                     yield return new WaitWhile(() => Input.GetMouseButton(0));
 
+                    playerController.ResetCursorType();
                     // If enable while mouse is down, InteractWithMovement will triggered
                     playerController.enabled = true;
 
