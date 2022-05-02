@@ -9,6 +9,7 @@ namespace RPG.Abilities
     {
         #region --Fields-- (Inspector)
         [SerializeField] private TargetingStrategy _targetingStrategy;
+        [SerializeField] private FilterStrategy[] _filterStrategies;
         #endregion
 
 
@@ -27,6 +28,13 @@ namespace RPG.Abilities
         #region --Methods-- (Subscriber)
         private void OnTargetAquired(IEnumerable<GameObject> targets)
         {
+            Debug.Log("Target acquired as follows...");
+
+            foreach (FilterStrategy eachFilter in _filterStrategies)
+            {
+                targets = eachFilter.Filter(targets);
+            }
+
             foreach (GameObject target in targets)
             {
                 Debug.Log(target.name);

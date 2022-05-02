@@ -19,4 +19,4 @@ MonoBehaviour:
   _affectStarterLayer:
     serializedVersion: 2
     m_Bits: 64
-  _summonPrefab: {fileID: 5201711925013479248, guid: 93e9e415d4412440198cb0f06a6e399a, type: 3}
+  _targetingPrefab: {fileID: 5201711925013479248, guid: 93e9e415d4412440198cb0f06a6e399a, type: 3}
