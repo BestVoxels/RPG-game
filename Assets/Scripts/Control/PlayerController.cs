@@ -73,6 +73,22 @@ namespace RPG.Control
         public void ResetCursorType() => _resetCurrentCursor = true;
 
         public Ray GetMouseRay() => _camera.ScreenPointToRay(Input.mousePosition); // get ray direction from camera to a screen point
+
+        // TODO modify to support touch better since this only work for first touch on screen.
+        public Ray GetTouchRay()
+        {
+            if (Input.touchCount > 0)
+            {
+                Touch touch = Input.GetTouch(0);
+
+                if (touch.phase == TouchPhase.Stationary || touch.phase == TouchPhase.Moved)
+                {
+                    return _camera.ScreenPointToRay(touch.position); // get ray direction from camera to a screen point
+                }
+            }
+
+            return GetMouseRay();
+        }
         #endregion
 
 

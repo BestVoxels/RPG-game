@@ -50,11 +50,11 @@ namespace RPG.Abilities.Targeting
                 Cursor.SetCursor(_cursorTexture, _cursorHotspot, CursorMode.Auto);
 
                 // Cast a ray from mouse to the Ground ONLY
-                if (Physics.Raycast(playerController.GetMouseRay(), out RaycastHit hit, _availableDistance, _affectStarterLayer))
+                if (Physics.Raycast(playerController.GetTouchRay(), out RaycastHit hit, _availableDistance, _affectStarterLayer))
                 {
                     _targetingPrefabInstance.transform.position = hit.point;
 
-                    if (Input.GetMouseButtonDown(0))
+                    if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonUp(0))
                     {
                         yield return new WaitWhile(() => Input.GetMouseButton(0)); // This will return as clicked for couple of frames, so wait until mouse is up.
 
