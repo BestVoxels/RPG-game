@@ -90,6 +90,11 @@ namespace RPG.Attributes
 
 
         #region --Methods-- (Custom PUBLIC)
+        /// <summary>
+        /// Deal Damage to the GameObject, and also Give XP to attacker
+        /// </summary>
+        /// <param name="attacker">attacker GameObject ex. 'player'</param>
+        /// <param name="damage">ONLY positive value are expected to deal damage, to heal use different method.</param>
         public void TakeDamage(GameObject attacker, float damage)
         {
             HealthPoints.value = Mathf.Max(0f, HealthPoints.value - damage);
@@ -107,6 +112,10 @@ namespace RPG.Attributes
             OnHealthChanged?.Invoke();
         }
 
+        /// <summary>
+        /// Heal the GameObject
+        /// </summary>
+        /// <param name="healAmount">ONLY positive value are expected to heal, to do damage use different method.</param>
         public void Heal(float healAmount)
         {
             HealthPoints.value = Mathf.Clamp(HealthPoints.value + healAmount, 0f, MaxHealthPoints);

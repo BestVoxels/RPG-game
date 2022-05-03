@@ -10,6 +10,7 @@ namespace RPG.Abilities
         #region --Fields-- (Inspector)
         [SerializeField] private TargetingStrategy _targetingStrategy;
         [SerializeField] private FilterStrategy[] _filterStrategies;
+        [SerializeField] private EffectStrategy[] _effectStrategies;
         #endregion
 
 
@@ -19,26 +20,29 @@ namespace RPG.Abilities
         {
             if (_targetingStrategy == null) return;
 
-            _targetingStrategy.StartTargeting(user, OnTargetAquired);
+            _targetingStrategy.StartTargeting(user, (IEnumerable<GameObject> targets) => OnTargetAquired(user, targets));
         }
         #endregion
 
 
 
         #region --Methods-- (Subscriber)
-        private void OnTargetAquired(IEnumerable<GameObject> targets)
+        private void OnTargetAquired(GameObject user, IEnumerable<GameObject> targets)
         {
-            Debug.Log("Target acquired as follows...");
-
             foreach (FilterStrategy eachFilter in _filterStrategies)
             {
                 targets = eachFilter.Filter(targets);
             }
 
-            foreach (GameObject target in targets)
+            foreach (EffectStrategy eachEffect in _effectStrategies)
             {
-                Debug.Log(target.name);
+                eachEffect.StartEffect(user, targets, OnEffectFinished);
             }
+        }
+
+        private void OnEffectFinished()
+        {
+            Debug.Log("On Effect Finished");
         }
         #endregion
     }
