@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 using RPG.Inventories;
 
@@ -20,23 +19,24 @@ namespace RPG.Abilities
         {
             if (_targetingStrategy == null) return;
 
-            _targetingStrategy.StartTargeting(user, (IEnumerable<GameObject> targets) => OnTargetAquired(user, targets));
+            AbilityData data = new AbilityData(user);
+            _targetingStrategy.StartTargeting(data, () => OnTargetAquired(data));
         }
         #endregion
 
 
 
         #region --Methods-- (Subscriber)
-        private void OnTargetAquired(GameObject user, IEnumerable<GameObject> targets)
+        private void OnTargetAquired(AbilityData data)
         {
             foreach (FilterStrategy eachFilter in _filterStrategies)
             {
-                targets = eachFilter.Filter(targets);
+                data.Targets = eachFilter.Filter(data);
             }
 
             foreach (EffectStrategy eachEffect in _effectStrategies)
             {
-                eachEffect.StartEffect(user, targets, OnEffectFinished);
+                eachEffect.StartEffect(data, OnEffectFinished);
             }
         }
 

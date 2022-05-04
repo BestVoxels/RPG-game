@@ -13,9 +13,9 @@ namespace RPG.Abilities.Filters
 
 
         #region --Methods-- (Override)
-        public override IEnumerable<GameObject> Filter(IEnumerable<GameObject> objectsToFilter)
+        public override IEnumerable<GameObject> Filter(AbilityData dataToFilter)
         {
-            foreach (GameObject eachObject in objectsToFilter)
+            foreach (GameObject eachObject in dataToFilter.Targets)
             {
                 if (eachObject.CompareTag(_tagToInclude))
                     yield return eachObject;

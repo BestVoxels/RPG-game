@@ -34,7 +34,7 @@ namespace RPG.Abilities.Targeting
 
 
         #region --Methods-- (Custom PRIVATE)
-        private IEnumerator Targeting(GameObject user, PlayerController playerController, Action<IEnumerable<GameObject>> onFinished)
+        private IEnumerator Targeting(AbilityData data, PlayerController playerController, Action onFinished)
         {
             playerController.enabled = false;
 
@@ -61,7 +61,8 @@ namespace RPG.Abilities.Targeting
                         playerController.ResetCursorType();
                         playerController.enabled = true; // If enable while mouse is down, InteractWithMovement will triggered
 
-                        onFinished?.Invoke(GetGameObjectsInRadius(hit.point));
+                        data.Targets = GetGameObjectsInRadius(hit.point);
+                        onFinished?.Invoke();
 
                         _targetingPrefabInstance.SetActive(false);
 
@@ -94,10 +95,10 @@ namespace RPG.Abilities.Targeting
 
 
         #region --Methods-- (Override)
-        public override void StartTargeting(GameObject user, Action<IEnumerable<GameObject>> onFinished)
+        public override void StartTargeting(AbilityData data, Action onFinished)
         {
-            PlayerController playerController = user.transform.root.GetComponentInChildren<PlayerController>();
-            playerController.StartCoroutine( Targeting(user, playerController, onFinished) );
+            PlayerController playerController = data.User.transform.root.GetComponentInChildren<PlayerController>();
+            playerController.StartCoroutine( Targeting(data, playerController, onFinished) );
         }
         #endregion
     }

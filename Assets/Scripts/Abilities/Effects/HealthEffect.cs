@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 using RPG.Attributes;
 
@@ -16,15 +15,15 @@ namespace RPG.Abilities.Effects
 
 
         #region --Methods-- (Override)
-        public override void StartEffect(GameObject user, IEnumerable<GameObject> targets, Action onFinished)
+        public override void StartEffect(AbilityData data, Action onFinished)
         {
-            foreach (GameObject target in targets)
+            foreach (GameObject target in data.Targets)
             {
                 Health targetHealth = target.GetComponentInChildren<Health>();
                 if (targetHealth == null) continue;
 
                 if (_healthPointsAddOn < 0)
-                    targetHealth.TakeDamage(user, -_healthPointsAddOn); // do minus again to make it positive since method expect positive value.
+                    targetHealth.TakeDamage(data.User, -_healthPointsAddOn); // do minus again to make it positive since method expect positive value.
                 else
                     targetHealth.Heal(_healthPointsAddOn);
             }

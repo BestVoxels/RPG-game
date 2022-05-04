@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace RPG.Abilities
@@ -7,7 +6,7 @@ namespace RPG.Abilities
     public abstract class EffectStrategy : ScriptableObject
     {
         #region --Methods-- (Custom PUBLIC)
-        public abstract void StartEffect(GameObject user, IEnumerable<GameObject> targets, Action onFinished);
+        public abstract void StartEffect(AbilityData user, Action onFinished);
         #endregion
     }
 }
