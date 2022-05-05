@@ -97,8 +97,9 @@ namespace RPG.Attributes
         /// <param name="damage">ONLY positive value are expected to deal damage, to heal use different method.</param>
         public void TakeDamage(GameObject attacker, float damage)
         {
-            HealthPoints.value = Mathf.Max(0f, HealthPoints.value - damage);
+            if (IsDead) return;
 
+            HealthPoints.value = Mathf.Max(0f, HealthPoints.value - damage);
             if (HealthPoints.value <= 0f)
             {
                 _onDie?.Invoke();
