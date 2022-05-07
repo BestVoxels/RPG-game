@@ -2,10 +2,11 @@ using System;
 using UnityEngine;
 using RPG.Stats;
 using RPG.Utils;
+using RPG.Saving;
 
 namespace RPG.Attributes
 {
-    public class Mana : MonoBehaviour
+    public class Mana : MonoBehaviour, ISaveable
     {
         #region --Events-- (Delegate as Action)
         public event Action OnManaPointsUpdated;
@@ -37,11 +38,6 @@ namespace RPG.Attributes
             _baseStats = transform.root.GetComponentInChildren<BaseStats>();
 
             ManaPoints = new AutoInit<float>(GetInitialMana);
-        }
-
-        private void Start()
-        {
-            ManaPoints.ForceInit();
         }
 
         private void Update()
@@ -82,6 +78,22 @@ namespace RPG.Attributes
 
         #region --Methods-- (Subscriber)
         private float GetInitialMana() => MaxManaPoints;
+        #endregion
+
+
+
+        #region --Methods-- (Interface)
+        object ISaveable.CaptureState()
+        {
+            return ManaPoints.value;
+        }
+
+        void ISaveable.RestoreState(object state)
+        {
+            ManaPoints.value = (float)state;
+
+            OnManaPointsUpdated?.Invoke();
+        }
         #endregion
     }
 }

@@ -53,6 +53,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 898610429436295435}
+  - component: {fileID: 5387102291794490165}
   - component: {fileID: 366175712441509731}
   m_Layer: 0
   m_Name: Mana System
@@ -76,6 +77,19 @@ Transform:
   m_Father: {fileID: 3202932936223335231}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5387102291794490165
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2252222297988225901}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ea9374b509b70f4bba37e4a2ca8cf00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uniqueIdentifier: e83a2ae2-4f8f-45ba-84cd-09568f5e3c59
 --- !u!114 &366175712441509731
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -88,7 +102,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bc9f945770c84cbe9685d50988e40c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _regenerateSpeed: 6
 --- !u!1 &3968249368275491742
 GameObject:
   m_ObjectHideFlags: 0
