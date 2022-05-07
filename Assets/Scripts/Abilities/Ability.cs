@@ -1,5 +1,6 @@
 using UnityEngine;
 using RPG.Inventories;
+using RPG.Attributes;
 
 namespace RPG.Abilities
 {
@@ -12,12 +13,14 @@ namespace RPG.Abilities
         [SerializeField] private EffectStrategy[] _effectStrategies;
         [Min(0f)]
         [SerializeField] private float _cooldownTime = 2f;
+        [SerializeField] private float _manaCost = 20f;
         #endregion
 
 
 
         #region --Fields-- (In Class)
         private CooldownStore _cooldownStore;
+        private Mana _mana;
         #endregion
 
 
@@ -30,6 +33,9 @@ namespace RPG.Abilities
             _cooldownStore = user.transform.root.GetComponentInChildren<CooldownStore>();
             if (_cooldownStore == null || _cooldownStore.GetTimeRemaining(this) > 0f) return;
 
+            _mana = user.transform.root.GetComponentInChildren<Mana>();
+            if (_mana == null || _manaCost > _mana.ManaPoints) return;
+
             AbilityData data = new AbilityData(user);
             _targetingStrategy.StartTargeting(data, () => OnTargetAquired(data));
         }
@@ -40,6 +46,8 @@ namespace RPG.Abilities
         #region --Methods-- (Subscriber)
         private void OnTargetAquired(AbilityData data)
         {
+            if (_mana.UseMana(_manaCost) == false) return;
+
             _cooldownStore.StartTimer(this, _cooldownTime);
 
             foreach (FilterStrategy eachFilter in _filterStrategies)

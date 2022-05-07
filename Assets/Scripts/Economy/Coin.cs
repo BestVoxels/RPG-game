@@ -6,15 +6,15 @@ namespace RPG.Economy
 {
     public class Coin : MonoBehaviour, ISaveable
     {
-        #region --Events-- (Delegate as Action)
-        public event Action OnCoinPointsUpdated;
+        #region --Fields-- (Inspector)
+        [Min(0)]
+        [SerializeField] private int _starterCoinPoints = 500;
         #endregion
 
 
 
-        #region --Fields-- (Inspector)
-        [Min(0)]
-        [SerializeField] private int _starterCoinPoints = 500;
+        #region --Events-- (Delegate as Action)
+        public event Action OnCoinPointsUpdated;
         #endregion
 
 
