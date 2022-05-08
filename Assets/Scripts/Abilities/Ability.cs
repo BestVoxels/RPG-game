@@ -61,9 +61,9 @@ namespace RPG.Abilities
             }
         }
 
-        private void OnEffectFinished()
+        private void OnEffectFinished(string effectName)
         {
-            Debug.Log("On Effect Finished");
+            Debug.Log($"{effectName} is Finished");
         }
         #endregion
     }

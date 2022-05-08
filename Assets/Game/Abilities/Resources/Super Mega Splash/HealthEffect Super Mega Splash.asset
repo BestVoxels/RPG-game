@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 822d9832db9e5497c920a3285854e9cf, type: 3}
   m_Name: HealthEffect Super Mega Splash
   m_EditorClassIdentifier: 
-  _healthPointsAddOn: -10
+  _healthPointsAddOn: -50

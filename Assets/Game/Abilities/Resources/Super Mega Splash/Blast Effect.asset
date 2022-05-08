@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Blast Effect
   m_EditorClassIdentifier: 
   _prefabToSpawn: {fileID: 1368189072598217943, guid: 17e9a0508d6c84642a6ef8de4a4debcb, type: 3}
-  _destroyPrefabDelay: 4
+  _destroyPrefabDelay: 3

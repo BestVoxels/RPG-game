@@ -45,11 +45,13 @@ namespace RPG.Combat
         {
             DestroyOldWeapon(rightHand, leftHand);
 
-            var overrideController = animator.runtimeAnimatorController as AnimatorOverrideController;
+            AnimatorOverrideController overrideController = animator.runtimeAnimatorController as AnimatorOverrideController;
+            // Enter this when Have AnimatorOverrideController field provided
             if (_animatorOverride != null)
             {
                 animator.runtimeAnimatorController = _animatorOverride;
             }
+            // Enter this when AnimatorOverrideController field is EMPTY and use default animator controller
             else if (overrideController != null)
             {
                 animator.runtimeAnimatorController = overrideController.runtimeAnimatorController;

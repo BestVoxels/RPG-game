@@ -15,7 +15,7 @@ namespace RPG.Abilities.Effects
 
 
         #region --Methods-- (Override)
-        public override void StartEffect(AbilityData data, Action onFinished)
+        public override void StartEffect(AbilityData data, Action<string> onFinished)
         {
             foreach (GameObject target in data.Targets)
             {
@@ -28,7 +28,7 @@ namespace RPG.Abilities.Effects
                     targetHealth.Heal(_healthPointsAddOn);
             }
 
-            onFinished?.Invoke();
+            onFinished?.Invoke(name);
         }
         #endregion
     }

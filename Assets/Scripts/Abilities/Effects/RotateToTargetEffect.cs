@@ -1,0 +1,42 @@
+using System.Collections;
+using System;
+using UnityEngine;
+using RPG.Core;
+
+namespace RPG.Abilities.Effects
+{
+    [CreateAssetMenu(fileName = "Untitled Rotate To Target Effect", menuName = "RPG/Game Item/Effects/New Rotate To Target Effect", order = 131)]
+    public class RotateToTargetEffect : EffectStrategy
+    {
+        #region --Fields-- (Inspector)
+        [SerializeField] private float _rotationSpeed = 10f;
+        [Tooltip("0f mean exact match / 1f mean far off. Typically use 0.01f or 0.001f or pretty close use 0.0000001f")]
+        [SerializeField] private float _precisionRate = 0.0000001f;
+        #endregion
+
+
+
+        #region --Methods-- (Custom PRIVATE)
+        private IEnumerator KeepRotating(Transform user, Vector3 target, Action<string> onFinished)
+        {
+            float timer = 0f; // Need timer Incase Player move while rotation is not finish, this can stop rotating once it reaches 1 sec
+            while (Utilities.SmoothRotateTo(user, target, _rotationSpeed, _precisionRate) == false && timer < 1f)
+            {
+                timer += Time.deltaTime;
+                yield return null;
+            }
+
+            onFinished?.Invoke(name);
+        }
+        #endregion
+
+
+
+        #region --Methods-- (Override)
+        public override void StartEffect(AbilityData data, Action<string> onFinished)
+        {
+            data.StartCoroutine( KeepRotating(data.User.transform, data.TargetedPoint, onFinished) );
+        }
+        #endregion
+    }
+}

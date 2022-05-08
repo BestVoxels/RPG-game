@@ -10,25 +10,25 @@ namespace RPG.Abilities.Effects
         #region --Fields-- (Inspector)
         [SerializeField] private GameObject _prefabToSpawn;
         [Range(1f, 100f)]
-        [SerializeField] private float _destroyPrefabDelay = 4f;
+        [SerializeField] private float _destroyPrefabDelay = 3f;
         #endregion
 
 
 
         #region --Methods-- (Custom PRIVATE)
-        private IEnumerator DestroyPrefabDelay(GameObject objectToDestroy, Action onFinished)
+        private IEnumerator DestroyPrefabDelay(GameObject objectToDestroy, Action<string> onFinished)
         {
             yield return new WaitForSeconds(_destroyPrefabDelay);
 
             Destroy(objectToDestroy);
-            onFinished?.Invoke();
+            onFinished?.Invoke(name);
         }
         #endregion
 
 
 
         #region --Methods-- (Override)
-        public override void StartEffect(AbilityData data, Action onFinished)
+        public override void StartEffect(AbilityData data, Action<string> onFinished)
         {
             GameObject spawnedInstance = Instantiate(_prefabToSpawn, data.TargetedPoint, Quaternion.identity);
 
