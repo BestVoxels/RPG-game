@@ -1,13 +1,20 @@
 using UnityEngine;
 using RPG.Dialogue;
+using RPG.Saving;
 
 namespace RPG.Combat
 {
-    public class AggroGroup : MonoBehaviour
+    public class AggroGroup : MonoBehaviour, ISaveable
     {
         #region --Fields-- (Inspector)
         [SerializeField] private Fighter[] _fighters;
         [SerializeField] private bool _isActivateOnStart = false;
+        #endregion
+
+
+
+        #region --Fields-- (In Class)
+        private bool _aggroStatus = false;
         #endregion
 
 
@@ -24,6 +31,8 @@ namespace RPG.Combat
         #region --Methods-- (Subscriber) ~UnityEvent~
         public void Activate(bool status)
         {
+            _aggroStatus = status;
+
             foreach (Fighter eachFighter in _fighters)
             {
                 eachFighter.enabled = status;
@@ -34,6 +43,22 @@ namespace RPG.Combat
                 AIConversant aiConversant = eachFighter.GetComponent<AIConversant>();
                 if (aiConversant != null) aiConversant.enabled = !status;
             }
+        }
+        #endregion
+
+
+
+        #region --Methods-- (Interface)
+        object ISaveable.CaptureState()
+        {
+            return _aggroStatus;
+        }
+
+        void ISaveable.RestoreState(object state)
+        {
+            _aggroStatus = (bool)state;
+
+            Activate(_aggroStatus);
         }
         #endregion
     }
