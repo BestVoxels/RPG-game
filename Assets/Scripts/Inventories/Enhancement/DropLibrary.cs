@@ -119,10 +119,12 @@ namespace RPG.Inventories.Enhancement
 
             public int GetRandomNumber(int level)
             {
-                if (!item.IsStackable())
-                {
-                    return 1;
-                }
+                // For None Stackable
+                if (!item.IsStackable()) return 1;
+
+                // When Designer doens't provide any number for stackable item, it will create drop with zero quantity in it (bug)
+                if (item.IsStackable() && minNumber.Length == 0 && maxNumber.Length == 0) return 1;
+
                 int min = GetByLevel(minNumber, level);
                 int max = GetByLevel(maxNumber, level);
                 return Random.Range(min, max + 1);
