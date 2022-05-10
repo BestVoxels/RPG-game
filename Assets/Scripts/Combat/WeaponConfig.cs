@@ -91,17 +91,7 @@ namespace RPG.Combat
             Destroy(oldWeapon.gameObject);
         }
 
-        private Transform GetTransform(Transform rightHand, Transform leftHand)
-        {
-            Transform handTransform;
-
-            if (_isRightHanded)
-                handTransform = rightHand;
-            else
-                handTransform = leftHand;
-
-            return handTransform;
-        }
+        private Transform GetTransform(Transform rightHand, Transform leftHand) => _isRightHanded ? rightHand : leftHand;
         #endregion
 
 

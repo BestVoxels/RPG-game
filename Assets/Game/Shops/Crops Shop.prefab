@@ -83,6 +83,11 @@ MonoBehaviour:
     buyingDiscountPercentage: 0
     sellingDiscountPercentage: 50
     levelToUnlock: 1
+  - inventoryItem: {fileID: 11400000, guid: ad395d6bb50574b18b21c5ce53c21c8d, type: 2}
+    initialStock: 2
+    buyingDiscountPercentage: 0
+    sellingDiscountPercentage: 50
+    levelToUnlock: 1
 --- !u!136 &1930591841519179197
 CapsuleCollider:
   m_ObjectHideFlags: 0

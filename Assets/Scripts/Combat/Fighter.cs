@@ -42,6 +42,13 @@ namespace RPG.Combat
 
 
 
+        #region --Properties-- (With Backing Fields)
+        public Transform RightHandTransform { get => _rightHandTransform; private set => _rightHandTransform = value; }
+        public Transform LeftHandTransform { get => _leftHandTransform; private set => _leftHandTransform = value; }
+        #endregion
+
+
+
         #region --Methods-- (Built In)
         private void Awake()
         {

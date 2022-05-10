@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76cb34420aa704719bf0701ab8e0b767, type: 3}
+  m_Name: Projectile Effect
+  m_EditorClassIdentifier: 
+  _projectile: {fileID: 8339863662223209523, guid: 2e93218231d124c6fbcadddf9535303a, type: 3}
+  _damage: 30
+  _isRightHanded: 1
