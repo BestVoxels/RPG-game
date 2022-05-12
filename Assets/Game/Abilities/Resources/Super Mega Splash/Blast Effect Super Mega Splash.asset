@@ -9,9 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce0d133ae5252466e9bb95cfcb469c23, type: 3}
-  m_Name: Targeting Directional
+  m_Script: {fileID: 11500000, guid: 7b03246a5c8bc4a1b8f740b33d8e31f5, type: 3}
+  m_Name: Blast Effect Super Mega Splash
   m_EditorClassIdentifier: 
-  _affectStarterLayer:
-    serializedVersion: 2
-    m_Bits: 64
+  _prefabToSpawn: {fileID: 1368189072598217943, guid: 17e9a0508d6c84642a6ef8de4a4debcb, type: 3}
+  _destroyPrefabDelay: 3

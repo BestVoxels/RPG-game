@@ -9,8 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b03246a5c8bc4a1b8f740b33d8e31f5, type: 3}
-  m_Name: Blast Effect
+  m_Script: {fileID: 11500000, guid: 822d9832db9e5497c920a3285854e9cf, type: 3}
+  m_Name: Damage Effect Super Mega Splash
   m_EditorClassIdentifier: 
-  _prefabToSpawn: {fileID: 1368189072598217943, guid: 17e9a0508d6c84642a6ef8de4a4debcb, type: 3}
-  _destroyPrefabDelay: 3
+  _healthPointsAddOn: -50

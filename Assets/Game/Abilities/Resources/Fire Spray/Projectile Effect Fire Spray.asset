@@ -9,8 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b03246a5c8bc4a1b8f740b33d8e31f5, type: 3}
-  m_Name: Sound Blast Effect
+  m_Script: {fileID: 11500000, guid: 76cb34420aa704719bf0701ab8e0b767, type: 3}
+  m_Name: Projectile Effect Fire Spray
   m_EditorClassIdentifier: 
-  _prefabToSpawn: {fileID: 8147420468954868012, guid: 3ccf3eb7a5dc34f86989aaa4c6c27234, type: 3}
-  _destroyPrefabDelay: 3
+  _projectile: {fileID: 8339863662223209523, guid: 2e93218231d124c6fbcadddf9535303a, type: 3}
+  _damage: 30
+  _isRightHanded: 1
+  _useTargetPoint: 1

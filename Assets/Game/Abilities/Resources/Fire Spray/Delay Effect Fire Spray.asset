@@ -9,7 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 822d9832db9e5497c920a3285854e9cf, type: 3}
-  m_Name: Damage Effect
+  m_Script: {fileID: 11500000, guid: 0f171d14a54294fe3a947fe22d18faf0, type: 3}
+  m_Name: Delay Effect Fire Spray
   m_EditorClassIdentifier: 
-  _healthPointsAddOn: -50
+  _delay: 0.35
+  _effectsToDelay:
+  - {fileID: 11400000, guid: 17e8763908a584c0b94651eb9643f997, type: 2}
+  _abortIfCancelled: 0

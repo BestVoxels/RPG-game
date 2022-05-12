@@ -25,6 +25,8 @@ MonoBehaviour:
   _targetingStrategy: {fileID: 11400000, guid: 572dfe8c58614493884399a947745211, type: 2}
   _filterStrategies: []
   _effectStrategies:
-  - {fileID: 11400000, guid: 17e8763908a584c0b94651eb9643f997, type: 2}
-  _cooldownTime: 3
-  _manaCost: 80
+  - {fileID: 11400000, guid: 92c50d8ef9775494d8db5a939235e45c, type: 2}
+  - {fileID: 11400000, guid: 79cd419d213174d87a41e9df86c62ca8, type: 2}
+  - {fileID: 11400000, guid: e9d463bfc21024b678df54bf243ca679, type: 2}
+  _cooldownTime: 0.5
+  _manaCost: 20
