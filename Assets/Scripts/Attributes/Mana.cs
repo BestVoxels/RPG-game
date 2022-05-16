@@ -44,6 +44,8 @@ namespace RPG.Attributes
         {
             RegenerateMana();
         }
+
+        // Don't need to do _baseStats.OnLevelUp subscription like TraitStore.cs/Health.cs to update UI display because Update() already calls RegenerateMana()
         #endregion
 
 

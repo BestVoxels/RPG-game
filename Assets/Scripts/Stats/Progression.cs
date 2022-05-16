@@ -25,7 +25,8 @@ namespace RPG.Stats
 
             float[] levels = _progressionTable[characterType][statType];
 
-            if (currentLevel > levels.Length || currentLevel == 0) return 0f; // Guard Check for Index OutofBound
+            if (currentLevel == 0 || levels.Length == 0) return 0f; // Guard Check return 0
+            if (currentLevel > levels.Length) return levels[levels.Length - 1]; // Guard Check return last element value
 
             return levels[currentLevel - 1];
         }

@@ -77,6 +77,8 @@ namespace RPG.Stats
 
         public float GetManaRegenRate() => GetStat(StatType.ManaRegenRate);
 
+        public float GetTotalTraitPoint() => GetStat(StatType.TotalTraitPoints);
+
         public int GetLevel() => _currentLevel.value;
         #endregion
 
@@ -163,7 +165,7 @@ namespace RPG.Stats
             int newLevel = CalculateLevel();
             if (newLevel > _currentLevel.value)
             {
-                _currentLevel.value = newLevel; // Have to Run First! Cuz OnLevelUp will use _currentLevel new value
+                _currentLevel.value = newLevel; // Have to Run First! Cuz OnLevelUp's subscribers will use _currentLevel new value
 
                 OnLevelUp?.Invoke();
                 LevelUpEffect();

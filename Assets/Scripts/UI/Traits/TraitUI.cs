@@ -31,7 +31,7 @@ namespace RPG.UI.Traits
 
         private void OnEnable()
         {
-            _playerTraitStore.OnValueChanged += RefreshUI;
+            _playerTraitStore.OnPointsChanged += RefreshUI;
         }
 
         private void Start()
@@ -41,7 +41,7 @@ namespace RPG.UI.Traits
 
         private void OnDisable()
         {
-            _playerTraitStore.OnValueChanged += RefreshUI;
+            _playerTraitStore.OnPointsChanged -= RefreshUI;
         }
         #endregion
 
@@ -59,7 +59,7 @@ namespace RPG.UI.Traits
 
             var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
             nfi.NumberGroupSeparator = " ";
-            _unallocatedPointsText.text = _playerTraitStore.UnallocatedPoints.ToString("#,0", nfi);
+            _unallocatedPointsText.text = _playerTraitStore.GetUnallocatedPoints().ToString("#,0", nfi);
         }
         #endregion
     }

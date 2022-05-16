@@ -69,7 +69,7 @@ namespace RPG.Attributes
 
         private void OnEnable()
         {
-            _baseStats.OnLevelUp += RegenerateHealth;
+            _baseStats.OnLevelUp += RegenerateHealth; // RegenerateHealth contains OnHealthChanged to update UI display
             if (_equipment != null)
                 _equipment.OnEquipmentUpdated += UpdateHealthEvent;
         }

@@ -34,7 +34,7 @@ namespace RPG.UI.Traits
 
         private void OnEnable()
         {
-            _playerTraitStore.OnValueChanged += RefreshUI;
+            _playerTraitStore.OnPointsChanged += RefreshUI;
         }
 
         private void Start()
@@ -44,7 +44,7 @@ namespace RPG.UI.Traits
 
         private void OnDisable()
         {
-            _playerTraitStore.OnValueChanged += RefreshUI;
+            _playerTraitStore.OnPointsChanged -= RefreshUI;
         }
         #endregion
 
