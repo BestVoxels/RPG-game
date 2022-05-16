@@ -13,39 +13,64 @@ namespace RPG.Traits
 
 
         #region --Fields-- (In Class)
-        private readonly Dictionary<Trait, int> _assignedPoints = new Dictionary<Trait, int>();
-        private int _unassignedPoints = 10;
+        private readonly Dictionary<Trait, int> _committedPoints = new Dictionary<Trait, int>();
+        private readonly Dictionary<Trait, int> _stagedPoints = new Dictionary<Trait, int>();
+        private int _unallocatedPoints = 10;
         #endregion
 
 
 
         #region --Properties-- (With Backing Fields)
-        public int UnAssignedPoints { get => _unassignedPoints; }
+        public int UnallocatedPoints { get => _unallocatedPoints; }
         #endregion
 
 
 
-        #region --Methods-- (Custom PUBLIC)
-        public int GetPoint(Trait trait)
-        {
-            return _assignedPoints.ContainsKey(trait) ? _assignedPoints[trait] : 0;
-        }
+        #region --Methods-- (Custom PUBLIC) ~Get Points~
+        public int GetCommittedPoints(Trait trait) => _committedPoints.ContainsKey(trait) ? _committedPoints[trait] : 0;
 
-        public void AssignPoint(Trait trait, int points)
-        {
-            if (!CanAssignPoint(trait, points)) return;
+        public int GetStagedPoints(Trait trait) => _stagedPoints.ContainsKey(trait) ? _stagedPoints[trait] : 0;
 
-            _assignedPoints[trait] = GetPoint(trait) + points;
-            _unassignedPoints -= points;
+        public int GetCombinedPoints(Trait trait) => GetCommittedPoints(trait) + GetStagedPoints(trait);
+        #endregion
+
+
+
+        #region --Methods-- (Custom PUBLIC) ~Staging~
+        public void StagePoints(Trait trait, int points)
+        {
+            if (!CanStagePoints(trait, points)) return;
+
+            _stagedPoints[trait] = GetStagedPoints(trait) + points;
+            _unallocatedPoints -= points;
+
+            if (GetStagedPoints(trait) == 0) _stagedPoints.Remove(trait);
             OnValueChanged?.Invoke();
         }
 
-        public bool CanAssignPoint(Trait trait, int points)
+        public bool CanStagePoints(Trait trait, int points)
         {
-            if (points > _unassignedPoints) return false;
-            if (GetPoint(trait) + points < 0) return false;
+            if (points > _unallocatedPoints) return false;
+            if (GetStagedPoints(trait) + points < 0) return false;
             return true;
         }
+        #endregion
+
+
+
+        #region --Methods-- (Custom PUBLIC) ~Committing~
+        public void CommitPoints()
+        {
+            if (!CanCommit()) return;
+
+            foreach (KeyValuePair<Trait, int> pair in _stagedPoints)
+                _committedPoints[pair.Key] = GetCommittedPoints(pair.Key) + pair.Value;
+            
+            _stagedPoints.Clear();
+            OnValueChanged?.Invoke();
+        }
+
+        public bool CanCommit() => _stagedPoints.Count > 0;
         #endregion
     }
 }

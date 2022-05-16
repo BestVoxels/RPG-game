@@ -6,13 +6,11 @@ using RPG.Traits;
 
 namespace RPG.UI.Traits
 {
-    public class TraitRowUI : MonoBehaviour
+    public class TraitUI : MonoBehaviour
     {
         #region --Fields-- (Inspector)
-        [SerializeField] private Trait _trait;
-        [SerializeField] private TMP_Text _valueText;
-        [SerializeField] private Button _minusButton;
-        [SerializeField] private Button _addButton;
+        [SerializeField] private TMP_Text _unallocatedPointsText;
+        [SerializeField] private Button _confirmButton;
         #endregion
 
 
@@ -28,8 +26,7 @@ namespace RPG.UI.Traits
         {
             _playerTraitStore = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<TraitStore>();
 
-            _minusButton.onClick.AddListener(() => Allocate(-1));
-            _addButton.onClick.AddListener(() => Allocate(1));
+            _confirmButton.onClick.AddListener(Commit);
         }
 
         private void OnEnable()
@@ -51,19 +48,18 @@ namespace RPG.UI.Traits
 
 
         #region --Methods-- (Subscriber)
-        private void Allocate(int points)
+        private void Commit()
         {
-            _playerTraitStore.StagePoints(_trait, points);
+            _playerTraitStore.CommitPoints();
         }
 
         private void RefreshUI()
         {
-            _minusButton.interactable = _playerTraitStore.CanStagePoints(_trait, -1);
-            _addButton.interactable = _playerTraitStore.CanStagePoints(_trait, +1);
+            _confirmButton.interactable = _playerTraitStore.CanCommit();
 
             var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
             nfi.NumberGroupSeparator = " ";
-            _valueText.text = _playerTraitStore.GetCombinedPoints(_trait).ToString("#,0", nfi);
+            _unallocatedPointsText.text = _playerTraitStore.UnallocatedPoints.ToString("#,0", nfi);
         }
         #endregion
     }
