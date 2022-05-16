@@ -18,8 +18,7 @@ namespace RPG.UI.Traits
 
 
         #region --Fields-- (In Class)
-        //TEMP
-        private int _value = 0;
+        private TraitStore _playerTraitStore;
         #endregion
 
 
@@ -27,33 +26,44 @@ namespace RPG.UI.Traits
         #region --Methods-- (Built In)
         private void Awake()
         {
+            _playerTraitStore = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<TraitStore>();
+
             _minusButton.onClick.AddListener(() => Allocate(-1));
             _addButton.onClick.AddListener(() => Allocate(1));
         }
 
-        private void Update()
+        private void OnEnable()
+        {
+            _playerTraitStore.OnValueChanged += RefreshUI;
+        }
+
+        private void Start()
         {
             RefreshUI();
+        }
+
+        private void OnDisable()
+        {
+            _playerTraitStore.OnValueChanged += RefreshUI;
         }
         #endregion
 
 
 
-        #region --Methods-- (Custom PRIVATE)
+        #region --Methods-- (Subscriber)
         private void Allocate(int points)
         {
-            _value += points;
-
-            _value = Mathf.Clamp(_value, 0, _value);
+            _playerTraitStore.AssignPoint(_trait, points);
         }
 
         private void RefreshUI()
         {
-            _minusButton.interactable = _value != 0;
+            _minusButton.interactable = _playerTraitStore.CanAssignPoint(_trait, -1);
+            _addButton.interactable = _playerTraitStore.CanAssignPoint(_trait, +1);
 
             var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
             nfi.NumberGroupSeparator = " ";
-            _valueText.text = _value.ToString("#,0", nfi);
+            _valueText.text = _playerTraitStore.GetPoint(_trait).ToString("#,0", nfi);
         }
         #endregion
     }
