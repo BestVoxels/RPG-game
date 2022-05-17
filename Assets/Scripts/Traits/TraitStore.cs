@@ -2,11 +2,18 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using RPG.Stats;
+using RPG.Saving;
 
 namespace RPG.Traits
 {
-    public class TraitStore : MonoBehaviour
+    public class TraitStore : MonoBehaviour, IModifierProvider, ISaveable
     {
+        #region --Fields-- (Inspector)
+        [SerializeField] private TraitBonus[] _traitBonusConfig;
+        #endregion
+
+
+
         #region --Events-- (Delegate as Action)
         public event Action OnPointsChanged;
         #endregion
@@ -16,8 +23,11 @@ namespace RPG.Traits
         #region --Fields-- (In Class)
         private BaseStats _baseStats;
 
-        private readonly Dictionary<Trait, int> _committedPoints = new Dictionary<Trait, int>();
-        private readonly Dictionary<Trait, int> _stagedPoints = new Dictionary<Trait, int>();
+        private Dictionary<Trait, int> _committedPoints = new Dictionary<Trait, int>();
+        private Dictionary<Trait, int> _stagedPoints = new Dictionary<Trait, int>();
+
+        private Dictionary<StatType, Dictionary<Trait, float>> _additiveBonusTable = null;
+        private Dictionary<StatType, Dictionary<Trait, float>> _percentageBonusTable = null;
         #endregion
 
 
@@ -109,6 +119,85 @@ namespace RPG.Traits
         }
 
         public bool CanCommit() => _stagedPoints.Count > 0;
+        #endregion
+
+
+
+        #region --Methods-- (Custom PRIVATE) ~Lookup Table~
+        private void CreateLookupTable()
+        {
+            if (_additiveBonusTable != null || _percentageBonusTable != null) return; // Only Create Table Once
+            
+            _additiveBonusTable = new Dictionary<StatType, Dictionary<Trait, float>>();
+            _percentageBonusTable = new Dictionary<StatType, Dictionary<Trait, float>>();
+
+            foreach (TraitBonus eachConfig in _traitBonusConfig)
+            {
+                // Making IF check here so a single StatType can contains multiple Trait
+                if (!_additiveBonusTable.ContainsKey(eachConfig.statType))
+                    _additiveBonusTable.Add(eachConfig.statType, new Dictionary<Trait, float>());
+
+                if (!_percentageBonusTable.ContainsKey(eachConfig.statType))
+                    _percentageBonusTable.Add(eachConfig.statType, new Dictionary<Trait, float>());
+
+                _additiveBonusTable[eachConfig.statType].Add(eachConfig.trait, eachConfig.additiveBonusPerPoint);
+                _percentageBonusTable[eachConfig.statType].Add(eachConfig.trait, eachConfig.percentageBonusPerPoint);
+            }
+        }
+        #endregion
+
+
+
+        #region --Methods-- (Interface)
+        IEnumerable<float> IModifierProvider.GetAdditiveModifiers(StatType statType)
+        {
+            CreateLookupTable();
+            if (!_additiveBonusTable.ContainsKey(statType)) yield break;
+
+            foreach (Trait traitOfStat in _additiveBonusTable[statType].Keys)
+            {
+                float bonus = _additiveBonusTable[statType][traitOfStat];
+                yield return GetCommittedPoints(traitOfStat) * bonus;
+            }
+        }
+
+        IEnumerable<float> IModifierProvider.GetPercentageModifiers(StatType statType)
+        {
+            CreateLookupTable();
+            if (!_percentageBonusTable.ContainsKey(statType)) yield break;
+
+            foreach (Trait traitOfStat in _percentageBonusTable[statType].Keys)
+            {
+                float bonus = _percentageBonusTable[statType][traitOfStat];
+                yield return GetCommittedPoints(traitOfStat) * bonus;
+            }
+        }
+
+        object ISaveable.CaptureState()
+        {
+            return _committedPoints;
+        }
+
+        void ISaveable.RestoreState(object state)
+        {
+            _committedPoints = new Dictionary<Trait, int>((Dictionary<Trait, int>)state);
+            OnPointsChanged?.Invoke();
+        }
+        #endregion
+
+
+
+        #region --Classes-- (Custom PRIVATE)
+        [System.Serializable]
+        private class TraitBonus
+        {
+            [Tooltip("One Trait can modify multiple Stat. (add more config element)")]
+            public Trait trait;
+            [Tooltip("Stat that will get effect by Trait above.")]
+            public StatType statType;
+            public float additiveBonusPerPoint = 0f;
+            public float percentageBonusPerPoint = 0f;
+        }
         #endregion
     }
 }

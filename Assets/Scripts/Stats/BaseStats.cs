@@ -101,7 +101,7 @@ namespace RPG.Stats
             if (!_shouldUseModifiers) return 0f;
 
             float totalAdditive = 0f;
-            foreach (IModifierProvider eachProvider in GetComponents<IModifierProvider>()) // Get All Classes that Implement IModifierProvider attached on this gameObject
+            foreach (IModifierProvider eachProvider in GetComponentsInChildren<IModifierProvider>()) // Get All Classes that Implement IModifierProvider attached on this gameObject and among children
             {
                 foreach (float eachModifier in eachProvider.GetAdditiveModifiers(statType))
                 {
@@ -117,7 +117,7 @@ namespace RPG.Stats
             if (!_shouldUseModifiers) return 0f;
 
             float totalPercentage = 0f;
-            foreach (IModifierProvider eachProvider in GetComponents<IModifierProvider>()) // Get All Classes that Implement IModifierProvider attached on this gameObject
+            foreach (IModifierProvider eachProvider in GetComponentsInChildren<IModifierProvider>()) // Get All Classes that Implement IModifierProvider attached on this gameObject and among children
             {
                 foreach (float eachModifier in eachProvider.GetPercentageModifiers(statType))
                 {

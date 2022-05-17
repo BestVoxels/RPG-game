@@ -14,17 +14,6 @@ namespace RPG.Inventories.Enhancement
 
 
 
-        #region --Structs-- (Custom PRIVATE)
-        [System.Serializable]
-        private struct Modifier
-        {
-            public StatType statType;
-            public float value;
-        }
-        #endregion
-
-
-
         #region --Methods-- (Interface)
         IEnumerable<float> IModifierProvider.GetAdditiveModifiers(StatType statType)
         {
@@ -46,6 +35,17 @@ namespace RPG.Inventories.Enhancement
                     yield return eachModifier.value;
                 }
             }
+        }
+        #endregion
+
+
+
+        #region --Structs-- (Custom PRIVATE)
+        [System.Serializable]
+        private struct Modifier
+        {
+            public StatType statType;
+            public float value;
         }
         #endregion
     }

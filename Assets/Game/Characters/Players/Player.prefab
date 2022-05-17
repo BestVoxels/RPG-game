@@ -263,6 +263,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3abdc549ed9241c9a6acb9a8ddaec34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _traitBonusConfig:
+  - trait: 0
+    statType: 3
+    additiveBonusPerPoint: 0
+    percentageBonusPerPoint: 5
+  - trait: 2
+    statType: 0
+    additiveBonusPerPoint: 0
+    percentageBonusPerPoint: 10
+  - trait: 3
+    statType: 4
+    additiveBonusPerPoint: 0
+    percentageBonusPerPoint: 5
+  - trait: 4
+    statType: 4
+    additiveBonusPerPoint: 0
+    percentageBonusPerPoint: 5
+  - trait: 3
+    statType: 5
+    additiveBonusPerPoint: 0
+    percentageBonusPerPoint: 5
 --- !u!1001 &1569726443353840919
 PrefabInstance:
   m_ObjectHideFlags: 0
