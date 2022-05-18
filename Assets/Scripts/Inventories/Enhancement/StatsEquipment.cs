@@ -3,6 +3,13 @@ using RPG.Stats;
 
 namespace RPG.Inventories.Enhancement
 {
+    /// <summary>
+    /// An Enhancement of Equipment.cs for Checking StatsModifier on Equipable Items.
+    /// Provides a store for the items equipped to a player. Items are stored by
+    /// their equip locations.
+    /// 
+    /// This component should be placed on the GameObject tagged "Player".
+    /// </summary>
     public class StatsEquipment : Equipment, IModifierProvider
     {
         #region --Methods-- (Interface)

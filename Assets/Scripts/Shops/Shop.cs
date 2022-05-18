@@ -23,9 +23,39 @@ namespace RPG.Shops
          */
 
         #region --Fields-- (Inspector)
+        [Header("Shop Starter Settings")]
         [SerializeField] private ShopMode _shopMode = ShopMode.Seller;
         [SerializeField] private ItemCategory _itemFilter = ItemCategory.None;
         [SerializeField] private string _shopTitleName;
+
+        [Space]
+
+        [Header("Shop Discount Settings")]
+        [Tooltip("***STOCKITEM'S DISCOUNT + ONTOP DISCOUNT WILL NEVER EXCEED THIS RANGE***\n\n" +
+            "Max Discount Player will Get when BUY from Shop,\nPositive -> LOWER default price\nNegative -> HIGHER default price\n\n" +
+            "- IF set to 90f, Available Range is (-100f to 90f).\n\n" +
+            "- Typically set to 100f since At Most the StockItem will be available for Free. But depends on shop purpose.")]
+        [Range(-100f, 100f)]
+        [SerializeField] private float _maxBuyingDiscountPercentage = 100f;
+        [Tooltip("***STOCKITEM'S DISCOUNT + ONTOP DISCOUNT WILL NEVER EXCEED THIS RANGE***\n\n" +
+            "Max Discount Player will Get when SELL to Shop,\nPositive -> LOWER default price\nNegative -> HIGHER default price\n\n" +
+            "- IF set to -10f, Available Range is (-10f to 100f).\n\n" +
+            "- Typically set to 0f since At Most that Player will get is same price as buying price SO can't make profit from buy and sell.")]
+        [Range(-100f, 100f)]
+        [SerializeField] private float _maxSellingDiscountPercentage = 0f;
+        [Space]
+        [Tooltip("***STOCKITEM'S DISCOUNT + ONTOP DISCOUNT WILL NEVER EXCEED SHOP_MAX_BUY/SELL_DISCOUNT RANGE***\n\n" +
+            "- IF set to 50f, OnTop Discount will be in Range of (-50f to 50f).\n\n" +
+            "- Typically set below 100f since There Should Be some Room Share between StockItem's Discount.")]
+        [Range(0f, 100f)]
+        [SerializeField] private float _maxOnTopDiscountPercentage = 50f;
+
+        [Space]
+
+        [Header("Shop Stock Items")]
+        [Tooltip("USE Discount Percentage from StockItem with HIGHEST levelToUnlock.\n\n" +
+            "- Even higher levelToUnlock got less discount percentage, still use that lower discount.\n\n" +
+            "- If duplicate LevelToUnlock it use prior StockItem's price and not combine discount BUT combine initial stock amount.")]
         [SerializeField] private StockItemConfig[] _stockItems;
         #endregion
 
@@ -258,16 +288,26 @@ namespace RPG.Shops
                 if (!prices.ContainsKey(item))
                     prices.Add(item, 0);
 
-                // ONLY USE discount percentage from stock with HIGHEST levelToUnlock
+                // ONLY USE discount percentage from stock with HIGHEST levelToUnlock - check details explanation under _stockItems field tooltips.
                 if (!highestUnlockLevel.ContainsKey(item) || stockItem.levelToUnlock > highestUnlockLevel[item])
                 {
                     highestUnlockLevel[item] = stockItem.levelToUnlock;
 
                     float discountPercentage = 0f;
                     if (ShopMode == ShopMode.Seller)
+                    {
                         discountPercentage = stockItem.buyingDiscountPercentage;
+                        discountPercentage += GetOnTopDiscountPercentage(StatType.OnTopBuyingDiscountPercentage);
+
+                        discountPercentage = Mathf.Clamp(discountPercentage, -100f, _maxBuyingDiscountPercentage);
+                    }
                     else if (ShopMode == ShopMode.Buyer)
+                    {
                         discountPercentage = stockItem.sellingDiscountPercentage;
+                        discountPercentage += GetOnTopDiscountPercentage(StatType.OnTopSellingDiscountPercentage);
+
+                        discountPercentage = Mathf.Clamp(discountPercentage, _maxSellingDiscountPercentage, 100f);
+                    }
 
                     int defaultPrice = stockItem.inventoryItem.GetPrice();
                     float discountAmount = (defaultPrice / 100f) * (-discountPercentage); // negate so that positive percentage mean deduct out of defaultPrice & negative percentage mean add on to defaultPrice
@@ -314,6 +354,17 @@ namespace RPG.Shops
                 if (shopperLevel >= stockItem.levelToUnlock)
                     yield return stockItem;
             }
+        }
+
+        private float GetOnTopDiscountPercentage(StatType statType)
+        {
+            BaseStats baseStats = CurrentShopper.transform.root.GetComponentInChildren<BaseStats>();
+            if (baseStats == null) return 0f;
+
+            if (statType == StatType.OnTopBuyingDiscountPercentage)
+                return Mathf.Clamp(baseStats.GetOnTopBuyingDiscountPercentage(), -_maxOnTopDiscountPercentage, _maxOnTopDiscountPercentage);
+            else
+                return Mathf.Clamp(baseStats.GetOnTopSellingDiscountPercentage(), -_maxOnTopDiscountPercentage, _maxOnTopDiscountPercentage);
         }
 
         private int GetShopperLevel()
@@ -412,10 +463,10 @@ namespace RPG.Shops
             public InventoryItem inventoryItem;
             [Range(0, MaxQuantity)]
             public int initialStock;
-            [Tooltip("Player Get Discount when BUY from Shop, Positive -> LOWER default price / Negative -> HIGHER default price")]
+            [Tooltip("Discount Player will Get when BUY from Shop,\nPositive -> LOWER default price\nNegative -> HIGHER default price")]
             [Range(-100f,100f)]
             public float buyingDiscountPercentage;
-            [Tooltip("Player Get Discount when SELL to Shop, Positive -> LOWER default price / Negative -> HIGHER default price")]
+            [Tooltip("Discount Player will Get when SELL to Shop,\nPositive -> LOWER default price\nNegative -> HIGHER default price")]
             [Range(-100f, 100f)]
             public float sellingDiscountPercentage;
             [Tooltip("Level for this item to available for sales in shop.")]

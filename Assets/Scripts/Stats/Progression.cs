@@ -23,6 +23,9 @@ namespace RPG.Stats
         {
             CreateLookupTable();
 
+            // Some Aren't Included in Progression scriptable object like OnTopBuyingDiscountPercentage bcuz we only use its addtive or percentage(can't use cuz * zero will be zero) modifier NOT its base value.
+            if (!_progressionTable[characterType].ContainsKey(statType)) return 0f;
+
             float[] levels = _progressionTable[characterType][statType];
 
             if (currentLevel == 0 || levels.Length == 0) return 0f; // Guard Check return 0

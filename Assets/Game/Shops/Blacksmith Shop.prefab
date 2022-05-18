@@ -62,6 +62,9 @@ MonoBehaviour:
   _shopMode: 0
   _itemFilter: 0
   _shopTitleName: Jimbo's Shop
+  _maxBuyingDiscountPercentage: 100
+  _maxSellingDiscountPercentage: 0
+  _maxOnTopDiscountPercentage: 50
   _stockItems:
   - inventoryItem: {fileID: 11400000, guid: 0a1e4d8c911b24570bb0185bf2df361d, type: 2}
     initialStock: 5

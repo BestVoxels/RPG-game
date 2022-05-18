@@ -68,16 +68,17 @@ namespace RPG.Stats
 
         #region --Methods-- (Custom PUBLIC)
         public float GetHealth() => GetStat(StatType.Health);
-
         public float GetExperienceReward() => GetStat(StatType.ExperienceReward);
-
         public float GetDamage() => GetStat(StatType.Damage);
 
         public float GetMana() => GetStat(StatType.Mana);
-
         public float GetManaRegenRate() => GetStat(StatType.ManaRegenRate);
 
         public float GetTotalTraitPoint() => GetStat(StatType.TotalTraitPoints);
+
+        // No BaseStats value Included in Progression scriptable object for these bcuz we only use its addtive or percentage(can't use cuz * zero will be zero) modifier NOT its base value.
+        public float GetOnTopBuyingDiscountPercentage() => GetStat(StatType.OnTopBuyingDiscountPercentage);
+        public float GetOnTopSellingDiscountPercentage() => GetStat(StatType.OnTopSellingDiscountPercentage);
 
         public int GetLevel() => _currentLevel.value;
         #endregion

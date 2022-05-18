@@ -276,14 +276,18 @@ MonoBehaviour:
     statType: 4
     additiveBonusPerPoint: 0
     percentageBonusPerPoint: 5
-  - trait: 4
-    statType: 4
-    additiveBonusPerPoint: 0
-    percentageBonusPerPoint: 5
   - trait: 3
     statType: 5
     additiveBonusPerPoint: 0
     percentageBonusPerPoint: 5
+  - trait: 4
+    statType: 7
+    additiveBonusPerPoint: 1
+    percentageBonusPerPoint: 0
+  - trait: 4
+    statType: 8
+    additiveBonusPerPoint: -1
+    percentageBonusPerPoint: 0
 --- !u!1001 &1569726443353840919
 PrefabInstance:
   m_ObjectHideFlags: 0
