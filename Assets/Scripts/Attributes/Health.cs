@@ -69,7 +69,9 @@ namespace RPG.Attributes
 
         private void OnEnable()
         {
-            _baseStats.OnLevelUp += RegenerateHealth; // RegenerateHealth contains OnHealthChanged to update UI display
+            _baseStats.OnLevelingUp += RegenerateHealth; // see at Action declaration why use OnLevelingUp
+
+            // TODO remove equipment subscription
             if (_equipment != null)
                 _equipment.OnEquipmentUpdated += UpdateHealthEvent;
         }
@@ -81,7 +83,7 @@ namespace RPG.Attributes
 
         private void OnDisable()
         {
-            _baseStats.OnLevelUp -= RegenerateHealth;
+            _baseStats.OnLevelingUp -= RegenerateHealth;
             if (_equipment != null)
                 _equipment.OnEquipmentUpdated -= UpdateHealthEvent;
         }

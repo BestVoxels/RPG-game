@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using RPG.Attributes;
+using RPG.Core;
 
 namespace RPG.UI.InGame
 {
@@ -27,7 +28,8 @@ namespace RPG.UI.InGame
 
         private void OnEnable()
         {
-            _health.OnHealthChanged += UpdateHealthBar;
+            _health.OnHealthChanged += UpdateHealthBar; // Have to Subscribe with _health bcuz there are multiple of this HealthBar and each one is individually gets Invoke from their Health component not with Player's health
+            UIDisplayManager.OnInGameRefreshed += UpdateHealthBar; // Incase need to update HealthBar for all Characters
         }
 
         private void Start()
@@ -38,6 +40,7 @@ namespace RPG.UI.InGame
         private void OnDisable()
         {
             _health.OnHealthChanged -= UpdateHealthBar;
+            UIDisplayManager.OnInGameRefreshed -= UpdateHealthBar;
         }
         #endregion
 

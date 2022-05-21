@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using RPG.Stats;
+using RPG.Core;
 
 namespace RPG.UI.HUD
 {
@@ -21,12 +22,12 @@ namespace RPG.UI.HUD
         #region --Methods-- (Built In)
         private void Awake()
         {
-            _baseStats = GameObject.FindWithTag("Player").GetComponent<BaseStats>();
+            _baseStats = GameObject.FindWithTag("Player").GetComponentInChildren<BaseStats>();
         }
 
         private void OnEnable()
         {
-            _baseStats.OnLevelChanged += UpdateLevelDisplay;
+            UIDisplayManager.OnHUDRefreshed += UpdateLevelDisplay;
         }
 
         private void Start()
@@ -36,7 +37,7 @@ namespace RPG.UI.HUD
 
         private void OnDisable()
         {
-            _baseStats.OnLevelChanged -= UpdateLevelDisplay;
+            UIDisplayManager.OnHUDRefreshed -= UpdateLevelDisplay;
         }
         #endregion
 

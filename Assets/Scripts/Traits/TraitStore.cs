@@ -37,16 +37,6 @@ namespace RPG.Traits
         {
             _baseStats = transform.root.GetComponentInChildren<BaseStats>();
         }
-
-        private void OnEnable()
-        {
-            _baseStats.OnLevelUp += OnPointsChanged;
-        }
-
-        private void OnDisable()
-        {
-            _baseStats.OnLevelUp -= OnPointsChanged;
-        }
         #endregion
 
 

@@ -2,6 +2,7 @@ using System.Globalization;
 using UnityEngine;
 using TMPro;
 using RPG.Economy;
+using RPG.Core;
 
 namespace RPG.UI.HUD
 {
@@ -27,7 +28,7 @@ namespace RPG.UI.HUD
 
         private void OnEnable()
         {
-            _playerCoin.OnCoinPointsUpdated += RefreshUI;
+            UIDisplayManager.OnHUDRefreshed += RefreshUI;
         }
 
         private void Start()
@@ -37,7 +38,7 @@ namespace RPG.UI.HUD
 
         private void OnDisable()
         {
-            _playerCoin.OnCoinPointsUpdated -= RefreshUI;
+            UIDisplayManager.OnHUDRefreshed -= RefreshUI;
         }
         #endregion
 

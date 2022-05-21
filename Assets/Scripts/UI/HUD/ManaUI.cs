@@ -2,6 +2,7 @@ using System.Globalization;
 using UnityEngine;
 using TMPro;
 using RPG.Attributes;
+using RPG.Core;
 
 namespace RPG.UI.HUD
 {
@@ -26,8 +27,8 @@ namespace RPG.UI.HUD
         }
 
         private void OnEnable()
-        {
-            _playerMana.OnManaPointsUpdated += RefreshUI;
+        {            
+            UIDisplayManager.OnHUDRefreshed += RefreshUI;
         }
 
         private void Start()
@@ -37,7 +38,7 @@ namespace RPG.UI.HUD
 
         private void OnDisable()
         {
-            _playerMana.OnManaPointsUpdated -= RefreshUI;
+            UIDisplayManager.OnHUDRefreshed -= RefreshUI;
         }
         #endregion
 

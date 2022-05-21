@@ -3,6 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using RPG.Traits;
+using RPG.Core;
 
 namespace RPG.UI.Traits
 {
@@ -31,7 +32,7 @@ namespace RPG.UI.Traits
 
         private void OnEnable()
         {
-            _playerTraitStore.OnPointsChanged += RefreshUI;
+            UIDisplayManager.OnTraitRefreshed += RefreshUI;
         }
 
         private void Start()
@@ -41,7 +42,7 @@ namespace RPG.UI.Traits
 
         private void OnDisable()
         {
-            _playerTraitStore.OnPointsChanged -= RefreshUI;
+            UIDisplayManager.OnTraitRefreshed -= RefreshUI;
         }
         #endregion
 

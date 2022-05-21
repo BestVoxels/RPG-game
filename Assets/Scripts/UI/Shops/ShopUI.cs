@@ -44,8 +44,7 @@ namespace RPG.UI.Shops
         {
             _shopper = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<Shopper>();
 
-            // Can't do with OnEnable() cuz this will keep adding more and more And Since we can't use OnDisable() to unsubscribe Since this one will be closed by default and with button
-            _shopper.OnActiveShopChanged += RefreshShopUI;
+            _shopper.OnActiveShopChanged += RefreshShopUI; // Can't do with OnEnable() cuz this will keep adding more and more And Since we can't use OnDisable() to unsubscribe Since this one will be closed by default and with button
 
             _quitButton.onClick.AddListener(Quit);
             _confirmTransactionButton.onClick.AddListener(ConfirmTransaction);

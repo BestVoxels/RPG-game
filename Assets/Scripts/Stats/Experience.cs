@@ -48,9 +48,10 @@ namespace RPG.Stats
 
         void ISaveable.RestoreState(object state)
         {
+            // Even Through ExperienceOnLoaded call first or last, All UI still work fine, Because of making other classes also update UI again once they are loaded (check at UIDisplayManager for all the subscription).
             ExperiencePoints = (float)state;
-
-            OnExperienceLoaded?.Invoke(); // Update HUD
+            
+            OnExperienceLoaded?.Invoke();
         }
         #endregion
     }

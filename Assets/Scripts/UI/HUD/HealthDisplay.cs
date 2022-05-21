@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using RPG.Attributes;
+using RPG.Core;
 
 namespace RPG.UI.HUD
 {
@@ -21,12 +22,12 @@ namespace RPG.UI.HUD
         #region --Methods-- (Built In)
         private void Awake()
         {
-            _health = GameObject.FindWithTag("Player").GetComponent<Health>();
+            _health = GameObject.FindWithTag("Player").GetComponentInChildren<Health>();
         }
 
         private void OnEnable()
         {
-            _health.OnHealthChanged += UpdateHealthDisplay;
+            UIDisplayManager.OnHUDRefreshed += UpdateHealthDisplay;
         }
 
         private void Start()
@@ -36,7 +37,7 @@ namespace RPG.UI.HUD
 
         private void OnDisable()
         {
-            _health.OnHealthChanged -= UpdateHealthDisplay;
+            UIDisplayManager.OnHUDRefreshed -= UpdateHealthDisplay;
         }
         #endregion
 

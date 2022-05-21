@@ -2,6 +2,7 @@ using System.Globalization;
 using UnityEngine;
 using TMPro;
 using RPG.Stats;
+using RPG.Core;
 
 namespace RPG.UI.HUD
 {
@@ -22,13 +23,12 @@ namespace RPG.UI.HUD
         #region --Methods-- (Built In)
         private void Awake()
         {
-            _experience = GameObject.FindWithTag("Player").GetComponent<Experience>();
+            _experience = GameObject.FindWithTag("Player").GetComponentInChildren<Experience>();
         }
 
         private void OnEnable()
         {
-            _experience.OnExperienceLoaded += UpdateExperienceDisplay;
-            _experience.OnExperienceGained += UpdateExperienceDisplay;
+            UIDisplayManager.OnHUDRefreshed += UpdateExperienceDisplay;
         }
 
         private void Start()
@@ -38,8 +38,7 @@ namespace RPG.UI.HUD
 
         private void OnDisable()
         {
-            _experience.OnExperienceLoaded -= UpdateExperienceDisplay;
-            _experience.OnExperienceGained -= UpdateExperienceDisplay;
+            UIDisplayManager.OnHUDRefreshed -= UpdateExperienceDisplay;
         }
         #endregion
 

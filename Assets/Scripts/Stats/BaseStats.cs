@@ -18,8 +18,8 @@ namespace RPG.Stats
 
 
         #region --Events-- (Delegate as Action)
-        public event Action OnLevelUp;
-        public event Action OnLevelChanged;
+        public event Action OnLevelingUp; // Purpose : use for subscriber that will make effect on value, ex-RegenerateHealth(). So Should Not be used for Refreshing UI since order of subscribers, subscriber that effect the value might run after Refreshing UI subscriber.
+        public event Action OnLevelUpDone; // Purpose : use for subscriber that will only refreshing UI, make no effect on value. So can guarantee no subscriber will make an effect on the value, so can use for Refreshing UI.
         #endregion
 
 
@@ -168,10 +168,10 @@ namespace RPG.Stats
             {
                 _currentLevel.value = newLevel; // Have to Run First! Cuz OnLevelUp's subscribers will use _currentLevel new value
 
-                OnLevelUp?.Invoke();
+                OnLevelingUp?.Invoke();
                 LevelUpEffect();
 
-                OnLevelChanged?.Invoke();
+                OnLevelUpDone?.Invoke();
             }
         }
 
@@ -179,7 +179,7 @@ namespace RPG.Stats
         {
             _currentLevel.value = CalculateLevel();
 
-            OnLevelChanged?.Invoke();
+            OnLevelUpDone?.Invoke();
         }
         #endregion
     }
