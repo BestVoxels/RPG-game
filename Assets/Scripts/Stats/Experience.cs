@@ -8,7 +8,10 @@ namespace RPG.Stats
     {
         #region --Events-- (Delegate as Action)
         public event Action OnExperienceGained;
-        public event Action OnExperienceLoaded;
+        public event Action OnRefreshCurrentLevelOnly; // ONLY for calling RefreshCurrentLevel() from BaseStats
+
+        public event Action OnExperienceLoadSetup; // Purpose : use for subscriber that will make effect on value for their fields, ex-RegenerateHealth() or UpdateMaxManaPoints(), mainly notify the one who uses old GetStat() value. So Should Not be used for Refreshing UI since order of subscribers, subscriber that effect the value might run after Refreshing UI subscriber.
+        public event Action OnExperienceLoadDone; // Purpose : use for subscriber that will only refreshing UI, make no effect on value. So can guarantee no subscriber will make an effect on the value, so can use for Refreshing UI.
         #endregion
 
 
@@ -46,12 +49,13 @@ namespace RPG.Stats
             return ExperiencePoints;
         }
 
-        void ISaveable.RestoreState(object state)
+        void ISaveable.RestoreState(object state) // Even this RestoreState Get Called as first or last, All UI still work fine, Because of other classes also update UI again once they are loaded (check at UIDisplayManager for all the subscription).
         {
-            // Even Through ExperienceOnLoaded call first or last, All UI still work fine, Because of making other classes also update UI again once they are loaded (check at UIDisplayManager for all the subscription).
             ExperiencePoints = (float)state;
-            
-            OnExperienceLoaded?.Invoke();
+            OnRefreshCurrentLevelOnly?.Invoke();
+
+            OnExperienceLoadSetup?.Invoke();
+            OnExperienceLoadDone?.Invoke();
         }
         #endregion
     }

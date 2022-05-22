@@ -18,7 +18,7 @@ namespace RPG.Stats
 
 
         #region --Events-- (Delegate as Action)
-        public event Action OnLevelingUp; // Purpose : use for subscriber that will make effect on value, ex-RegenerateHealth(). So Should Not be used for Refreshing UI since order of subscribers, subscriber that effect the value might run after Refreshing UI subscriber.
+        public event Action OnLevelUpSetup; // Purpose : use for subscriber that will make effect on value for their fields, ex-RegenerateHealth() or UpdateMaxManaPoints(). So Should Not be used for Refreshing UI since order of subscribers, subscriber that effect the value might run after Refreshing UI subscriber.
         public event Action OnLevelUpDone; // Purpose : use for subscriber that will only refreshing UI, make no effect on value. So can guarantee no subscriber will make an effect on the value, so can use for Refreshing UI.
         #endregion
 
@@ -37,16 +37,15 @@ namespace RPG.Stats
         {
             _experience = GetComponent<Experience>();
 
-            _currentLevel = new AutoInit<int>(GetInitialCurrentLevel);
+            _currentLevel = new AutoInit<int>(CalculateLevel);
         }
 
         private void OnEnable()
         {
-            if (_experience != null)
-            {
-                _experience.OnExperienceLoaded += RefreshCurrentLevel;
-                _experience.OnExperienceGained += UpdateLevel;
-            }
+            if (_experience == null) return;
+            _experience.OnExperienceGained += UpdateLevel;
+            _experience.OnRefreshCurrentLevelOnly += RefreshCurrentLevel;
+            
         }
 
         private void Start()
@@ -56,11 +55,9 @@ namespace RPG.Stats
 
         private void OnDisable()
         {
-            if (_experience != null)
-            {
-                _experience.OnExperienceLoaded -= RefreshCurrentLevel;
-                _experience.OnExperienceGained -= UpdateLevel;
-            }
+            if (_experience == null) return;
+            _experience.OnExperienceGained -= UpdateLevel;
+            _experience.OnRefreshCurrentLevelOnly -= RefreshCurrentLevel;
         }
         #endregion
 
@@ -159,27 +156,24 @@ namespace RPG.Stats
 
 
         #region --Methods-- (Subscriber)
-        private int GetInitialCurrentLevel() => CalculateLevel();
+        private void RefreshCurrentLevel()
+        {
+            _currentLevel.value = CalculateLevel();
+            
+            OnLevelUpDone?.Invoke();
+        }
 
         private void UpdateLevel()
         {
             int newLevel = CalculateLevel();
             if (newLevel > _currentLevel.value)
             {
-                _currentLevel.value = newLevel; // Have to Run First! Cuz OnLevelUp's subscribers will use _currentLevel new value
+                _currentLevel.value = newLevel; // Have to Run First! Cuz OnLevelUpSetup's subscribers will use _currentLevel new value
 
-                OnLevelingUp?.Invoke();
                 LevelUpEffect();
-
+                OnLevelUpSetup?.Invoke();
                 OnLevelUpDone?.Invoke();
             }
-        }
-
-        private void RefreshCurrentLevel()
-        {
-            _currentLevel.value = CalculateLevel();
-
-            OnLevelUpDone?.Invoke();
         }
         #endregion
     }

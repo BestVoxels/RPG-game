@@ -16,18 +16,15 @@ namespace RPG.Attributes
 
         #region --Fields-- (In Class)
         private BaseStats _baseStats;
+        private Experience _experience;
         #endregion
 
 
 
         #region --Properties-- (Auto)
         public AutoInit<float> ManaPoints { get; private set; }
-        #endregion
-
-
-
-        #region --Properties-- (With Backing Fields)
-        public float MaxManaPoints { get { return _baseStats.GetMana(); } }
+        public AutoInit<float> MaxManaPoints { get; private set; }
+        public AutoInit<float> ManaRegenRate { get; private set; }
         #endregion
 
 
@@ -36,8 +33,18 @@ namespace RPG.Attributes
         private void Awake()
         {
             _baseStats = transform.root.GetComponentInChildren<BaseStats>();
+            _experience = transform.root.GetComponentInChildren<Experience>();
 
-            ManaPoints = new AutoInit<float>(GetInitialMana);
+            ManaPoints = new AutoInit<float>(GetMaxManaPoints);
+            MaxManaPoints = new AutoInit<float>(GetMaxManaPoints);
+            ManaRegenRate = new AutoInit<float>(GetManaRegenRate);
+        }
+
+        private void OnEnable()
+        {
+            if (_experience != null)
+                _experience.OnExperienceLoadSetup += () => { UpdateMaxManaPoints(); UpdateManaRegenRate(); }; // see at Action declaration why this Action
+            _baseStats.OnLevelUpSetup += () => { UpdateMaxManaPoints(); UpdateManaRegenRate(); }; // see at Action declaration why this Action
         }
 
         private void Update()
@@ -45,7 +52,12 @@ namespace RPG.Attributes
             RegenerateMana();
         }
 
-        // Don't need to do _baseStats.OnLevelUp subscription like TraitStore.cs/Health.cs to update UI display because Update() already calls RegenerateMana()
+        private void OnDisable()
+        {
+            if (_experience != null)
+                _experience.OnExperienceLoadSetup -= () => { UpdateMaxManaPoints(); UpdateManaRegenRate(); };
+            _baseStats.OnLevelUpSetup -= () => { UpdateMaxManaPoints(); UpdateManaRegenRate(); };
+        }
         #endregion
 
 
@@ -54,7 +66,7 @@ namespace RPG.Attributes
         public bool UseMana(float amount)
         {
             if (amount > ManaPoints.value) return false;
-
+            
             ManaPoints.value -= amount;
             OnManaPointsUpdated?.Invoke();
 
@@ -67,10 +79,10 @@ namespace RPG.Attributes
         #region --Methods-- (Custom PRIVATE)
         private void RegenerateMana()
         {
-            if (ManaPoints.value >= MaxManaPoints) return;
-
-            ManaPoints.value += Time.deltaTime * _baseStats.GetManaRegenRate();
-            ManaPoints.value = Mathf.Clamp(ManaPoints.value, 0f, MaxManaPoints);
+            if (ManaPoints.value >= MaxManaPoints.value) return;
+            
+            ManaPoints.value += Time.deltaTime * ManaRegenRate.value;
+            ManaPoints.value = Mathf.Clamp(ManaPoints.value, 0f, MaxManaPoints.value);
 
             OnManaPointsUpdated?.Invoke();
         }
@@ -79,7 +91,11 @@ namespace RPG.Attributes
 
 
         #region --Methods-- (Subscriber)
-        private float GetInitialMana() => MaxManaPoints;
+        private float GetMaxManaPoints() => _baseStats.GetMana();
+        private float GetManaRegenRate() => _baseStats.GetManaRegenRate();
+
+        private void UpdateMaxManaPoints() => MaxManaPoints.value = GetMaxManaPoints();
+        private void UpdateManaRegenRate() => ManaRegenRate.value = GetManaRegenRate();
         #endregion
 
 

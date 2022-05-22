@@ -56,10 +56,10 @@ namespace RPG.Core
 
         private void OnEnable()
         {
-            _experience.OnExperienceLoaded += RefreshAllUI;
+            _experience.OnExperienceLoadDone += RefreshAllUI;
 
             _experience.OnExperienceGained += RefreshHUDUI;
-            _baseStats.OnLevelUpDone += () => { RefreshHUDUI(); RefreshTraitUI(); };
+            _baseStats.OnLevelUpDone += () => { RefreshHUDUI(); RefreshTraitUI(); }; // Need to refresh TraitUI as well since there will be more TraitPoints given to player
             _health.OnHealthChanged += RefreshHUDUI; // Not Subscribe with RefreshInGameUI bcuz that HealthBar is individually gets Invoke on their Health component not with Player
             _mana.OnManaPointsUpdated += RefreshHUDUI;
             _coin.OnCoinPointsUpdated += RefreshHUDUI;
@@ -70,7 +70,7 @@ namespace RPG.Core
 
         private void OnDisable()
         {
-            _experience.OnExperienceLoaded -= RefreshAllUI;
+            _experience.OnExperienceLoadDone -= RefreshAllUI;
 
             _experience.OnExperienceGained -= RefreshHUDUI;
             _baseStats.OnLevelUpDone -= () => { RefreshHUDUI(); RefreshTraitUI(); };
@@ -95,10 +95,7 @@ namespace RPG.Core
             print("Refreshed All UI");
         }
 
-        public static void RefreshInGameUI() // Incase need to update HealthBar for all Characters
-        {
-            OnInGameRefreshed?.Invoke();
-        }
+        public static void RefreshInGameUI() => OnInGameRefreshed?.Invoke(); // Incase need to update HealthBar for all Characters
 
         public static void RefreshHUDUI()
         {

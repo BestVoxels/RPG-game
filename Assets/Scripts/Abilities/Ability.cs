@@ -75,7 +75,7 @@ namespace RPG.Abilities
 
         private void OnEffectFinished(string effectName)
         {
-            Debug.Log($"{effectName} is Finished");
+            //MonoBehaviour.print($"{effectName} is Finished");
         }
         #endregion
     }
