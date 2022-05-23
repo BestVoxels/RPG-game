@@ -5,7 +5,6 @@ using RPG.Core;
 using RPG.Utils;
 using UnityEngine.Events;
 using System;
-using RPG.Inventories;
 
 namespace RPG.Attributes
 {
@@ -37,8 +36,6 @@ namespace RPG.Attributes
 
         private Animator _animator;
         private BaseStats _baseStats;
-
-        private Equipment _equipment;
         #endregion
 
 
@@ -62,7 +59,6 @@ namespace RPG.Attributes
             _actionScheduler = GetComponent<ActionScheduler>();
             _animator = GetComponent<Animator>();
             _baseStats = GetComponent<BaseStats>();
-            _equipment = GetComponent<Equipment>();
 
             HealthPoints = new AutoInit<float>(GetInitialHealth);
         }
@@ -70,10 +66,6 @@ namespace RPG.Attributes
         private void OnEnable()
         {
             _baseStats.OnLevelUpSetup += RegenerateHealth; // see at Action declaration why this Action
-
-            // TODO remove equipment subscription
-            if (_equipment != null)
-                _equipment.OnEquipmentUpdated += UpdateHealthEvent;
         }
 
         private void Start()
@@ -84,8 +76,6 @@ namespace RPG.Attributes
         private void OnDisable()
         {
             _baseStats.OnLevelUpSetup -= RegenerateHealth;
-            if (_equipment != null)
-                _equipment.OnEquipmentUpdated -= UpdateHealthEvent;
         }
         #endregion
 
@@ -163,11 +153,6 @@ namespace RPG.Attributes
 
 
         #region --Methods-- (Subscriber)
-        private void UpdateHealthEvent()
-        {
-            OnHealthChanged?.Invoke();
-        }
-
         private float GetInitialHealth() => MaxHealthPoints;
 
         private void RegenerateHealth()

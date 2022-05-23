@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using RPG.Inventories;
+using RPG.Core;
 
 namespace RPG.UI.Inventories
 {
@@ -25,7 +26,8 @@ namespace RPG.UI.Inventories
         private void Awake()
         {
             _playerInventory = Inventory.GetPlayerInventory();
-            _playerInventory.OnInventoryUpdated += Redraw;
+
+            UIDisplayManager.OnInventoryBagRefreshed += Redraw; // Can't do with OnEnable() cuz this will keep adding more and more And Since we can't use OnDisable() to unsubscribe Since this one will be closed by default and with button
         }
 
         private void Start()
@@ -43,7 +45,7 @@ namespace RPG.UI.Inventories
             {
                 Destroy(child.gameObject);
             }
-
+            // TODO Improve Performance with Object Pooling NOT KEEPING INSTANTIATE LIKE THIS!!!
             for (int i = 0; i < _playerInventory.GetSize(); i++)
             {
                 var itemUI = Instantiate(_inventoryItemPrefab, transform);

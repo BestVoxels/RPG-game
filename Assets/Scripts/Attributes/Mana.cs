@@ -3,6 +3,7 @@ using UnityEngine;
 using RPG.Stats;
 using RPG.Utils;
 using RPG.Saving;
+using RPG.Inventories;
 
 namespace RPG.Attributes
 {
@@ -17,6 +18,7 @@ namespace RPG.Attributes
         #region --Fields-- (In Class)
         private BaseStats _baseStats;
         private Experience _experience;
+        private Equipment _equipment;
         #endregion
 
 
@@ -34,6 +36,7 @@ namespace RPG.Attributes
         {
             _baseStats = transform.root.GetComponentInChildren<BaseStats>();
             _experience = transform.root.GetComponentInChildren<Experience>();
+            _equipment = transform.root.GetComponentInChildren<Equipment>();
 
             ManaPoints = new AutoInit<float>(GetMaxManaPoints);
             MaxManaPoints = new AutoInit<float>(GetMaxManaPoints);
@@ -42,6 +45,9 @@ namespace RPG.Attributes
 
         private void OnEnable()
         {
+            if (_equipment != null)
+                _equipment.OnEquipmentUpdated += () => { UpdateMaxManaPoints(); UpdateManaRegenRate(); }; // This subscription is for Updating the MaxManaPoint & ManaRegenRate NOT for updating UI, its subscription for UI updates is at UIDisplayManager.cs
+
             if (_experience != null)
                 _experience.OnExperienceLoadSetup += () => { UpdateMaxManaPoints(); UpdateManaRegenRate(); }; // see at Action declaration why this Action
             _baseStats.OnLevelUpSetup += () => { UpdateMaxManaPoints(); UpdateManaRegenRate(); }; // see at Action declaration why this Action
@@ -54,6 +60,9 @@ namespace RPG.Attributes
 
         private void OnDisable()
         {
+            if (_equipment != null)
+                _equipment.OnEquipmentUpdated -= () => { UpdateMaxManaPoints(); UpdateManaRegenRate(); };
+
             if (_experience != null)
                 _experience.OnExperienceLoadSetup -= () => { UpdateMaxManaPoints(); UpdateManaRegenRate(); };
             _baseStats.OnLevelUpSetup -= () => { UpdateMaxManaPoints(); UpdateManaRegenRate(); };

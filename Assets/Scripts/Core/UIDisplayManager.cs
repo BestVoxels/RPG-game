@@ -4,6 +4,7 @@ using RPG.Attributes;
 using RPG.Economy;
 using RPG.Traits;
 using RPG.Stats;
+using RPG.Inventories;
 
 namespace RPG.Core
 {
@@ -23,6 +24,9 @@ namespace RPG.Core
         public static event Action OnInGameRefreshed;
         public static event Action OnTraitRefreshed;
         public static event Action OnShopRefreshed;
+        public static event Action OnInventoryBagRefreshed;
+        public static event Action OnInventoryEquipmentRefreshed;
+        public static event Action OnInventoryActionRefreshed;
 
         // More check at UI SUB FOLDER
         #endregion
@@ -37,6 +41,10 @@ namespace RPG.Core
         private Coin _coin;
 
         private TraitStore _traitStore;
+
+        private Inventory _inventory;
+        private Equipment _equipment;
+        private ActionStore _actionStore;
         #endregion
 
 
@@ -53,6 +61,10 @@ namespace RPG.Core
             _coin = player.GetComponentInChildren<Coin>();
 
             _traitStore = player.GetComponentInChildren<TraitStore>();
+
+            _inventory = player.GetComponentInChildren<Inventory>();
+            _equipment = player.GetComponentInChildren<Equipment>();
+            _actionStore = player.GetComponentInChildren<ActionStore>();
         }
 
         private void OnEnable()
@@ -67,21 +79,17 @@ namespace RPG.Core
 
             _traitStore.OnPointsChanged += () => { RefreshHUDUI(); RefreshTraitUI(); };
 
+            // INVENTORY SYSTEM
+            _inventory.OnInventoryUpdated += () => { RefreshInventoryBagUI(); };
+            _equipment.OnEquipmentUpdated += () => { RefreshInventoryEquipmentUI(); RefreshHUDUI(); RefreshShopUI(); }; // RefreshShopUI incase open shop while equip new item
+            _actionStore.OnStoreUpdated += () => { RefreshInventoryActionUI(); };
         }
 
         private void OnDisable()
         {
-            _experience.OnExperienceLoadDone -= RefreshAllUI;
+            // NONE of the Above Delegates are static so don't have to Unsubscribe to make it more clean
 
-            _experience.OnExperienceGained -= RefreshHUDUI;
-            _baseStats.OnLevelUpDone -= () => { RefreshHUDUI(); RefreshTraitUI(); RefreshShopUI(); };
-            _health.OnHealthChanged -= RefreshHUDUI;
-            _mana.OnManaPointsUpdated -= RefreshHUDUI;
-            _coin.OnCoinPointsUpdated -= RefreshHUDUI;
-
-            _traitStore.OnPointsChanged -= () => { RefreshHUDUI(); RefreshTraitUI(); };
-
-            RemoveAllSubscribers();
+            RemoveStaticDelegatesSubscribers();
         }
         #endregion
 
@@ -94,6 +102,9 @@ namespace RPG.Core
             RefreshHUDUI();
             RefreshTraitUI();
             RefreshShopUI();
+            RefreshInventoryBagUI();
+            RefreshInventoryEquipmentUI();
+            RefreshInventoryActionUI();
             print("Refreshed All UI");
         }
 
@@ -108,25 +119,46 @@ namespace RPG.Core
         public static void RefreshTraitUI()
         {
             OnTraitRefreshed?.Invoke();
-            print("Refreshed Trait UI " + OnTraitRefreshed?.GetInvocationList().Length);
+            //print("Refreshed Trait UI " + OnTraitRefreshed?.GetInvocationList().Length);
         }
 
         public static void RefreshShopUI()
         {
             OnShopRefreshed?.Invoke();
-            print("Refreshed Shop UI " + OnShopRefreshed?.GetInvocationList().Length);
+            //print("Refreshed Shop UI " + OnShopRefreshed?.GetInvocationList().Length);
+        }
+
+        public static void RefreshInventoryBagUI()
+        {
+            OnInventoryBagRefreshed?.Invoke();
+            //print("Refreshed Inventory Bag UI " + OnInventoryBagRefreshed?.GetInvocationList().Length);
+        }
+
+        public static void RefreshInventoryEquipmentUI()
+        {
+            OnInventoryEquipmentRefreshed?.Invoke();
+            //print("Refreshed Inventory Equipment UI " + OnInventoryEquipmentRefreshed?.GetInvocationList().Length);
+        }
+
+        public static void RefreshInventoryActionUI()
+        {
+            OnInventoryActionRefreshed?.Invoke();
+            //print("Refreshed Inventory Action UI " + OnInventoryActionRefreshed?.GetInvocationList().Length);
         }
         #endregion
 
 
 
         #region --Methods-- (Custom PRIVATE)
-        private void RemoveAllSubscribers()
+        private void RemoveStaticDelegatesSubscribers()
         {
             OnHUDRefreshed = null;
             OnInGameRefreshed = null;
             OnTraitRefreshed = null;
             OnShopRefreshed = null;
+            OnInventoryBagRefreshed = null;
+            OnInventoryEquipmentRefreshed = null;
+            OnInventoryActionRefreshed = null;
         }
         #endregion
     }

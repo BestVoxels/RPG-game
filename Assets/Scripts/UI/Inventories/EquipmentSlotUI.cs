@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using RPG.Utils.UI.Dragging;
 using RPG.Inventories;
+using RPG.Core;
 
 namespace RPG.UI.Inventories
 {
@@ -25,9 +26,10 @@ namespace RPG.UI.Inventories
         #region --Methods-- (Built In)
         private void Awake()
         {
-            var player = GameObject.FindGameObjectWithTag("Player");
-            _playerEquipment = player.GetComponent<Equipment>();
-            _playerEquipment.OnEquipmentUpdated += RedrawUI;
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            _playerEquipment = player.GetComponentInChildren<Equipment>();
+            
+            UIDisplayManager.OnInventoryEquipmentRefreshed += RedrawUI; // Can't do with OnEnable() cuz this will keep adding more and more And Since we can't use OnDisable() to unsubscribe Since this one will be closed by default and with button
         }
 
         private void Start()

@@ -3,6 +3,7 @@ using RPG.Inventories;
 using UnityEngine;
 using UnityEngine.UI;
 using RPG.Abilities;
+using RPG.Core;
 
 namespace RPG.UI.Inventories
 {
@@ -34,7 +35,7 @@ namespace RPG.UI.Inventories
             _store = player.GetComponentInChildren<ActionStore>();
             _cooldownStore = player.GetComponentInChildren<CooldownStore>();
 
-            _store.OnStoreUpdated += UpdateIcon;
+            UIDisplayManager.OnInventoryActionRefreshed += UpdateIcon; // Can't do with OnEnable() cuz this will keep adding more and more And Since we can't use OnDisable() to unsubscribe Since this one will be closed by default and with button
 
             GetComponent<Button>().onClick.AddListener(UseAbilitiesWithButton);
         }
