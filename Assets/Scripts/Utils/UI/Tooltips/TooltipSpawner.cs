@@ -131,11 +131,20 @@ namespace RPG.Utils.UI.Tooltips
 
         void IPointerExitHandler.OnPointerExit(PointerEventData eventData)
         {
+            // Detect whether Pointer Position is within Specific UI Area
             Vector3[] slotCorners = new Vector3[4];
             GetComponent<RectTransform>().GetWorldCorners(slotCorners); // Read 4 Corners of this Hovered UI (slot UI, Quest UI). Start Clockwise from bottom left, top left, top right, bottom right
-
             Rect rect = new Rect(slotCorners[0], slotCorners[2] - slotCorners[0]); // Position of minimum corner, Width and Height
+            
+#if UNITY_EDITOR || UNITY_STANDALONE
+            // Work with mouse. (Destroy when mouse is outside UI area)
             if (rect.Contains(eventData.position)) return;
+#elif UNITY_IOS || UNITY_ANDROID
+            // Work with touch. (Destory when mouse is outside UI area OR when finger is lift up)
+            if (rect.Contains(eventData.position) && Input.touchCount >= 1 && Input.GetTouch(0).phase != TouchPhase.Ended) return;
+#else
+            if (rect.Contains(eventData.position)) return;
+#endif
 
             ClearTooltip();
         }
