@@ -10,6 +10,8 @@ namespace RPG.Core
     /// prefab that contains all GameObjects that should be singletons. The
     /// class will spawn the prefab only once and set it to persist between
     /// scenes.
+    ///
+    /// ***** if assign with 'PersistentObjects' prefab to create, No Need to Create EventSystem cuz it contains EventSystem gameObject underneath. *****
     /// </summary>
     public class PersistentObjectSpawner : MonoBehaviour
     {

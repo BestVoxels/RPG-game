@@ -35,11 +35,12 @@ namespace RPG.SceneManagement
 
         private IEnumerator Start()
         {
-            yield return Transition.Instance.StartTransition(_transitionType, _startTransitionSpeed);
+            //yield return Transition.Instance.StartTransition(_transitionType, _startTransitionSpeed);
 
-            yield return GetComponent<SavingSystem>().LoadLastScene(_defaultSaveFile);
+            //yield return GetComponent<SavingSystem>().LoadLastScene(_defaultSaveFile);
 
-            yield return Transition.Instance.EndTransition(_transitionType, _endTransitionSpeed);
+            //yield return Transition.Instance.EndTransition(_transitionType, _endTransitionSpeed);
+            yield break;
         }
 
         private void Update()

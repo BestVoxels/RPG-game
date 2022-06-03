@@ -6219,7 +6219,7 @@ PrefabInstance:
       objectReference: {fileID: 3179238749015124540}
     - target: {fileID: 6967298276415934731, guid: 65bf4d255aeee4f2ca1b6417950115d7, type: 3}
       propertyPath: m_Lens.m_SensorSize.x
-      value: 1.7777778
+      value: 1.7779545
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
@@ -6683,7 +6683,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8119069241293886647, guid: 50d802e0491924b0c8f2aad9ac66da11, type: 3}
       propertyPath: m_Name
-      value: HUD
+      value: HUD Canvas
       objectReference: {fileID: 0}
     - target: {fileID: 8456906776555641827, guid: 50d802e0491924b0c8f2aad9ac66da11, type: 3}
       propertyPath: m_AnchorMax.y

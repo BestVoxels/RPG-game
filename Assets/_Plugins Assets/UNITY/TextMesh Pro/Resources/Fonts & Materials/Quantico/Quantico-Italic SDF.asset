@@ -59,9 +59,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
   m_Name: Quantico-Italic SDF
   m_EditorClassIdentifier: 
-  hashCode: 0
+  hashCode: -994566308
   material: {fileID: 5525050984572960677}
-  materialHashCode: 0
+  materialHashCode: 1358114044
   m_Version: 1.1.0
   m_SourceFontFileGUID: 4fa3861ad693242d58a2ae8a62cd6667
   m_SourceFontFile_EditorRef: {fileID: 12800000, guid: 4fa3861ad693242d58a2ae8a62cd6667, type: 3}
@@ -2736,9 +2736,9 @@ Material:
     - _OutlineWidth: 0
     - _PerspectiveFilter: 0.875
     - _Reflectivity: 10
-    - _ScaleRatioA: 1
-    - _ScaleRatioB: 1
-    - _ScaleRatioC: 1
+    - _ScaleRatioA: 0.8333333
+    - _ScaleRatioB: 0.6770833
+    - _ScaleRatioC: 0.6770833
     - _ScaleX: 1
     - _ScaleY: 1
     - _ShaderFlags: 0
