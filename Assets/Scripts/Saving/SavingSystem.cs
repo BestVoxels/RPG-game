@@ -70,6 +70,17 @@ namespace RPG.Saving
             string path = GetPathFromSaveFile(saveFile);
             return File.Exists(path);
         }
+
+        public IEnumerable<string> ListSaves()
+        {
+            foreach (string eachPath in Directory.EnumerateFiles(Application.persistentDataPath))
+            {
+                if (Path.GetExtension(eachPath) == ".sav")
+                {
+                    yield return Path.GetFileNameWithoutExtension(eachPath);
+                }
+            }
+        }
         #endregion
 
         

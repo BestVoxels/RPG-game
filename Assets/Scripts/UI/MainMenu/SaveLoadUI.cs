@@ -1,7 +1,14 @@
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
+using RPG.SceneManagement;
 
 namespace RPG.UI.MainMenu
 {
+    /// <summary>
+    /// This should be placed on the GameObject that will be Active & Deactivate since there is OnEnabled() method
+    /// that will refreshing the UI.
+    /// </summary>
     public class SaveLoadUI : MonoBehaviour
     {
         #region --Fields-- (Inspector)
@@ -13,8 +20,9 @@ namespace RPG.UI.MainMenu
 
 
         #region --Methods-- (Built In)
-        private void Start()
+        private void OnEnable()
         {
+            if (SavingWrapper.Instance == null) return; // Guard check cuz OnEnable() can run Before Awake() in SavingWrapper
             ClearItemList();
             BuildItemList();
         }
@@ -25,10 +33,14 @@ namespace RPG.UI.MainMenu
         #region --Methods-- (Custom PRIVATE)
         private void BuildItemList()
         {
-            //foreach (GameObject eachItem in )
-            for (int i = 0; i < 10; i++)
+            foreach (string eachSave in SavingWrapper.Instance.ListSaves())
             {
+                if (string.IsNullOrEmpty(eachSave)) continue; // filter out save file with blank name like just ".sav" file
+
                 GameObject createdPrefab = Instantiate(_rowPrefab, _spawnParent);
+                createdPrefab.GetComponentInChildren<TMP_Text>().text = eachSave;
+
+                createdPrefab.GetComponentInChildren<Button>().onClick.AddListener(() => LoadGame(eachSave));
             }
         }
 
@@ -36,6 +48,15 @@ namespace RPG.UI.MainMenu
         {
             foreach (Transform eachChild in _spawnParent)
                 Destroy(eachChild.gameObject);
+        }
+        #endregion
+
+
+
+        #region --Methods-- (Subscriber)
+        private void LoadGame(string fileName)
+        {
+            SavingWrapper.Instance.LoadGame(fileName);
         }
         #endregion
     }

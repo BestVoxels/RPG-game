@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using RPG.Saving;
 using RPG.Utils;
@@ -84,11 +85,11 @@ namespace RPG.SceneManagement
             yield return Transition.Instance.EndTransition(_llsTransitionType, _llsEndTransitionSpeed);
         }
 
-        public void StartNewGame(string saveFileName)
+        public void StartNewGame(string fileName)
         {
-            if (string.IsNullOrEmpty(saveFileName)) return;
+            if (string.IsNullOrEmpty(fileName)) return;
 
-            SetCurrentSaveName(saveFileName);
+            SetCurrentSaveName(fileName);
             StartCoroutine(LoadFirstSceneWithTransition());
         }
         public IEnumerator LoadFirstSceneWithTransition()
@@ -98,6 +99,14 @@ namespace RPG.SceneManagement
             yield return Transition.Instance.EndTransition(_llsTransitionType, _llsEndTransitionSpeed);
         }
 
+        public void LoadGame(string fileName)
+        {
+            if (string.IsNullOrEmpty(fileName)) return;
+
+            SetCurrentSaveName(fileName);
+            ContinueGame();
+        }
+
         public void Save() => _savingSystem.value.Save(GetCurrentSaveName());
 
         public void Load() => _savingSystem.value.Load(GetCurrentSaveName()); 
@@ -105,14 +114,17 @@ namespace RPG.SceneManagement
         public void Delete() => _savingSystem.value.Delete(GetCurrentSaveName());
 
         public bool CurrentSaveFileExists() => _savingSystem.value.SaveFileExists(GetCurrentSaveName());
+
+        public IEnumerable<string> ListSaves() => _savingSystem.value.ListSaves();
         #endregion
 
 
 
         #region --Methods-- (Custom PRIVATE)
-        private void SetCurrentSaveName(string currentSaveName)
+        // **Current Save is mainly for Continue Game to work (so it knows what save file is currently used)**
+        private void SetCurrentSaveName(string currentFileName)
         {
-            PlayerPrefs.SetString(_currentSaveKey, currentSaveName);
+            PlayerPrefs.SetString(_currentSaveKey, currentFileName);
         }
 
         private string GetCurrentSaveName()
