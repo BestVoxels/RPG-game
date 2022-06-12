@@ -16,9 +16,9 @@ namespace RPG.SceneManagement
         #region --Fields-- (Inspector)
         [Header("LoadLastScene Transition Settings")]
         [SerializeField] private Transition.Types _llsTransitionType = Transition.Types.Fade;
-        [Tooltip("When Start Loading to Other Scene (1 = normal speed)")]
-        [SerializeField] private float _llsTtartTransitionSpeed = 2f;
-        [Tooltip("When End Loading at Other Scene (1 = normal speed)")]
+        [Tooltip("When Start Loading to Other Scene (1 = normal speed / 2 = faster / 0.5 = slower)")]
+        [SerializeField] private float _llsStartTransitionSpeed = 2f;
+        [Tooltip("When End Loading at Other Scene (1 = normal speed / 2 = faster / 0.5 = slower)")]
         [SerializeField] private float _llsEndTransitionSpeed = 0.75f;
 
         [Header("LoadMenuScene Transition Settings")]
@@ -119,21 +119,21 @@ namespace RPG.SceneManagement
         #region --Methods-- (Custom PRIVATE) ~Loading With Transition~
         private IEnumerator LoadLastSceneWithTransition()
         {
-            yield return Transition.Instance.StartTransition(_llsTransitionType, _llsTtartTransitionSpeed);
+            yield return Transition.Instance.StartTransition(_llsTransitionType, _llsStartTransitionSpeed);
             yield return _savingSystem.value.LoadLastScene(GetCurrentSaveName());
             yield return Transition.Instance.EndTransition(_llsTransitionType, _llsEndTransitionSpeed);
         }
 
         private IEnumerator LoadFirstSceneWithTransition()
         {
-            yield return Transition.Instance.StartTransition(_llsTransitionType, _llsTtartTransitionSpeed);
+            yield return Transition.Instance.StartTransition(_llsTransitionType, _llsStartTransitionSpeed);
             yield return Transition.Instance.LoadAsynchronously(_lfsBuildIndexToLoad);
             yield return Transition.Instance.EndTransition(_llsTransitionType, _llsEndTransitionSpeed);
         }
 
         private IEnumerator LoadMenuSceneWithTransition()
         {
-            yield return Transition.Instance.StartTransition(_llsTransitionType, _llsTtartTransitionSpeed);
+            yield return Transition.Instance.StartTransition(_llsTransitionType, _llsStartTransitionSpeed);
             yield return Transition.Instance.LoadAsynchronously(_lmsBuildIndexToLoad);
             yield return Transition.Instance.EndTransition(_llsTransitionType, _llsEndTransitionSpeed);
         }

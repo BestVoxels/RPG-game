@@ -144,6 +144,7 @@ MonoBehaviour:
   _audioClips:
   - {fileID: 8300000, guid: 3054426a5c150a24eaacf7b60ad163ca, type: 3}
   - {fileID: 8300000, guid: 3f96985874e9aa44c9669ff7f2f145b0, type: 3}
+  _playOnAwake: 0
 --- !u!1 &6947039788277725678
 GameObject:
   m_ObjectHideFlags: 0
@@ -258,7 +259,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce94b7d0daf4440d38ba50cf20d67227, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _experiencePoints: 0
 --- !u!114 &4989239459153347107
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -271,7 +271,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b37fe99a7b8384663bacc6153988a10b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _healthRegneratePercentage: 70
+  _healthRegeneratePercentage: 100
   _onTakeDamage:
     m_PersistentCalls:
       m_Calls:
@@ -528,6 +528,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _audioClips: []
+  _playOnAwake: 0
 --- !u!1 &8478063067853213677
 GameObject:
   m_ObjectHideFlags: 0
@@ -566,6 +567,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 2
     m_TransformParent: {fileID: 6947039788277725674}
     m_Modifications:
     - target: {fileID: 3928356554147725426, guid: 152a4e71a2896409b9b508919ee587f6, type: 3}
@@ -617,6 +619,7 @@ PrefabInstance:
       value: Damage Text Spawner
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 152a4e71a2896409b9b508919ee587f6, type: 3}
 --- !u!114 &3051013741681022005 stripped
 MonoBehaviour:

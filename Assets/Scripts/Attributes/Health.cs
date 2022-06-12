@@ -11,8 +11,9 @@ namespace RPG.Attributes
     public class Health : MonoBehaviour, ISaveable
     {
         #region --Fields-- (Inspector)
+        [Tooltip("How much health will restore to player in percentage")]
         [Range(1f, 100f)]
-        [SerializeField] private float _healthRegneratePercentage = 70f;
+        [SerializeField] private float _healthRegeneratePercentage = 100f;
         #endregion
 
 
@@ -65,7 +66,7 @@ namespace RPG.Attributes
 
         private void OnEnable()
         {
-            _baseStats.OnLevelUpSetup += RegenerateHealth; // see at Action declaration why this Action
+            _baseStats.OnLevelUpSetup += () => RegenerateHealth(_healthRegeneratePercentage); // see at Action declaration why this Action
         }
 
         private void Start()
@@ -75,7 +76,7 @@ namespace RPG.Attributes
 
         private void OnDisable()
         {
-            _baseStats.OnLevelUpSetup -= RegenerateHealth;
+            _baseStats.OnLevelUpSetup -= () => RegenerateHealth(_healthRegeneratePercentage);
         }
         #endregion
 
@@ -129,6 +130,18 @@ namespace RPG.Attributes
 
 
 
+        #region --Methods-- (Custom PUBLIC) ~Subscriber~
+        public void RegenerateHealth(float regeneratePercentage)
+        {
+            float regenHealthPoints = (MaxHealthPoints * regeneratePercentage) / 100f;
+            HealthPoints.value = Mathf.Max(HealthPoints.value, regenHealthPoints);
+
+            OnHealthChanged?.Invoke();
+        }
+        #endregion
+
+
+
         #region --Methods-- (Custom PRIVATE)
         private void AwardExperience(GameObject attacker)
         {
@@ -154,14 +167,6 @@ namespace RPG.Attributes
 
         #region --Methods-- (Subscriber)
         private float GetInitialHealth() => MaxHealthPoints;
-
-        private void RegenerateHealth()
-        {
-            float regenHealthPoints = (MaxHealthPoints * _healthRegneratePercentage) / 100f;
-            HealthPoints.value = Mathf.Max(HealthPoints.value, regenHealthPoints);
-
-            OnHealthChanged?.Invoke();
-        }
         #endregion
 
 
