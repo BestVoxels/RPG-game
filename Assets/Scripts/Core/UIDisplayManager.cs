@@ -81,11 +81,12 @@ namespace RPG.Core
         {
             // Main Loader
             _experience.OnExperienceLoadDone += RefreshAllUI;
+            _health.OnHealthLoadDone += RefreshHUDUI; // No RefreshInGameUI bcuz there are multiple of HealthBar and each one is individually gets Invoke from their Health component not with Player's health
 
             // HUD SYSTEM
             _experience.OnExperienceGained += RefreshHUDUI;
             _baseStats.OnLevelUpDone += () => { RefreshHUDUI(); RefreshTraitUI(); RefreshShopUI(); }; // Need to RefreshTraitUI as well since there will be more TraitPoints given to player / RefreshShopUI incase open shop while level up
-            _health.OnHealthChanged += RefreshHUDUI; // Not Subscribe with RefreshInGameUI bcuz that HealthBar is individually gets Invoke on their Health component not with Player
+            _health.OnHealthChanged += RefreshHUDUI; // No RefreshInGameUI bcuz there are multiple of HealthBar and each one is individually gets Invoke from their Health component not with Player's health
             _mana.OnManaPointsUpdated += RefreshHUDUI;
             _coin.OnCoinPointsUpdated += RefreshHUDUI;
 

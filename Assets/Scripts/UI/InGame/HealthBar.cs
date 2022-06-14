@@ -28,8 +28,12 @@ namespace RPG.UI.InGame
 
         private void OnEnable()
         {
-            _health.OnHealthChanged += UpdateHealthBar; // Have to Subscribe with _health bcuz there are multiple of this HealthBar and each one is individually gets Invoke from their Health component not with Player's health
-            UIDisplayManager.OnInGameRefreshed += UpdateHealthBar; // Incase need to update HealthBar for all Characters
+            // Have to Subscribe with _health bcuz there are multiple of this HealthBar and each one is individually gets Invoke from their Health component not with Player's health
+            _health.OnHealthChanged += UpdateHealthBar;
+            _health.OnHealthLoadDone += UpdateHealthBar;
+
+            // Incase need to update HealthBar for all Characters
+            UIDisplayManager.OnInGameRefreshed += UpdateHealthBar;
         }
 
         private void Start()
@@ -40,6 +44,7 @@ namespace RPG.UI.InGame
         private void OnDisable()
         {
             _health.OnHealthChanged -= UpdateHealthBar;
+            _health.OnHealthLoadDone -= UpdateHealthBar;
             UIDisplayManager.OnInGameRefreshed -= UpdateHealthBar;
         }
         #endregion

@@ -5,14 +5,9 @@ using RPG.Saving;
 using RPG.Stats;
 using RPG.Core;
 using RPG.Utils;
-using RPG.Control;
 
 namespace RPG.Attributes
 {
-    /// <summary>
-    /// BEWARE this script will search through from the root to all the children for Respawner script
-    /// so for Player it's fine cuz only one script under the root, but for Enemies many scripts are under the root.
-    /// </summary>
     public class Health : MonoBehaviour, ISaveable
     {
         #region --Fields-- (Inspector)
@@ -33,6 +28,9 @@ namespace RPG.Attributes
 
         #region --Events-- (Delegate as Action)
         public event Action OnHealthChanged;
+
+        public event Action OnHealthLoadSetup; // Purpose : use for subscriber that will make effect on value for their fields, ex-RegenerateHealth() or UpdateMaxManaPoints(). So Should Not be used for Refreshing UI since order of subscribers, subscriber that effect the value might run after Refreshing UI subscriber.
+        public event Action OnHealthLoadDone; // Purpose : use for subscriber that will only refreshing UI, make no effect on value. So can guarantee no subscriber will make an effect on the value, so can use for Refreshing UI.
         #endregion
 
 
@@ -42,7 +40,6 @@ namespace RPG.Attributes
 
         private Animator _animator;
         private BaseStats _baseStats;
-        private Respawner _respawner;
 
         private bool _wasDeadLastFrame = false;
         #endregion
@@ -68,7 +65,6 @@ namespace RPG.Attributes
             _actionScheduler = GetComponent<ActionScheduler>();
             _animator = GetComponent<Animator>();
             _baseStats = GetComponent<BaseStats>();
-            _respawner = transform.root.GetComponentInChildren<Respawner>();
 
             HealthPoints = new AutoInit<float>(GetInitialHealth);
         }
@@ -197,12 +193,9 @@ namespace RPG.Attributes
         {
             HealthPoints.value = (float)state;
 
-            // Respawn only for Player when save & exit while player is dead
-            if (_respawner != null && IsDead) // Check for not null so that Enemy won't trigger this (no enemy has Respawner component)
-                _respawner.Respawn();
-
             UpdateState();
-            OnHealthChanged?.Invoke();
+            OnHealthLoadSetup?.Invoke();
+            OnHealthLoadDone?.Invoke();
         }
         #endregion
     }

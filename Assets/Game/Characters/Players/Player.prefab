@@ -88,9 +88,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af8e7e5e1819144daa2c360c466cbc0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _respawnOnDeadAtStart: 1
   _spawnLocation: {fileID: 0}
   _waitTimer: 2
   _healthRegeneratePercentage: 40
+  _playerTransform: {fileID: 3202932936223335231}
+  _playerCinemachineBrain: {fileID: 0}
   _transitionType: 1
   _startTransitionSpeed: 1
   _endTransitionSpeed: 1
