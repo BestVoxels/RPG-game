@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 2
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 759731535054271286, guid: 6f6c9e2c4b5d04f09adcab2d3a4b75d0, type: 3}
@@ -53,7 +54,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4284535008621102375, guid: 6f6c9e2c4b5d04f09adcab2d3a4b75d0, type: 3}
       propertyPath: m_Name
-      value: ArrowProjectile Red
+      value: Arrow Projectile Red
       objectReference: {fileID: 0}
     - target: {fileID: 6532159960385520196, guid: 6f6c9e2c4b5d04f09adcab2d3a4b75d0, type: 3}
       propertyPath: m_Parameters.colorGradient.ctime1
@@ -112,4 +113,5 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 6f6c9e2c4b5d04f09adcab2d3a4b75d0, type: 3}

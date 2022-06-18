@@ -15,4 +15,4 @@ MonoBehaviour:
   _affectStarterLayer:
     serializedVersion: 2
     m_Bits: 64
-  _groundOffset: 2
+  _groundOffset: 1
