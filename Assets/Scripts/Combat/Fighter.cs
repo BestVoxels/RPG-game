@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using RPG.Core;
 using RPG.Movement;
 using RPG.Saving;
@@ -14,6 +15,8 @@ namespace RPG.Combat
     {
         #region --Fields-- (Inspector)
         [SerializeField] private float _timeBetweenAttacks = 1f;
+        [Tooltip("Auto Attack Range, how far will it detect the next enemy in range.")]
+        [SerializeField] private float _autoAttackRange = 8f;
         [Range(0f, 1f)]
         [SerializeField] private float _chaseSpeedFraction = 1f;
         [SerializeField] private float _rotateSpeed = 10f;
@@ -86,7 +89,13 @@ namespace RPG.Combat
             _timeSinceLastAttack += Time.deltaTime;
 
             if (_target == null) return;
-            if (_target.IsDead) return;
+            //if (_target.IsDead) return; // old code
+            if (_target.IsDead) // TODO for debugging purpose, when target is dead it will continue doing Auto Attack
+            {
+                _target = FindNewTargetInRange(); // can use this method when enemy hit character & character will response back
+                
+                if (_target == null) return;
+            }
 
             if (!IsInStopRange(_target.transform))
             {
@@ -169,6 +178,35 @@ namespace RPG.Combat
         }
 
         private bool IsInStopRange(Transform targetTransform) => Vector3.Distance(transform.position, targetTransform.position) < _currentWeaponConfig.Range;
+
+        private Health FindNewTargetInRange()
+        {
+            RaycastHit[] hits = SpherecastAllSorted();
+            foreach (RaycastHit hit in hits)
+            {
+                Health health = hit.transform.GetComponentInChildren<Health>();
+                if (health == null || health.IsDead || !health.CompareTag("Enemy")) continue;
+
+                return health;
+            }
+            return null;
+        }
+
+        private RaycastHit[] SpherecastAllSorted()
+        {
+            // Draw the ray GET ALL, WON'T GET BLOCK, then SORTED with Hit Distance
+            RaycastHit[] hits = Physics.SphereCastAll(transform.position, _autoAttackRange, Vector3.up);
+
+            float[] distances = new float[hits.Length];
+            for (int i = 0; i < distances.Length; i++)
+            {
+                distances[i] = Vector3.Distance(transform.position, hits[i].transform.position); // can't sort using .distance like RaycastAllSorted() as this will always return 0f.
+            }
+
+            Array.Sort(distances, hits); // Making first Element the closest
+
+            return hits;
+        }
         #endregion
 
 

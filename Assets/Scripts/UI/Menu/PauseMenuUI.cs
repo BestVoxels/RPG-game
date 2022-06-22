@@ -45,7 +45,7 @@ namespace RPG.UI.Menu
         {
             if (_playerController == null) return;
 
-            Time.timeScale = 1f;
+            Time.timeScale = 1f;  // TODO for debugging purpose make it x5 faster
             _playerController.enabled = true;
         }
         #endregion

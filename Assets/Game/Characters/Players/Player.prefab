@@ -539,6 +539,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 22100000, guid: c155f25a180b44b789db8282b1ff312f, type: 2}
     - target: {fileID: 1230804437610166928, guid: 58df80d8498834bdc838433c906b5b40, type: 3}
+      propertyPath: _autoAttackRange
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1230804437610166928, guid: 58df80d8498834bdc838433c906b5b40, type: 3}
       propertyPath: _leftHandTransform
       value: 
       objectReference: {fileID: 8615390149553464868}

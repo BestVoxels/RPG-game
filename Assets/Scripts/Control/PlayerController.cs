@@ -179,7 +179,7 @@ namespace RPG.Control
                 distances[i] = hits[i].distance;
             }
 
-            Array.Sort(distances, hits);
+            Array.Sort(distances, hits); // Making first Element the closest
 
             return hits;
         }
