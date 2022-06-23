@@ -2,7 +2,6 @@
 using System;
 using RPG.Core;
 using RPG.Movement;
-using RPG.Saving;
 using RPG.Attributes;
 using RPG.Stats;
 using RPG.Utils;
@@ -11,7 +10,7 @@ using RPG.Inventories;
 
 namespace RPG.Combat
 {
-    public class Fighter : MonoBehaviour, IAction, ISaveable
+    public class Fighter : MonoBehaviour, IAction
     {
         #region --Fields-- (Inspector)
         [SerializeField] private float _timeBetweenAttacks = 1f;
@@ -242,7 +241,7 @@ namespace RPG.Combat
 
 
         #region --Methods-- (Subscriber)
-        private void UpdateWeapon()
+        private void UpdateWeapon() // will restore back the weapon from Equipment.cs
         {
             WeaponConfig itemInWeaponSlot = _equipment.GetItemInSlot(EquipLocation.Weapon) as WeaponConfig;
 
@@ -268,19 +267,6 @@ namespace RPG.Combat
         void IAction.Cancel()
         {
             CancelAttack();
-        }
-
-        // SAVING WILL Be better way on RPG part 2 course
-        object ISaveable.CaptureState()
-        {
-            return _currentWeaponConfig.name; // name of the file
-        }
-
-        void ISaveable.RestoreState(object state)
-        {
-            string weaponName = (string)state;
-            WeaponConfig weapon = Resources.Load<WeaponConfig>(weaponName);
-            EquippedWeapon(weapon);
         }
         #endregion
     }
