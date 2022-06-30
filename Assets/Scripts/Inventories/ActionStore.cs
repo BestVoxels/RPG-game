@@ -92,8 +92,9 @@ namespace RPG.Inventories
         {
             if (_dockedItems.ContainsKey(index))
             {
-                _dockedItems[index].item.Use(user);
-                if (_dockedItems[index].item.isConsumable())
+                bool success = _dockedItems[index].item.Use(user);
+
+                if (success && _dockedItems[index].item.isConsumable())
                 {
                     RemoveItems(index, 1);
                 }

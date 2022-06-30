@@ -28,27 +28,29 @@ namespace RPG.Abilities
 
 
         #region --Methods-- (Override)
-        public override void Use(GameObject user)
+        public override bool Use(GameObject user)
         {
             if (_targetingStrategy == null || _effectStrategies.Length == 0)
             {
                 Debug.LogWarning($"This is not allowed: TargetingStrategy is Not Provided OR EffectStrategy is Not Provided, only FilterStrategy can be Empty.");
-                return;
+                return false;
             }
             
             _cooldownStore = user.transform.root.GetComponentInChildren<CooldownStore>();
-            if (_cooldownStore == null || _cooldownStore.GetTimeRemaining(this) > 0f) return;
+            if (_cooldownStore == null || _cooldownStore.GetTimeRemaining(this) > 0f) return false;
 
             _mana = user.transform.root.GetComponentInChildren<Mana>();
-            if (_mana == null || _manaCost > _mana.ManaPoints.value) return;
+            if (_mana == null || _manaCost > _mana.ManaPoints.value) return false;
 
             _actionScheduler = user.transform.root.GetComponentInChildren<ActionScheduler>();
-            if (_actionScheduler == null) return;
+            if (_actionScheduler == null) return false;
 
             AbilityData data = new AbilityData(user);
             _actionScheduler.StartAction(data);
 
             _targetingStrategy.StartTargeting(data, () => OnTargetFinished(data));
+
+            return true;
         }
         #endregion
 

@@ -24,9 +24,14 @@ namespace RPG.Inventories
         /// Trigger the use of this item. Override to provide functionality.
         /// </summary>
         /// <param name="user">The character that is using this action.</param>
-        public virtual void Use(GameObject user)
+        /// <returns>
+        /// return False if Not successfully use, return True if successfully use.
+        /// </returns>
+        public virtual bool Use(GameObject user)
         {
             Debug.Log("Using action: " + this);
+
+            return false;
         }
 
         public bool isConsumable()
