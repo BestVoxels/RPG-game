@@ -128,6 +128,12 @@ namespace RPG.Inventories
         /// <returns>Whether or not the item could be added.</returns>
         public bool AddToFirstEmptySlot(InventoryItem item, int number)
         {
+            foreach (IItemUsage each in GetComponentsInChildren<IItemUsage>())
+            {
+                number = each.Use(item, number); // assign with the remainings after used
+            }
+            if (number <= 0) return true; // Successfully used it all
+
             int i = FindSlot(item);
 
             if (i < 0)

@@ -1,10 +1,11 @@
 using System;
 using UnityEngine;
 using RPG.Saving;
+using RPG.Inventories;
 
 namespace RPG.Economy
 {
-    public class Coin : MonoBehaviour, ISaveable
+    public class Coin : MonoBehaviour, ISaveable, IItemUsage
     {
         #region --Fields-- (Inspector)
         [Min(0)]
@@ -58,6 +59,16 @@ namespace RPG.Economy
             CoinPoints = (int)state;
 
             OnCoinPointsUpdated?.Invoke();
+        }
+
+        int IItemUsage.Use(InventoryItem item, int number)
+        {
+            var result = item as CoinItem;
+            if (result == null) return number; // return full remaining, filter Only for CoinItem
+
+            UpdateCoinPoints(number * item.GetPrice()); // how many CoinItem pickup x itself price
+
+            return 0; // return 0 remaining
         }
         #endregion
     }
