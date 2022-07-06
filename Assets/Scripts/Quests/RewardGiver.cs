@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using RPG.Inventories;
 using RPG.Saving;
-using RPG.Core;
+using RPG.Utils.Core;
 
 namespace RPG.Quests
 {

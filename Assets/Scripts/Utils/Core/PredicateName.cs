@@ -1,4 +1,4 @@
-namespace RPG.Core
+namespace RPG.Utils.Core
 {
     public enum PredicateName
     {
@@ -7,5 +7,6 @@ namespace RPG.Core
         HasCompletedQuest,
         HasItem,
         HasGaveReward,
+        HasMinimumTrait
     }
 }

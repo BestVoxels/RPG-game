@@ -16,7 +16,7 @@ namespace RPG.Stats
 
 
 
-        #region --Properties-- (With Backing Fields)
+        #region --Properties-- (Auto)
         public float ExperiencePoints { get; private set; }
         #endregion
 

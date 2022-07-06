@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using RPG.Inventories;
 
-namespace RPG.Core
+namespace RPG.Utils.Core
 {
     [System.Serializable]
     public class Condition
@@ -151,14 +151,14 @@ namespace RPG.Core
 
                 foreach (IPredicateEvaluator eachEvaluator in evaluators)
                 {
-                    bool? result = eachEvaluator.Evaluate(_methodName, _parameters);
+                    bool? result = eachEvaluator.Evaluate(_methodName, _parameters); // Debug 'eachEvaluator.ToString()' to see where each one is from.
 
                     if (result == null) continue;
                     if (_negate) result = !result;
 
                     return (bool)result; // return right away either 'true' or 'false'
                 }
-
+                
                 return true; // return 'true' when all above evaluators does'nt return anything so the node won't be excluded
             }
             #endregion

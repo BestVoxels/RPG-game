@@ -231,7 +231,7 @@ MonoBehaviour:
   _rect:
     serializedVersion: 2
     x: 937
-    y: 408
+    y: 411
     width: 200
     height: 120
   _onTriggerEnter: 

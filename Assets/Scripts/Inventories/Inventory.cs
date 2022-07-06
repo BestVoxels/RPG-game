@@ -2,7 +2,7 @@
 using System;
 using UnityEngine;
 using RPG.Saving;
-using RPG.Core;
+using RPG.Utils.Core;
 
 namespace RPG.Inventories
 {

@@ -6,6 +6,7 @@ using RPG.Saving;
 namespace RPG.Inventories
 {
     /// <summary>
+    /// An Enhance version of Equipment.cs is StatsEquipment.cs, for Checking StatsModifier on Equipable Items.
     /// Provides a store for the items equipped to a player. Items are stored by
     /// their equip locations.
     /// 
@@ -48,7 +49,7 @@ namespace RPG.Inventories
         /// </summary>
         public void AddItem(EquipLocation slot, EquipableItem item)
         {
-            Debug.Assert(item.GetAllowedEquipLocation() == slot);
+            Debug.Assert(item.CanEquip(slot, transform.root.gameObject));
 
             _equippedItems[slot] = item;
 
@@ -102,6 +103,8 @@ namespace RPG.Inventories
             }
             OnEquipmentUpdated?.Invoke();
         }
+
+        // TODO might do when pickup several of daggers, might do auto equip for first dagger then the remaining put in inventory. Using IItemUsage by checking if Slot is empty
         #endregion
     }
 }

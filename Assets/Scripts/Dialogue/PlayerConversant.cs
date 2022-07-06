@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System;
 using UnityEngine;
-using RPG.Core;
+using RPG.Utils.Core;
 
 namespace RPG.Dialogue
 {

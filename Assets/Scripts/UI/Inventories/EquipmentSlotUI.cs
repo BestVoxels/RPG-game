@@ -18,6 +18,7 @@ namespace RPG.UI.Inventories
 
 
         #region --Fields-- (In Class)
+        private GameObject _player;
         private Equipment _playerEquipment;
         #endregion
 
@@ -26,8 +27,8 @@ namespace RPG.UI.Inventories
         #region --Methods-- (Built In)
         private void Awake()
         {
-            GameObject player = GameObject.FindGameObjectWithTag("Player");
-            _playerEquipment = player.GetComponentInChildren<Equipment>();
+            _player = GameObject.FindGameObjectWithTag("Player");
+            _playerEquipment = _player.GetComponentInChildren<Equipment>();
             
             UIDisplayManager.OnInventoryEquipmentRefreshed += RedrawUI; // Can't do with OnEnable() cuz this will keep adding more and more And Since we can't use OnDisable() to unsubscribe Since this one will be closed by default and with button
         }
@@ -45,7 +46,7 @@ namespace RPG.UI.Inventories
         {
             EquipableItem equipableItem = item as EquipableItem;
             if (equipableItem == null) return 0;
-            if (equipableItem.GetAllowedEquipLocation() != _equipLocation) return 0;
+            if (!equipableItem.CanEquip(_equipLocation, _player)) return 0;
             if (GetItem() != null) return 0;
 
             return 1;

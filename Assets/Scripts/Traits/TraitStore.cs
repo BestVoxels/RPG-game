@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using RPG.Stats;
 using RPG.Saving;
+using RPG.Utils.Core;
 
 namespace RPG.Traits
 {
-    public class TraitStore : MonoBehaviour, IModifierProvider, ISaveable
+    public class TraitStore : MonoBehaviour, IModifierProvider, ISaveable, IPredicateEvaluator
     {
         #region --Fields-- (Inspector)
         [SerializeField] private TraitBonus[] _traitBonusConfig;
@@ -172,6 +173,20 @@ namespace RPG.Traits
         {
             _committedPoints = new Dictionary<Trait, int>((Dictionary<Trait, int>)state);
             OnPointsChanged?.Invoke();
+        }
+
+        bool? IPredicateEvaluator.Evaluate(PredicateName methodName, string[] parameters)
+        {
+            switch (methodName)
+            {
+                case PredicateName.HasMinimumTrait:
+                    if (!Enum.TryParse(parameters[0], out Trait trait)) return false;
+                    if (!int.TryParse(parameters[1], out int requirePoints)) return false;
+
+                    return GetCommittedPoints(trait) >= requirePoints;
+            }
+
+            return null;
         }
         #endregion
 

@@ -1,4 +1,4 @@
-namespace RPG.Core
+namespace RPG.Utils.Core
 {
     public interface IPredicateEvaluator
     {

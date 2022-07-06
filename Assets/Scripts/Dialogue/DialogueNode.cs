@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using RPG.Core;
+using RPG.Utils.Core;
 using UnityEditor;
 using UnityEngine;
 

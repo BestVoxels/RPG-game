@@ -4,7 +4,7 @@ using RPG.Stats;
 namespace RPG.Inventories.Enhancement
 {
     /// <summary>
-    /// An Enhancement of Equipment.cs for Checking StatsModifier on Equipable Items.
+    /// An Enhance version of Equipment.cs is StatsEquipment.cs, for Checking StatsModifier on Equipable Items.
     /// Provides a store for the items equipped to a player. Items are stored by
     /// their equip locations.
     /// 
