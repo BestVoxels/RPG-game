@@ -17,6 +17,8 @@ namespace RPG.Utils.Core
         // Take all the Predicate and AND them together ex. "Predicate1 && Predicate2 && Predicate3"
         public bool Check(IEnumerable<IPredicateEvaluator> evaluators)
         {
+            if (!HasCondition()) return true; // If No Guard Check, Bug Occurs by : Start New Game -> pick up items -> Save&Quit -> Click Continue Save, now drag pickup item to slot will throw error.
+
             foreach (Disjunction eachPredAND in _and)
             {
                 if (eachPredAND.Check(evaluators) == false) return false; // if one predicate is false everything is 'false'
