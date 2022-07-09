@@ -67,8 +67,8 @@ namespace RPG.SceneManagement
 
         public IEnumerator LoadAsynchronously(int sceneIndexToLoad)
         {
-            // ResetLoadingBar progress first SO when it open up with animation value start from 0
-            ResetLoadingBar();
+            ResetLoadingBar(); // ResetLoadingBar progress first SO when it open up with animation value start from 0
+
             yield return OpenLoadingScreen();
 
             // Start Loading Scene
@@ -81,6 +81,8 @@ namespace RPG.SceneManagement
 
                 yield return null;
             }
+            
+            yield return new WaitForSeconds(0.25f); // wait while Scene is Switching, otherwise CloseLoadingScreen() will get struggle and animation will be trimmed off a little at the beginning.
 
             yield return CloseLoadingScreen();
         }
