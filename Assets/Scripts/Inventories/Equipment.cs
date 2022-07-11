@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using RPG.Saving;
+using RPG.Utils.Core;
 
 namespace RPG.Inventories
 {
@@ -12,7 +13,7 @@ namespace RPG.Inventories
     /// 
     /// This component should be placed on the GameObject tagged "Player".
     /// </summary>
-    public class Equipment : MonoBehaviour, ISaveable
+    public class Equipment : MonoBehaviour, ISaveable, IPredicateEvaluator
     {
         #region --Events-- (Delegate as Action)
         /// <summary>
@@ -41,6 +42,28 @@ namespace RPG.Inventories
             }
 
             return _equippedItems[equipLocation];
+        }
+
+        /// <summary>
+        /// Is there an instance of the item in the given equip location slot?
+        /// </summary>
+        public bool HasItemInSlot(EquipLocation equipLocation, EquipableItem item)
+        {
+            if (object.ReferenceEquals(item, GetItemInSlot(equipLocation))) return true;
+
+            return false;
+        }
+
+        /// <summary>
+        /// Is there an instance of the item in any of the equip location slots?
+        /// </summary>
+        public bool HasItemInSlots(EquipableItem item)
+        {
+            foreach (EquipableItem eachItem in _equippedItems.Values)
+            {
+                if (object.ReferenceEquals(item, eachItem)) return true;
+            }
+            return false;
         }
 
         /// <summary>
@@ -102,6 +125,20 @@ namespace RPG.Inventories
                 }
             }
             OnEquipmentUpdated?.Invoke();
+        }
+
+        bool? IPredicateEvaluator.Evaluate(PredicateName methodName, string[] parameters)
+        {
+            switch (methodName)
+            {
+                case PredicateName.HasItemEquiped:
+                    EquipableItem item = InventoryItem.GetFromID(parameters[0]) as EquipableItem;
+                    if (item == null) return false; // Guard if this item is not EquipableItem
+
+                    return HasItemInSlots(item);
+            }
+
+            return null;
         }
 
         // TODO might do when pickup several of daggers, might do auto equip for first dagger then the remaining put in inventory. Using IItemUsage by checking if Slot is empty

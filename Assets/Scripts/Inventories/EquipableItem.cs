@@ -37,7 +37,7 @@ namespace RPG.Inventories
         public bool CanEquip(EquipLocation equipLocation, GameObject gameObject)
         {
             if (equipLocation != _allowedEquipLocation) return false;
-            if (!_condition.Check(gameObject.GetComponentsInChildren<IPredicateEvaluator>())) return false; // Get from Player GameObject (Ex-TraitStore.cs)
+            if (!_condition.Check(gameObject.GetComponentsInChildren<IPredicateEvaluator>())) return false; // Get from Player GameObject (Checking for Ex-Invenotry.cs, QuestList.cs, TraitStore.cs, Equipment.cs)
 
             return true;
         }

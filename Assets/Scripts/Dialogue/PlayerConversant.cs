@@ -14,7 +14,7 @@ namespace RPG.Dialogue
     ///
     /// AIConversant.cs
     /// - MUST be placed 1 level underneath as a child of 'AI' GameObject. (due to using .parent when getting its component, CAN'T use .root since under a single root contains many 'AI' GameObjects)
-    /// - Have to Be Strict becuase itself class use transform.parent.GetComponent<Health>() & PlayerConversant.cs use _aiConversant.transform.parent.GetComponentsInChildren<IPredicateEvaluator>()
+    /// - Have to Be Strict becuase itself class use transform.parent.GetComponentInChildren<Health>() & PlayerConversant.cs use _aiConversant.transform.parent.GetComponentsInChildren<IPredicateEvaluator>()
     /// 
     /// DialogueTrigger.cs
     /// - can be in same place as AIConversant.cs but Not as Strict as AIConversant.cs
@@ -175,7 +175,7 @@ namespace RPG.Dialogue
         {
             List<IPredicateEvaluator> _classesThatImplemented = new List<IPredicateEvaluator>();
 
-            foreach (IPredicateEvaluator each in transform.root.GetComponentsInChildren<IPredicateEvaluator>()) // Get from Player GameObject (Ex-Invenotry.cs, QuestList.cs)
+            foreach (IPredicateEvaluator each in transform.root.GetComponentsInChildren<IPredicateEvaluator>()) // Get from Player GameObject (Checking for Ex-Invenotry.cs, QuestList.cs, TraitStore.cs, Equipment.cs)
                 _classesThatImplemented.Add(each);
 
             foreach (IPredicateEvaluator each in _aiConversant.transform.parent.GetComponentsInChildren<IPredicateEvaluator>()) // Get from AI GameObject that Player is talking to (Ex-RewardGiver.cs)

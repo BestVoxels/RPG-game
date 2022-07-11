@@ -7,6 +7,7 @@ namespace RPG.Utils.Core
         HasCompletedQuest,
         HasItem,
         HasGaveReward,
-        HasMinimumTrait
+        HasMinimumTrait,
+        HasItemEquiped
     }
 }
