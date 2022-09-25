@@ -35,6 +35,11 @@ namespace RPG.Combat
         public float Damage { get { return _damage; } }
         public float DamageBonusPercentage { get { return _damageBonusPercentage; } }
         public float Range { get { return _range; } }
+        #endregion
+
+
+
+        #region --Properties-- (Computed)
         public bool HasProjectile { get { return _projectile != null; } }
         #endregion
 

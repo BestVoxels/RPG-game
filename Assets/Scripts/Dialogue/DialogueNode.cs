@@ -136,7 +136,11 @@ namespace RPG.Dialogue
                 }
             }
         }
+        #endregion
 
+
+
+        #region --Properties-- (Computed)
         public bool HasCondition
         {
             get { return _condition.HasCondition(); }

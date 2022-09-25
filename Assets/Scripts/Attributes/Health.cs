@@ -57,18 +57,22 @@ namespace RPG.Attributes
 
 
 
-        #region --Properties-- (Auto)
-        public AutoInit<float> HealthPoints { get; private set; }
+        #region --Properties-- (With Backing Fields)
+        public float OnLevelUpHealthRegenPercentage { get => _onLevelUpHealthRegenPercentage; }
+        public float OnDieHealthRegenPercentage { get => _onDieHealthRegenPercentage; }
         #endregion
 
 
 
-        #region --Properties-- (With Backing Fields)
-        public float MaxHealthPoints { get => _baseStats.GetHealth(); }
-        public bool IsDead { get => HealthPoints.value <= 0f; }
+        #region --Properties-- (Computed)
+        public float MaxHealthPoints => _baseStats.GetHealth();
+        public bool IsDead => HealthPoints.value <= 0f;
+        #endregion
 
-        public float OnLevelUpHealthRegenPercentage { get => _onLevelUpHealthRegenPercentage; }
-        public float OnDieHealthRegenPercentage { get => _onDieHealthRegenPercentage; }
+
+
+        #region --Properties-- (Auto)
+        public AutoInit<float> HealthPoints { get; private set; }
         #endregion
 
 
