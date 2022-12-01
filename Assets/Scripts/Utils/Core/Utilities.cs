@@ -27,6 +27,7 @@ namespace RPG.Utils.Core
         /// <summary>
         /// Smooth Rotate Method, use by calling multiple times so it can gradually rotate each time it get called.
         /// There is also the one that return bool indicate whether it is done rotating or not.
+        /// For more details, check 'Rotate Code' section in 'Unity Doc' note.
         /// </summary>
         /// <param name="transform">GameObject that want to be rotated</param>
         /// <param name="target">Target to rotate to</param>
@@ -52,6 +53,7 @@ namespace RPG.Utils.Core
         /// <summary>
         /// Smooth Rotate Method, use by calling multiple times so it can gradually rotate each time it get called.
         /// There is also the one that return bool indicate whether it is done rotating or not.
+        /// For more details, check 'Rotate Code' section in 'Unity Doc' note.
         /// </summary>
         /// <param name="transform">GameObject that want to be rotated</param>
         /// <param name="target">Target to rotate to</param>
@@ -73,6 +75,7 @@ namespace RPG.Utils.Core
         #region --Methods-- (Custom PUBLIC) ~For Checking Approximation~
         /// <summary>
         /// Checking if Two Quaternions are close or not using precision paramter to define how close.
+        /// For more details, check 'Rotate Code' section in 'Unity Doc' note.
         /// </summary>
         /// <param name="q1">Quaternion 1st to compare</param>
         /// <param name="q2">Quaternion 2nd to compare</param>
@@ -91,10 +94,67 @@ namespace RPG.Utils.Core
         /// Fix 'Look rotation viewing vector is zero' message in console.
         /// Problem Come from Quaternion.LookRotation() bacause it is impossible to find any angle between two points when those points are the same as being zero.
         /// Use this method instead of calling Quaternion.LookRotation().
+        /// For more details, check 'Rotate Code' section in 'Unity Doc' note.
         /// </summary>
         public static Quaternion LookRotation(Vector3 forward, Vector3 upwards)
         {
             return forward == Vector3.zero ? Quaternion.identity : Quaternion.LookRotation(forward, upwards);
+        }
+
+        /// <summary>
+        /// Both Arguments position1 and position2 can be swap without affecting the distance result. This is faster than using .Distance() or .magnitude
+        /// For more details, check 'Vector3 Code' section in 'Unity Doc' note.
+        /// </summary>
+        public static float Distance(Vector3 position1, Vector3 position2)
+        {
+            Vector3 offset = position1 - position2;
+            return offset.sqrMagnitude;
+        }
+        #endregion
+
+
+
+        #region --Methods-- (Custom PUBLIC) ~For Animation~
+        /// <summary>
+        /// To get NormalizedTime of the playing Animation State, also works when transitioning between Animation States.
+        /// For more details, check 'Animation Code' section in 'Unity Doc' note.
+        /// </summary>
+        /// <returns>NormalizedTime in range of [0f, Infinity]</returns>
+        public static float GetNormalizedTime(Animator animator)
+        {
+            // We can't simply return currentState.normalizedTime while There is Transitioning between States
+            AnimatorStateInfo currentState = animator.GetCurrentAnimatorStateInfo(0);
+            AnimatorStateInfo nextState = animator.GetNextAnimatorStateInfo(0);
+
+            // While Transitioning we have to get normalizedTime from nextState
+            if (animator.IsInTransition(0) && nextState.IsTag("Attack"))
+            {
+                return nextState.normalizedTime;
+            }
+            // While Transitioning is STOP we have to get normalizedTime from currentState
+            else if (!animator.IsInTransition(0) && currentState.IsTag("Attack"))
+            {
+                return currentState.normalizedTime;
+            }
+            // Incase something is goes wrong
+            else
+            {
+                return 0f;
+            }
+        }
+        #endregion
+
+
+
+        #region --Methods-- (Custom PUBLIC) ~For Detecting~
+        /// <summary>
+        /// To check if a specify target is on the Player Screen Display or not.
+        /// For more details, check 'Camera Methods Tips' section in 'Unity Doc' note.
+        /// </summary>
+        public static bool IsOnScreen(Vector3 target, Camera mainCamera)
+        {
+            Vector2 viewPosition = mainCamera.WorldToViewportPoint(target);
+            return viewPosition.x >= 0f && viewPosition.x <= 1f && viewPosition.y >= 0f && viewPosition.y <= 1f;
         }
         #endregion
     }

@@ -229,6 +229,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: LevelTransitions
       objectReference: {fileID: 0}
+    - target: {fileID: 5297657385011264869, guid: 519dab94825f34bcf801366fbd6545c3, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5297657385011264869, guid: 519dab94825f34bcf801366fbd6545c3, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5297657385011264869, guid: 519dab94825f34bcf801366fbd6545c3, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 519dab94825f34bcf801366fbd6545c3, type: 3}
