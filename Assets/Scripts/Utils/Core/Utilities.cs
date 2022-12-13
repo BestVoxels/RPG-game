@@ -118,23 +118,26 @@ namespace RPG.Utils.Core
 
         #region --Methods-- (Custom PUBLIC) ~For Animation~
         /// <summary>
-        /// To get NormalizedTime of the playing Animation State, also works when transitioning between Animation States.
+        /// To get Played Time Amount of an Animation Clip in Normalized Time. (When Completed the length is 1f)
+        /// We can put the Animation Tag under each Animation Clip to group or differentiate between them.
         /// For more details, check 'Animation Code' section in 'Unity Doc' note.
         /// </summary>
+        /// <param name="animator">Animator that we want to check</param>
+        /// <param name="tag">Animation Tag that we put under Animation Clip, can be empty tag "" as well</param>
         /// <returns>NormalizedTime in range of [0f, Infinity]</returns>
-        public static float GetNormalizedTime(Animator animator)
+        public static float GetNormalizedTime(Animator animator, string tag)
         {
             // We can't simply return currentState.normalizedTime while There is Transitioning between States
             AnimatorStateInfo currentState = animator.GetCurrentAnimatorStateInfo(0);
             AnimatorStateInfo nextState = animator.GetNextAnimatorStateInfo(0);
 
             // While Transitioning we have to get normalizedTime from nextState
-            if (animator.IsInTransition(0) && nextState.IsTag("Attack"))
+            if (animator.IsInTransition(0) && nextState.IsTag(tag))
             {
                 return nextState.normalizedTime;
             }
             // While Transitioning is STOP we have to get normalizedTime from currentState
-            else if (!animator.IsInTransition(0) && currentState.IsTag("Attack"))
+            else if (!animator.IsInTransition(0) && currentState.IsTag(tag))
             {
                 return currentState.normalizedTime;
             }
