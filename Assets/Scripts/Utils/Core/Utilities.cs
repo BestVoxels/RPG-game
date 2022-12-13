@@ -150,13 +150,24 @@ namespace RPG.Utils.Core
 
         #region --Methods-- (Custom PUBLIC) ~For Detecting~
         /// <summary>
+        /// ***IMPORTANT Make Sure 'Scene Window' is CLOSED, because the screen there is also count not just in 'Game Window'***
         /// To check if a specify target is on the Player Screen Display or not.
         /// For more details, check 'Camera Methods Tips' section in 'Unity Doc' note.
         /// </summary>
-        public static bool IsOnScreen(Vector3 target, Camera mainCamera)
+        public static bool IsOnScreen(GameObject target)
         {
-            Vector2 viewPosition = mainCamera.WorldToViewportPoint(target);
-            return viewPosition.x >= 0f && viewPosition.x <= 1f && viewPosition.y >= 0f && viewPosition.y <= 1f;
+            MeshRenderer targetMesh = target.GetComponentInChildren<MeshRenderer>();
+            if (targetMesh == null)
+            {
+                Debug.LogError("No MeshRenderer Found on the 'target'.");
+                return false;
+            }
+
+            return targetMesh.isVisible;
+
+            //// There is Bug with this old code, when target is exactly behind the camera, it will return true.
+            //Vector2 viewPosition = mainCamera.WorldToViewportPoint(target);
+            //return viewPosition.x >= 0f && viewPosition.x <= 1f && viewPosition.y >= 0f && viewPosition.y <= 1f;
         }
         #endregion
 
