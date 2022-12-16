@@ -25,6 +25,22 @@ namespace RPG.Utils.Core
 
         #region --Methods-- (Custom PUBLIC) ~For Rotating~
         /// <summary>
+        /// Snap Rotate Method, use by calling it Once, no need in multiple times like Smooth Rotate.
+        /// </summary>
+        /// <param name="transform">GameObject that want to be rotated</param>
+        /// <param name="target">Target to rotate to</param>
+        public static void SnapRotateTo(Transform transform, Transform target)
+        {
+            Vector3 direction = target.position - transform.position;
+            transform.rotation = LookRotation(new Vector3(direction.x, 0f, direction.z), Vector3.up);
+        }
+
+        public static void SnapRotateTo(Transform transform, Vector3 targetPosition)
+        {
+            transform.rotation = LookRotation(new Vector3(targetPosition.x, 0f, targetPosition.z), Vector3.up);
+        }
+
+        /// <summary>
         /// Smooth Rotate Method, use by calling multiple times so it can gradually rotate each time it get called.
         /// There is also the one that return bool indicate whether it is done rotating or not.
         /// For more details, check 'Rotate Code' section in 'Unity Doc' note.
