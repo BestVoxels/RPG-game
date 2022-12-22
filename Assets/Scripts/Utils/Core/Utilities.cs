@@ -90,7 +90,7 @@ namespace RPG.Utils.Core
 
         #region --Methods-- (Custom PUBLIC) ~For Checking Approximation~
         /// <summary>
-        /// Checking if Two Quaternions are close or not using precision paramter to define how close.
+        /// Checking if Two Quaternions are close or not, using precision paramter to define how close.
         /// For more details, check 'Rotate Code' section in 'Unity Doc' note.
         /// </summary>
         /// <param name="q1">Quaternion 1st to compare</param>
@@ -100,6 +100,18 @@ namespace RPG.Utils.Core
         public static bool IsApproximate(Quaternion q1, Quaternion q2, float precision)
         {
             return Mathf.Abs(Quaternion.Dot(q1, q2)) >= 1 - precision;
+        }
+
+        /// <summary>
+        /// Checking if Two Vector3 are close enough or not, using howCloseDistance paramter to define how close.
+        /// </summary>
+        /// <param name="v1">Vector3 1st to compare</param>
+        /// <param name="v2">Vector3 2nd to compare</param>
+        /// <param name="howCloseDistance">0f mean exact match (stay at same position) / [>0f - up till Infinity] mean how far off in distance.</param>
+        /// <returns>Return True if it's close enough otherwise False.</returns>
+        public static bool IsApproximate(Vector3 v1, Vector3 v2, float howCloseDistance)
+        {
+            return SqrDistance(v1, v2) <= 0f + (howCloseDistance * howCloseDistance);
         }
         #endregion
 
@@ -211,6 +223,39 @@ namespace RPG.Utils.Core
         public static Vector3 DirectionWithHowFarAway(Vector3 toGoTo, Vector3 origin)
         {
             return toGoTo - origin;
+        }
+        #endregion
+
+
+
+        #region --Methods-- (Custom PUBLIC) ~Numerical~
+        /// <summary>
+        /// Percentage CAN BE Over 100 or Negative Value.
+        /// inputValue 500, percentage as 200, returns will be 1000.
+        /// inputValue 500, percentage as -200, returns will be -1000.
+        /// </summary>
+        /// <param name="inputValue">Any Value</param>
+        /// <param name="percentage">Any Percentage that we want to get from the InputValue</param>
+        /// <returns>Any Value. Ex-inputValue=500, percentage=50, returns will be 250.</returns>
+        public static float GetValueByPercentage(float inputValue, float percentage)
+        {
+            return (inputValue * percentage) / 100f;
+        }
+
+        /// <summary>
+        /// Getting 0-1 values from the Range of Min & Max.
+        /// (0, 2, 1) returns 0.5.
+        /// (0, 2, 3) returns 1.
+        /// (0, 2, -1) returns 0.
+        /// For more details, check 'Mathf Code' section in 'Unity Doc' note.
+        /// </summary>
+        /// <param name="minValue">Minimum Range Value</param>
+        /// <param name="maxValue">Maximum Range value</param>
+        /// <param name="currentValue">Any Value between ‘min’ and ’max’. No Error if Below Min or Above Max.</param>
+        /// <returns>0-1</returns>
+        public static float Get01ValueFrom(float minValue, float maxValue, float currentValue)
+        {
+            return Mathf.InverseLerp(minValue, maxValue, currentValue);
         }
         #endregion
     }
