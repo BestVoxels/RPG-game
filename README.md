@@ -266,8 +266,5 @@ This tool showcases engineering skills far beyond typical gameplay scripting and
 ---
 
 ## 👤 Author
-
-**Thanitsak Leuangsupornpong**  
-Software Developer / Game Developer
-
----
+**Thanitsak Leuangsupornpong**
+Software Engineer (Independent)
